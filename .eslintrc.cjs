@@ -1,35 +1,29 @@
 module.exports = {
   root: true,
-  env: { browser: true, es2020: true },
+  env: { 
+    browser: true, 
+    es2020: true 
+  },
   extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
-    'airbnb'
+    'airbnb',
+    "airbnb-typescript",
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  ignorePatterns: ['dist', '.eslintrc.cjs','vite.config.ts'],
   parser: '@typescript-eslint/parser',
-  plugins: ['react-refresh','@typescript-eslint'],
+  plugins: ['react-refresh', '@stylistic/eslint-plugin'],
   rules: {
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },
     ],
-    "react/jsx-filename-extension": [1, { "allow": "as-needed", "extensions": [".js", ".jsx", ".tsx", ".ts"] }],
-    'linebreak-style': "off",
-  }, 'jsx-runtime': {
-    plugins: [
-      'react'
-    ],
-    parserOptions: {
-      ecmaFeatures: {
-        jsx: true
-      },
-      jsxPragma: null // for @typescript/eslint-parser
-    },
-    rules: {
-      'react/react-in-jsx-scope': 0,
-      'react/jsx-uses-react': 0
-    }
-  }
+    "linebreak-style":["error", "windows"],
+  	"react/react-in-jsx-scope": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx",".ts", ".tsx"] }],
+    "import/no-absolute-path" : "off"
+  },
+  parserOptions: {
+    project: './tsconfig.json',
+  },
+  
 }
