@@ -5,7 +5,7 @@ function Map() {
   const { naver } = window;
 
   const drawMap = () => {
-    const map = new naver.maps.Map("map", {
+    new naver.maps.Map("map", {
       center: new naver.maps.LatLng(37.3595316, 127.1052133),
       zoom: 15,
       mapTypeControl: true,
