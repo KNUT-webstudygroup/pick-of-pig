@@ -22,6 +22,6 @@
     "allowJs": true
   },
   "include": ["src","public"],
-  
+  "exclude": ["test"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
