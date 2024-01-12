@@ -42,10 +42,22 @@ export default class MapNode {
     distanceRate: 0.5,
   }) {
     // 거리에 의한 점수는 조정된 cos로 진행한다.
-    const degreePerMeter = 1e+5; // from... https://m.cafe.daum.net/gpsyn/Pllz/530
-    const xDelta = (this.location.latitude - userLocation.latitude);
-    const yDelta = (this.location.longitude - userLocation.longitude);
-    const distance = Math.sqrt(xDelta * xDelta + yDelta * yDelta) * degreePerMeter;
+    const r = 6371.439 * 1e+3;
+    // from... https://en.wikipedia.org/wiki/Haversine_formula
+    /*
+    Either formula is only an approximation when applied to the Earth, which is not a perfect sphere
+    the "Earth radius" R varies from 6356.752 km at the poles to 6378.137 km at the equator. ...
+    한국 위도 따지면 얼마나 나올려나..
+    */
+    const xDelta = Math.abs(this.location.latitude - userLocation.latitude) * (Math.PI / 180);
+    const yDelta = Math.abs(this.location.longitude - userLocation.longitude) * (Math.PI / 180);
+    const xDeltaSignal = Math.sin(xDelta / 2) * Math.sin(xDelta / 2);
+    const yDeltaSignal = Math.sin(yDelta / 2) * Math.sin(yDelta / 2);
+    const xDeltaNoise = Math.cos(this.location.latitude * (Math.PI / 180))
+    * Math.cos(userLocation.latitude * (Math.PI / 180));
+    const squreRoot = Math.sqrt(xDeltaSignal + xDeltaNoise * yDeltaSignal);
+    const distance = Math.asin(squreRoot) * 2 * r;
+    // Math.sqrt(xDelta * xDelta + yDelta * yDelta) * degreePerMeter;
     const distanceScore = distance > max_distance ? 0
       : Math.cos((Math.PI * distance) / (max_distance * 2));
 
