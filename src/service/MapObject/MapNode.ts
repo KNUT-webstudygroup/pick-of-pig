@@ -49,6 +49,7 @@ export default class MapNode {
     the "Earth radius" R varies from 6356.752 km at the poles to 6378.137 km at the equator. ...
     한국 위도 따지면 얼마나 나올려나..
     */
+    // 거리 API를 쓴다면 이건 대체 될 수 있음.
     const xDelta = Math.abs(this.location.latitude - userLocation.latitude) * (Math.PI / 180);
     const yDelta = Math.abs(this.location.longitude - userLocation.longitude) * (Math.PI / 180);
     const xDeltaSignal = Math.sin(xDelta / 2) * Math.sin(xDelta / 2);
@@ -62,6 +63,7 @@ export default class MapNode {
       : Math.cos((Math.PI * distance) / (max_distance * 2));
 
     // 이하, 리뷰에 의한 점수를 구한다.
+    // SUM(리뷰 점수 / 리뷰의 만점) / 표본 갯수를 점수로 삼는다.
     const reviewScore = this.scoreInfo.scores?.reduce((acc, v) => acc + v, 0) ?? 0;
     const lastScore = distanceScore * setting.distanceRate
     + reviewScore * (1 - setting.distanceRate);

@@ -26,12 +26,12 @@ test("근거리 구하기.", () => {
   }).GetScore({
     longitude:126.89903220992827,
     latitude:37.584937990065555
-  },600))
+  },1000))
   .toBeLessThan(10);
 });
 
 
-test("근거리 구하기.", () => {
+test("서울에서 부산까지", () => {
   expect(new MapNode({
     longitude:126.997128,
     latitude: 37.547889
