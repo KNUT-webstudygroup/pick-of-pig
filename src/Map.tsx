@@ -18,9 +18,7 @@ function Map() {
 
   return (
     <>
-      <body>
-        <div id="map"></div>
-      </body>
+      <div id="map"></div>
     </>
   );
 }

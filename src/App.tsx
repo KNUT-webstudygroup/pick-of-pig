@@ -4,14 +4,16 @@ import styled from "styled-components";
 // import Home from "./Home";
 
 import Door from "./components/Door";
+import Map from "./Map";
 
 function App() {
   return (
     <>
       <Main>
-        <Door title="오늘 뭐먹지 ?" loc={true}></Door>
-        <Door title="어디서 먹지 ?" loc={false}></Door>
+        <Door title="오늘 뭐먹지 ?" loc="right"></Door>
+        <Door title="어디서 먹지 ?" loc="left"></Door>
       </Main>
+      {/* <Map /> */}
     </>
   );
 }

@@ -1,25 +1,23 @@
-import DoorHandle from "@/ui/DoorHandle";
 import { useState } from "react";
-// import "./Door.css";
-// import DoorHandle from "@/ui/DoorHandle";
 import styled from "styled-components";
+import DoorHandle from "@/ui/DoorHandle";
 
-function Door({ title, loc }: { title: string; loc: boolean }) {
+function Door({ title, loc }: { title: string; loc: string }) {
   return (
     <>
-      <DoorStyled>
+      <DoorStyled loc={loc}>
         <DoorMain>
           <span>{title}</span>
-          {loc === true ? (
-            <img src="/src/assets/meal.svg"></img>
-          ) : (
+          {loc === "right" ? (
             <img src="/src/assets/pig.svg"></img>
+          ) : (
+            <img src="/src/assets/meal.svg"></img>
           )}
           <SearchBarContainer>
             <input placeholder="메뉴를 입력하세요" className="search_input" />
             <span class="material-symbols-outlined icon">search</span>
           </SearchBarContainer>
-          {loc === true ? (
+          {loc === "right" ? (
             <RecommendList>
               <span>1. 라면</span>
               <span>2. 칼국수</span>
@@ -27,7 +25,7 @@ function Door({ title, loc }: { title: string; loc: boolean }) {
             </RecommendList>
           ) : (
             <SearchLocationContainer>
-              <div className="location">현재 위치로 설정</div>
+              <span>현재 위치로 설정</span>
               <span class="material-symbols-outlined icon">my_location</span>
             </SearchLocationContainer>
           )}
@@ -40,12 +38,22 @@ function Door({ title, loc }: { title: string; loc: boolean }) {
 
 export default Door;
 
-const DoorMain = styled.div`
-  flex: 1;
+const DoorStyled = styled.div<{ loc: string }>`
   display: flex;
+  flex: 1;
+  flex-direction: ${(props) => (props.loc === "right" ? "row" : "row-reverse")};
+  margin-${(props) => props.loc}: 10px;
   width: 100%;
   height: 100%;
-  justify-content: center;
+  // margin-top : 200px;
+  // & > DoorStyled {
+  // }
+`;
+
+const DoorMain = styled.div`
+  margin-top: 180px;
+  display: flex;
+  width: 100%;
   align-items: center;
   flex-direction: column;
 
@@ -55,11 +63,8 @@ const DoorMain = styled.div`
   }
 
   & > span {
-    color: #fff;
     text-align: center;
-    font-family: Inter;
     font-size: 96px;
-    font-style: normal;
     font-weight: 700;
     line-height: normal;
   }
@@ -70,11 +75,6 @@ const RecommendList = styled.div`
   flex-direction: column;
 `;
 
-const SearchLocationContainer = styled.div`
-  color: #fff;
-  display: flex;
-`;
-
 const SearchBarContainer = styled.div`
   & > input {
     border-color: #fff;
@@ -82,10 +82,10 @@ const SearchBarContainer = styled.div`
     border-width: 0 0 1px;
     background-color: #cf4c23;
   }
+  margin-bottom: 30px;
 `;
 
-const DoorStyled = styled.div`
+const SearchLocationContainer = styled.div`
+  color: #fff;
   display: flex;
-  width: 100%;
-  height: 100%;
 `;

@@ -5,6 +5,13 @@ const GlobalStyle = createGlobalStyle`
     padding : 0px;
 	  margin : 0px;
 	  font-size : 24px;
+    color: #fff;
+    font-family: Inter;
+  }
+
+  img {
+    width: 150px;
+    height: 150px;
   }
 
   body {
@@ -14,8 +21,8 @@ const GlobalStyle = createGlobalStyle`
   input::placeholder {
     color: #fff;
     width: 300px;
+    
   }
-
 
   .icon {
     color: #fff;
