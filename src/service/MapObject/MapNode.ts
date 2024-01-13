@@ -12,7 +12,7 @@ export default class MapNode {
     scores? : Array<number>
   }; // 가게의 평판을 나타낸다.
 
-  score : number;
+  reviewScore : number;
 
   /**
    *
@@ -25,9 +25,23 @@ export default class MapNode {
       comment? : Array<string>,
       scores? : Array<number>
     },
+    setting:{
+      max_score : number
+    } = {
+      max_score: 5,
+    },
   ) {
     this.location = location;
     this.scoreInfo = score;
+    const scoreLength = score?.scores?.length;
+    if (scoreLength) {
+      let scoreSum = score?.scores?.reduce((acc, v) => acc + v, 0);
+      scoreSum /= !Number.isNaN(scoreLength) ? score.scores.length : 1;
+      scoreSum /= setting.max_score; // 정규화
+      this.reviewScore = scoreSum;
+    } else {
+      this.reviewScore = 0;
+    }
   }
 
   /**
@@ -64,11 +78,9 @@ export default class MapNode {
 
     // 이하, 리뷰에 의한 점수를 구한다.
     // SUM(리뷰 점수 / 리뷰의 만점) / 표본 갯수를 점수로 삼는다.
-    const reviewScore = this.scoreInfo.scores?.reduce((acc, v) => acc + v, 0) ?? 0;
     const lastScore = distanceScore * setting.distanceRate
-    + reviewScore * (1 - setting.distanceRate);
+    + this.reviewScore * (1 - setting.distanceRate);
 
-    this.score = lastScore; // caching...
     return lastScore;
   }
 }
