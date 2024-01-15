@@ -27,7 +27,6 @@
 <script>
 
     drawMap();
-
     function drawMap() {
         new naver.maps.Map("map", {
             center: new naver.maps.LatLng(37.3595316, 127.1052133), // 주소 기본 위치
@@ -35,22 +34,12 @@
             mapTypeControl: true
         });
     }
-
-    $('#submit').on('click', function(e) {
-        e.preventDefault();
-        searchAddress($('#address').val());
-    });
-
     function searchAddress(address) {
-        const locations = searchAddressToCoordinate(address);
-        addMarkers(locations);
+        searchAddressToCoordinate(address);
     }
-
-    const locations = [];
-
     // 주소를 좌표로 변환하여 검색
     function searchAddressToCoordinate(address) {
-        
+        const locations = [];
         naver.maps.Service.geocode({
             query: address
         }, function(status, response) {
@@ -62,7 +51,7 @@
                 return alert('검색된 주소의 개수: ' + response.v2.meta.totalCount);
             }
 
-            var items = response.v2.addresses;
+            const items = response.v2.addresses;
 
             items.map((item) => {
                 let location = {
@@ -71,36 +60,21 @@
                 };
                 locations.push(location);
             })
-            // for (let item of items) {
-            //     let location = {
-            //         latitude: item.x,
-            //         longitude: item.y
-            //     };
-
-            //     console.log(location);
-            //     console.log(typeof location);
-            //     locations.push(location);
-            // }
-            
+            addMarkers(locations);
         });
-        console.log(locations);
         return locations;
     }
 
     // 다중 마커 추가, 마커들의 중심 위치로 지도 이동
     function addMarkers(locations) {
-        // var map = new naver.maps.Map("map", {
-        //     center: new naver.maps.LatLng(37.3595316, 127.1052133),
-        //     zoom: 12,
-        //     mapTypeControl: true
-        // });
-        console.log(locations);
-        console.log(locations[0]);
-        //addMarker(locations[0].latitude, locations[0].longitude)
-        // console.log(locations);
-        // for (let location of locations) {
-        //     addMarker(location.latitude, location.longitude);
-        // }
+        var map = new naver.maps.Map("map", {
+            center: new naver.maps.LatLng(37.3595316, 127.1052133),
+            zoom: 12,
+            mapTypeControl: true
+        });
+        for (let location of locations) {
+            addMarker(location.latitude, location.longitude);
+        }
     }
 
     // 해당 좌표에 마커 추가
@@ -115,15 +89,20 @@
             position: new naver.maps.LatLng(longitude, latitude),
         });
 
-        // var mapList = "";
-	    //     mapList += "<tr>";
-	    //     mapList += "<td>" + address + "</td>";
-	    //     mapList += "<td>" + latitude + "</td>";
-	    //     mapList += "<td>" + longitude + "</td>";
-	    //     mapList += "</tr>";
+        console.log(address);
+        let addr = $("#address").val();
+        let mapList = "";
+	        mapList += "<tr>";
+	        mapList += "<td>" + addr + "</td>";
+	        mapList += "<td>" + latitude + "</td>";
+	        mapList += "<td>" + longitude + "</td>";
+	        mapList += "</tr>";
 
-	    // $('#mapList').append(mapList);
+	    $('#mapList').append(mapList);
     }
-
+    $('#submit').on('click', function(e) {
+        e.preventDefault();
+        searchAddress($('#address').val());
+    });
 </script>
 </html>

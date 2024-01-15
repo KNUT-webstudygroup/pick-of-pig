@@ -1,11 +1,11 @@
-import { useEffect } from "react";
-import "./Map.css";
+import { useEffect } from 'react';
+import './Map.css';
 
 function Map() {
   const { naver } = window;
 
   const drawMap = () => {
-    new naver.maps.Map("map", {
+    new naver.maps.Map('map', {
       center: new naver.maps.LatLng(37.3595316, 127.1052133),
       zoom: 15,
       mapTypeControl: true,
@@ -17,11 +17,9 @@ function Map() {
   }, []);
 
   return (
-    <>
-      <body>
-        <div id="map"></div>
-      </body>
-    </>
+    <body>
+      <div id="map" />
+    </body>
   );
 }
 
