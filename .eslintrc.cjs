@@ -9,7 +9,7 @@ module.exports = {
     'airbnb',
     "airbnb-typescript",
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs','vite.config.ts'],
+  ignorePatterns: ['dist', '.eslintrc.cjs','vite.config.ts','/test/*','jest.config.cjs'],
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh', '@stylistic/eslint-plugin'],
   rules: {
@@ -23,10 +23,12 @@ module.exports = {
     "import/no-absolute-path" : "off",
     "@typescript-eslint/no-unused-vars" : "off",
     "react/jsx-no-useless-fragment" : "off",
-    "consistent-return" : "off"
+    "consistent-return" : "off",
+    
   },
   parserOptions: {
     project: './tsconfig.json',
   },
+
   
 }

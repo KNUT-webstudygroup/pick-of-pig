@@ -23,7 +23,7 @@
     "noEmit": true,
     "jsx": "preserve",
     /* Linting */
-    "strict": false,
+    "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
@@ -36,6 +36,6 @@
     "./next-env.d.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules","test/*"
   ]
 }

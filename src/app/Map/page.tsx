@@ -16,7 +16,7 @@ function Map() {
 
   return (
     <>
-        <div id="map">d</div>
+      <div id="map" />
     </>
   );
 }
