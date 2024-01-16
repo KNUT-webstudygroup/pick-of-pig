@@ -1,5 +1,14 @@
 import { LocationType } from '../types/location';
 
+function addMarker(coord:naver.maps.LatLng, map:naver.maps.Map) {
+  // 정적객체로 만듦.
+  const marker = new naver.maps.Marker({
+    map,
+    position: coord,
+  });
+  return marker;
+}
+
 function addMarkers(locations : Array<LocationType>) {
   const map = new naver.maps.Map('map', { // id="map"인 <div>에 지도를 생성
     center: new naver.maps.LatLng(37.3595316, 127.1052133),
@@ -12,12 +21,8 @@ function addMarkers(locations : Array<LocationType>) {
 
   locations.forEach((location) => {
     const coord = new naver.maps.LatLng(location.longitude, location.latitude);
+    addMarker(coord, map);
     coords.push(coord);
-
-    const marker = new naver.maps.Marker({
-      map,
-      position: coord,
-    });
     // no-new rule를 잘못읽은 듯
   });
 
