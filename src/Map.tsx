@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import "./Map.css";
+import styled from "styled-components";
 
 function Map() {
   const { naver } = window;
@@ -17,10 +17,21 @@ function Map() {
   }, []);
 
   return (
-    <>
+    <MapStyled>
       <div id="map"></div>
-    </>
+    </MapStyled>
   );
 }
 
 export default Map;
+
+const MapStyled = styled.div`
+  flex-direction: column;
+  position: absolute;
+  top: 0px;
+  & > div {
+    flex: 1;
+    height: 100vh;
+    width: 100vw;
+  }
+`;

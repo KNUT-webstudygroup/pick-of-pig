@@ -9,6 +9,19 @@ const GlobalStyle = createGlobalStyle`
     font-family: Inter;
   }
 
+  li {
+    list-style-type: none;
+  }
+  button{
+    background: inherit;
+    border:none; 
+    box-shadow:none; 
+    border-radius:0; 
+    padding:0; 
+    overflow:visible; 
+    cursor:pointer
+  }
+
   img {
     width: 150px;
     height: 150px;
@@ -21,7 +34,6 @@ const GlobalStyle = createGlobalStyle`
   input::placeholder {
     color: #fff;
     width: 300px;
-    
   }
 
   .icon {

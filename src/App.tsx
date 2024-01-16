@@ -1,28 +1,26 @@
 import { useState } from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
-// import Home from "./Home";
-
-import Door from "./components/Door";
-import Map from "./Map";
+import Door from "@/components/Door";
+import HalfDoor from "@/components/HalfDoor";
+import Map from "@/Map";
+import Layout from "@/Layout";
 
 function App() {
   return (
-    <>
-      <Main>
-        <Door title="오늘 뭐먹지 ?" loc="right"></Door>
-        <Door title="어디서 먹지 ?" loc="left"></Door>
-      </Main>
-      {/* <Map /> */}
-    </>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        {/* <Route path="/door" element={<Door />}></Route>
+        <Route path="/halfdoor" element={<HalfDoor />}></Route> */}
+      </Route>
+    </Routes>
   );
 }
 
 export default App;
 
 const Main = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background-color: #cf4c23;
+  position: absoulte;
+  background-color: #333;
   display: flex;
 `;
