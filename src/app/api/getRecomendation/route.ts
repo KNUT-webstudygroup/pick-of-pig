@@ -1,18 +1,8 @@
-'use server';
-
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-export async function GET(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  // Server-side logic.
-  return NextResponse.json({
-    aa: 'bb',
-  });
-}
-export async function POST(request: Request, res: NextApiResponse) {
-  const rep = await request.json();
-  return NextResponse.json({ rep });
+export const dynamic = 'force-dynamic'; // defaults to auto
+export async function GET(req: NextRequest) {
+  console.log(req.nextUrl.searchParams.get('aa'));
+  return NextResponse.json({ aa: 'kk' });
 }
