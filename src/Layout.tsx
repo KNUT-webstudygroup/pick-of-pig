@@ -27,4 +27,5 @@ const Main = styled.div`
   position: absoulte;
   background-color: #333;
   display: flex;
+  overflow:hidden; /*대문 넘치는 사항에 대한 대응*/
 `;

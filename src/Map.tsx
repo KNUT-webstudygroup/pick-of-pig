@@ -29,6 +29,7 @@ const MapStyled = styled.div`
   flex-direction: column;
   position: absolute;
   top: 0px;
+  z-index:0; /*지도 기타 아이콘이 맨 위에 뜨는 것에 대한 대응.*/
   & > div {
     flex: 1;
     height: 100vh;
