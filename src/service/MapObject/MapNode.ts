@@ -1,11 +1,11 @@
-import { Location } from '../../types/location';
+import { LocationType } from '../../types/location';
 
 export default class MapNode {
   // 거점은 이하의 정의를 따른다.
   // I. 위치를 가진다.
   // II. 평점을 가진다.
   // III. 거점의 경우,
-  location : Location; // 가게의 위치를 나타낸다.
+  location : LocationType; // 가게의 위치를 나타낸다.
 
   scoreInfo : {
     comment? : Array<string>,
@@ -20,7 +20,7 @@ export default class MapNode {
    * @param score
    */
   constructor(
-    location:Location,
+    location:LocationType,
     score :{
       comment? : Array<string>,
       scores? : Array<number>
@@ -50,7 +50,7 @@ export default class MapNode {
    * @param userLocation 유저의 좌표이다.
    * @param max_distance 최대 반경 (단위 m) 이다.
    */
-  GetScore(userLocation:Location, max_distance:number = 500, setting : {
+  GetScore(userLocation:LocationType, max_distance:number = 500, setting : {
     distanceRate : number
   } = {
     distanceRate: 0.5,

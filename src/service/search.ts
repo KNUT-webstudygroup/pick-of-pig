@@ -1,11 +1,9 @@
-export type LocationType = {
-  latitude: number,
-  longitude: number,
-};
+import { LocationType } from '../types/location';
 
 function addMarkers(locations : Array<LocationType>) {
   const map = new naver.maps.Map('map', { // id="map"인 <div>에 지도를 생성
     center: new naver.maps.LatLng(37.3595316, 127.1052133),
+    // TODO : 유저 위치 받아와서 그거 중심으로 지도배치.
     zoom: 15,
     mapTypeControl: true,
   });
@@ -29,7 +27,7 @@ function addMarkers(locations : Array<LocationType>) {
 }
 
 // 주소로 검색하여 마커 표시 및 좌표 반환
-export function searchAddressToCoordinate(address : string) {
+export default function searchAddressToCoordinate(address : string) {
   const locations : Array<LocationType> = [];
 
   naver.maps.Service.geocode({
