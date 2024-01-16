@@ -17,11 +17,9 @@ function Map() {
   }, []);
 
   return (
-    <>
-      <body>
-        <div id="map">d</div>
-      </body>
-    </>
+    <body>
+      <div id="map" />
+    </body>
   );
 }
 
