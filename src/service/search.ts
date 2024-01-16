@@ -35,6 +35,8 @@ function addMarkers(locations : Array<LocationType>) {
 export default function searchAddressToCoordinate(address : string) {
   const locations : Array<LocationType> = [];
 
+  // 이하 부분을 서버와 분리한다.
+  // a) 위치좌표, 혹은 주소를 전송받으면 callback으로서 Marker를 표식하는 과정으로 정정한다.
   naver.maps.Service.geocode({
     query: address,
   }, (status, response) => {
