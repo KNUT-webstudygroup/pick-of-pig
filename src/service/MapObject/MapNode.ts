@@ -35,8 +35,8 @@ export default class MapNode {
     this.scoreInfo = score;
     const scoreLength = score?.scores?.length;
     if (scoreLength) {
-      let scoreSum = score?.scores?.reduce((acc, v) => acc + v, 0);
-      scoreSum /= !Number.isNaN(scoreLength) ? score.scores.length : 1;
+      let scoreSum = score.scores?.reduce((acc, v) => acc + v, 0) ?? 0;
+      scoreSum /= !Number.isNaN(scoreLength) ? scoreLength : 1;
       scoreSum /= setting.max_score; // 정규화
       this.reviewScore = scoreSum;
     } else {
