@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { searchAddressToCoordinate, searchReviews } from './service/search';
 import './Map.css';
 
 function Map() {
@@ -14,6 +15,8 @@ function Map() {
 
   useEffect(() => {
     drawMap();
+    searchAddressToCoordinate('중구'); // 마커 삽입 테스트
+    searchReviews(37.3595316, 127.1052133); // 리뷰 출력 테스트
   }, []);
 
   return (

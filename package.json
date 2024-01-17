@@ -17,6 +17,7 @@
   "devDependencies": {
     "@stylistic/eslint-plugin": "^1.5.3",
     "@stylistic/eslint-plugin-js": "^1.5.3",
+    "@types/googlemaps": "^3.43.3",
     "@types/navermaps": "^3.7.4",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
