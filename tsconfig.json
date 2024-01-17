@@ -5,29 +5,28 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "incremental": true,
     /* Bundler mode */
     "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
+    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
-
+    "jsx": "preserve",
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "allowJs": true,
-
-    /* 경로 설정*/
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "esModuleInterop": true
   },
-  "include": ["src", "public"],
-
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["./src", "./dist/types/**/*.ts", "./next-env.d.ts"],
+  "exclude": ["node_modules", "test/*", "./next.config.mjs"]
 }
