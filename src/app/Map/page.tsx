@@ -18,7 +18,7 @@ function Map() {
   const style = { width: '100%', height: '800px' };
   useEffect(() => {
     MediaKeyStatusMap();
-  }, []); 
+  }, []);
 
   return (
     <>
