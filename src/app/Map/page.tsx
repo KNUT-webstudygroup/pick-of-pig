@@ -5,16 +5,19 @@ import './Map.css';
 
 // import SearchHandler from '../../service/search';
 
+function MediaKeyStatusMap() {
+  const { naver } = window;
+
+  return new naver.maps.Map('map', {
+    center: new naver.maps.LatLng(37.3595316, 127.1052133),
+    zoom: 15,
+    mapTypeControl: true,
+  });
+}
 function Map() {
   const style = { width: '100%', height: '800px' };
   useEffect(() => {
-    const { naver } = window;
-
-    const map = new naver.maps.Map('map', {
-      center: new naver.maps.LatLng(37.3595316, 127.1052133),
-      zoom: 15,
-      mapTypeControl: true,
-    });
+    MediaKeyStatusMap();
   }, []);
 
   return (
