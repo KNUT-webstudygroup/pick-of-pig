@@ -2,7 +2,8 @@
 
 import { useEffect } from 'react';
 import './Map.css';
-import SearchHandler from '../../service/search';
+
+// import SearchHandler from '../../service/search';
 
 function Map() {
   const style = { width: '100%', height: '800px' };
