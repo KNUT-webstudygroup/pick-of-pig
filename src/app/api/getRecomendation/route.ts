@@ -1,7 +1,7 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-
-export const dynamic = 'edge'; // defaults to auto
+export const runtime = 'edge';
+export const dynamic = 'force-dynamic'; // defaults to auto
 export async function GET(req: NextRequest) {
   console.log(req.nextUrl.searchParams.get('aa'));
   //const v = await fetch('http://localhost:3000');
