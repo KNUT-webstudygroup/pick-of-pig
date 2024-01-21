@@ -22,11 +22,7 @@ function Door({ title, loc }: { title: string; loc: string }) {
       <div>
         <DoorMain>
           <span>{title}</span>
-          {loc === "right" ? (
-            <img src="/src/assets/pig.svg"></img>
-          ) : (
-            <img src="/src/assets/meal.svg"></img>
-          )}
+          <img src="/pig.svg"></img>
           <SearchBarContainer>
             <input
               placeholder="메뉴를 입력하세요"

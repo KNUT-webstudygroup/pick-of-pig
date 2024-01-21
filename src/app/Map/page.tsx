@@ -1,15 +1,14 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import './Map.css';
-import SearchHandler from '../../service/search';
+import { useEffect } from "react";
+import SearchHandler from "../../service/search";
 
 function Map() {
-  const style = { width: '100%', height: '800px' };
+  const style = { width: "100%", height: "800px" };
   useEffect(() => {
     const { naver } = window;
 
-    const map = new naver.maps.Map('map', {
+    const map = new naver.maps.Map("map", {
       center: new naver.maps.LatLng(37.3595316, 127.1052133),
       zoom: 15,
       mapTypeControl: true,

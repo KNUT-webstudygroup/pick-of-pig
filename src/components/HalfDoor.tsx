@@ -27,8 +27,6 @@ const SearchResults = styled.div`
   flex-direction: column;
   margin-top: 20px;
   margin-left: 70px;
-
-  // align-items: center;
 `;
 const SearchResult = styled.div``;
 

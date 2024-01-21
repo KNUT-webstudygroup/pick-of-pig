@@ -1,10 +1,15 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
+  :root {
+    --main-bg-color : #cf4c23;
+    --pig-color : #FFA4A4;
+  }
+
   *{
     padding : 0px;
 	  margin : 0px;
-	  font-size : 24px;
+	  // font-size : 1rem;
     color: #fff;
     font-family: Inter;
   }
@@ -29,6 +34,8 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: "Helvetica", "Arial", sans-serif;
+    width : 100vw;
+    height : 100vh;
   }
 
   input::placeholder {
