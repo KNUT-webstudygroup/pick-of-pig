@@ -6,4 +6,3 @@ export async function GET(req: NextRequest) {
   console.log(req.nextUrl.searchParams.get("aa"));
   return NextResponse.json({ aa: "kk" });
 }
- 
