@@ -1,42 +1,41 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './Map.css';
-
-// import SearchHandler from '../../service/search';
-
-function MediaKeyStatusMap() {
-  const { naver } = window;
-
-  return new naver.maps.Map('map', {
-    center: new naver.maps.LatLng(37.3595316, 127.1052133),
-    zoom: 15,
-    mapTypeControl: true,
-  });
-}
+import searchAddressToCoordinate from '../../service/search';
 function Map() {
-  const style = { width: '100%', height: '800px' };
+  const [searchAddress, setSearchAddress] = useState('');
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchAddress(event.target.value);
+  };
+
+  const handleSearchClick = () => {
+    searchAddressToCoordinate(searchAddress);
+  };
+  // 아마 차후에 추상팩토리같은 디자인 패턴을 적용해야 하지않을까 싶네요.
+  // 동작과 변수를 구분하는 영역인 것 같아서 나눴어요!
+  const addGoogleMap = (center : google.maps.LatLngLiteral) : google.maps.Map => (
+    new google.maps.Map(document.getElementById('map') as HTMLElement, {
+      center,
+      zoom: 15,
+    })
+  );
+  const style = { width: '100vw', height: '100vh' };
   useEffect(() => {
-    MediaKeyStatusMap();
+    const center: google.maps.LatLngLiteral = { lat: 37.3595316, lng: 127.1052133 };
+    // 사용할 일이 없어서 객체로 할당 안해도 될것 같네요
+    // const map =
+    addGoogleMap(center);
   }, []);
 
   return (
     <>
       <div id="map" style={style} />
       <div className="search">
-        <input type="text" id="address" />
-        <input id="submit" type="button" value="검색" />
+        <input type="text" id="address" value={searchAddress} onChange={handleInputChange} />
+        <input id="submit" type="button" value="검색" onClick={handleSearchClick} />
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>주소</th>
-            <th>위도</th>
-            <th>경도</th>
-          </tr>
-        </thead>
-        <tbody id="mapList" />
-      </table>
     </>
   );
 }
