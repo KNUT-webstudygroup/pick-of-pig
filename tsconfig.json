@@ -31,6 +31,15 @@
     "allowJs": true,
     "esModuleInterop": true
   },
-  "include": ["./src", "./dist/types/**/*.ts", "./next-env.d.ts"],
-  "exclude": ["node_modules", "test/*", "./next.config.mjs"]
+  "include": [
+    "./src",
+    "./dist/types/**/*.ts",
+    "./next-env.d.ts",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "test/*",
+    "./next.config.mjs"
+  ]
 }

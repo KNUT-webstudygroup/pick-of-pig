@@ -16,20 +16,13 @@ function RootLayout({ children }: { children: React.ReactNode }) {
         <meta charSet="UTF-8" />
         <link rel="icon" type="image/svg+xml" href="/vite.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>pigs of pick</title>
+        <meta name="description" content="My App is a..." />
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
         />
-        {/* <script
-          type="text/javascript"
-          src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=%CLIENT_ID%&submodules=geocoder"
-        ></script> */}
-        <script
-          type="text/javascript"
-          src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.CLIENT_ID}&submodules=geocoder`}
-        />
-
-        <title>pigs of pick</title>
+        <script type="text/javascript" src={`http://maps.googleapis.com/maps/api/js?&key=${process.env.GOOGLE_MAP_ID}&libraries=places`} />
       </head>
       <GlobalStyle />
       <body>{children}</body>
