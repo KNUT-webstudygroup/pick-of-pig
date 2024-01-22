@@ -34,7 +34,7 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: "Helvetica", "Arial", sans-serif;
-    width : 100vw;
+    width : 100%; /* 100vw는 화면의 UX등을 묵살하기 때문에, https://bumday.tistory.com/99 를 참고해 100%로 변경.*/
     height : 100vh;
   }
 

@@ -5,7 +5,7 @@ function SearchBar(color: string) {
   return (
     <SearchBarStyled>
       <input placeholder="메뉴 검색" color={color} />
-      <span class="material-symbols-outlined icon">search</span>
+      <span className="material-symbols-outlined icon">search</span>
     </SearchBarStyled>
   );
 }

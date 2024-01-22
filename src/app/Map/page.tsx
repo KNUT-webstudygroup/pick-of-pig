@@ -1,7 +1,6 @@
-"use client";
+'use client';
 
 import { useEffect, useState } from 'react';
-import './Map.css';
 import searchAddressToCoordinate from '../../service/search';
 function Map() {
   const [searchAddress, setSearchAddress] = useState('');

@@ -60,7 +60,7 @@ function FoodSelect() {
 export default FoodSelect;
 
 const FoodSelectStyled = styled.div`
-  margin: 10px 10px;
+  margin: 10px 10px; 
   height: 400px;
   display: flex;
   justify-content: center;
