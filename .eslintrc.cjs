@@ -8,6 +8,7 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'airbnb',
     "airbnb-typescript",
+    'next'
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs','vite.config.ts','/test/*','jest.config.cjs'],
   parser: '@typescript-eslint/parser',
@@ -23,7 +24,9 @@ module.exports = {
     "import/no-absolute-path" : "off",
     "@typescript-eslint/no-unused-vars" : "off",
     "react/jsx-no-useless-fragment" : "off",
-    "consistent-return" : "off",
+    "consistent-return" : "off", 
+    "react/no-unescaped-entities": "off",
+    "@next/next/no-page-custom-font": "off"
     
   },
   parserOptions: {
