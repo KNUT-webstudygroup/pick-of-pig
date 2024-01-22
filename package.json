@@ -12,19 +12,19 @@
     "test": "jest"
   },
   "dependencies": {
-
+    "@types/googlemaps": "^3.43.3",
     "dotenv": "^16.3.1",
     "next": "^14.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/graceful-fs": "^4.1.9",
-    "@types/next": "^9.0.0",
     "@stylistic/eslint-plugin": "^1.5.3",
     "@stylistic/eslint-plugin-js": "^1.5.3",
+    "@types/graceful-fs": "^4.1.9",
     "@types/jest": "^29.5.11",
     "@types/navermaps": "^3.7.4",
+    "@types/next": "^9.0.0",
     "@types/node": "20.10.8",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",

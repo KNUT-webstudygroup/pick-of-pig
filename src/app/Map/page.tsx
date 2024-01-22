@@ -1,18 +1,26 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './Map.css';
-import SearchHandler from '../../service/search';
+import searchAddressToCoordinate from '../../service/search';
 
 function Map() {
-  const style = { width: '100%', height: '800px' };
-  useEffect(() => {
-    const { naver } = window;
+  const [searchAddress, setSearchAddress] = useState('');
 
-    const map = new naver.maps.Map('map', {
-      center: new naver.maps.LatLng(37.3595316, 127.1052133),
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchAddress(event.target.value);
+  };
+
+  const handleSearchClick = () => {
+    searchAddressToCoordinate(searchAddress);
+  };
+
+  const style = { width: '100vw', height: '100vh' };
+  useEffect(() => {
+    const center: google.maps.LatLngLiteral = { lat: 37.3595316, lng: 127.1052133 };
+    const map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
+      center,
       zoom: 15,
-      mapTypeControl: true,
     });
   }, []);
 
@@ -20,19 +28,9 @@ function Map() {
     <>
       <div id="map" style={style} />
       <div className="search">
-        <input type="text" id="address" />
-        <input id="submit" type="button" value="검색" />
+        <input type="text" id="address" value={searchAddress} onChange={handleInputChange} />
+        <input id="submit" type="button" value="검색" onClick={handleSearchClick} />
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>주소</th>
-            <th>위도</th>
-            <th>경도</th>
-          </tr>
-        </thead>
-        <tbody id="mapList" />
-      </table>
     </>
   );
 }
