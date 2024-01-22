@@ -1,8 +1,0 @@
-body {
-    flex-direction: column;
-}
-
-#map {
-    flex: 1;
-    width: 100vw;
-}

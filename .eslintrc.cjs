@@ -1,21 +1,27 @@
 module.exports = {
   root: true,
-  env: { 
-    browser: true, 
-    es2020: true 
+  env: {
+    browser: true,
+    es2020: true,
+    node: true,
   },
+  ignorePatterns: [
+    "dist",
+    ".eslintrc.cjs",
+    "vite.config.ts",
+    "/test/*",
+    "jest.config.cjs"],
   extends: [
     'plugin:react-hooks/recommended',
     'airbnb',
     "airbnb-typescript",
     'next'
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs','vite.config.ts','/test/*','jest.config.cjs'],
-  parser: '@typescript-eslint/parser',
-  plugins: ['react-refresh', '@stylistic/eslint-plugin'],
+  parser: "@typescript-eslint/parser",
+  plugins: ["react-refresh", "@stylistic/eslint-plugin"],
   rules: {
-    'react-refresh/only-export-components': [
-      'warn',
+    "react-refresh/only-export-components": [
+      "warn",
       { allowConstantExport: true },
     ],
     "linebreak-style":"off",
@@ -30,8 +36,6 @@ module.exports = {
     
   },
   parserOptions: {
-    project: './tsconfig.json',
+    project: "./tsconfig.json",
   },
-
-  
-}
+};

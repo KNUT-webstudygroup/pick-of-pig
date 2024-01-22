@@ -1,4 +1,4 @@
-import { LocationType } from '../types/location';
+import { LocationType } from "../types/location";
 
 export function searchReviews(coord: google.maps.LatLng, map: google.maps.Map) {
   const geocoder = new google.maps.Geocoder();
