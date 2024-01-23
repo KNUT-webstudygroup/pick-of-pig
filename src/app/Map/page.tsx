@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import searchAddressToCoordinate from '../../service/search';
+
 function Map() {
   const [searchAddress, setSearchAddress] = useState('');
 

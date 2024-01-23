@@ -1,4 +1,28 @@
-import { LocationType } from "../types/location";
+import { LocationType } from '../types/location';
+
+function addMarker(coord: google.maps.LatLng, map: google.maps.Map) {
+  // 정적객체로 만듦.
+  const marker = new google.maps.Marker({
+    map,
+    position: coord,
+  });
+  return marker;
+}
+
+export function searchNearByCoord(coord: google.maps.LatLng, map: google.maps.Map) {
+  const service = new google.maps.places.PlacesService(map);
+  service.nearbySearch({
+    location: coord,
+    types: ['restaurant', 'bakery', 'bar', 'cafe'], // 'meal_delivery', 'meal_takeaway'
+    radius: 200.0,
+  }, (results) => {
+    results.forEach((location) => {
+      if (location.geometry) {
+        addMarker(location.geometry.location, map);
+      }
+    });
+  });
+}
 
 export function searchReviews(coord: google.maps.LatLng, map: google.maps.Map) {
   const geocoder = new google.maps.Geocoder();
@@ -20,15 +44,6 @@ export function searchReviews(coord: google.maps.LatLng, map: google.maps.Map) {
   );
 }
 
-function addMarker(coord: google.maps.LatLng, map: google.maps.Map) {
-  // 정적객체로 만듦.
-  const marker = new google.maps.Marker({
-    map,
-    position: coord,
-  });
-  return marker;
-}
-
 function addMarkers(locations : Array<LocationType>) {
   const center: google.maps.LatLngLiteral = { lat: 37.3595316, lng: 127.1052133 };
   const map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
@@ -40,6 +55,7 @@ function addMarkers(locations : Array<LocationType>) {
 
   locations.forEach((location) => {
     const coord = new google.maps.LatLng(location.latitude, location.longitude);
+    searchNearByCoord(coord, map);
     addMarker(coord, map);
     map.setCenter(coord);
     bounds.extend(coord);
