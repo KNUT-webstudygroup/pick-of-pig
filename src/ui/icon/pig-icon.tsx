@@ -1,4 +1,4 @@
-import IconContainer from "@/ui/icon/icon.container";
+import IconContainer from '@/ui/icon/icon.container';
 
 export default function PigIcon() {
   const onClickInfo = (): void => {
