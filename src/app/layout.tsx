@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import type { Metadata } from "next";
-import styled from "styled-components";
-import { Inter } from "next/font/google";
-import GlobalStyle from "@/ui/GlobalStyle";
+import type { Metadata } from 'next';
+import styled from 'styled-components';
+import { Inter } from 'next/font/google';
+import GlobalStyle from '@/ui/GlobalStyle';
 // import "@/ui/css/globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 function RootLayout({ children }: { children: React.ReactNode }) {
   return (

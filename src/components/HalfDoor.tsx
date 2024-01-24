@@ -1,13 +1,13 @@
-import DoorHandle from "@/ui/DoorHandle";
-import SearchBar from "@/ui/SearchBar";
-import { useEffect, useState } from "react";
-import styled, { css } from "styled-components";
+import SearchBar from '@/ui/SearchBar';
+import { useEffect, useState } from 'react';
+import styled, { css } from 'styled-components';
+import DoorHandle from '@/ui/DoorHandle';
 
 function HalfDoor(loc: string) {
   return (
     <HalfDoorStyled loc={loc}>
       <div>
-        <SearchBar color="test"></SearchBar>
+        <SearchBar color="test" />
         <SearchResults>
           <span>검색결과</span>
           <SearchResult>
@@ -16,7 +16,7 @@ function HalfDoor(loc: string) {
             <li>3. 파스타</li>
           </SearchResult>
         </SearchResults>
-        <DoorHandle loc={"right"}></DoorHandle>
+        <DoorHandle loc="right" />
       </div>
     </HalfDoorStyled>
   );
@@ -39,8 +39,7 @@ const HalfDoorStyled = styled.div`
   height: 100vh;
 
   & > div {
-    flex-direction: ${(props) =>
-      props.loc === "right" ? "row-reverse" : "row"};
+    flex-direction: ${(props) => (props.loc === 'right' ? 'row-reverse' : 'row')};
   }
 
   top: 0;
