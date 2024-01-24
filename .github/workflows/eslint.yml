@@ -27,3 +27,4 @@ jobs:
                 delete-branch: true
                 title: "Improve codestyle"
                 body: "Automated PR to improve codestyle"
+                committer: GitHub <noreply@github.com>
