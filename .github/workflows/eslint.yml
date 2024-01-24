@@ -5,7 +5,9 @@ on:
         branches:
             - main
             - dev/lutica
-            
+permissions:
+    pull-requests: write
+    contents: write  
 jobs:
     fixer :
       runs-on: ubuntu-latest
@@ -26,3 +28,4 @@ jobs:
                 delete-branch: true
                 title: "Improve codestyle"
                 body: "Automated PR to improve codestyle"
+
