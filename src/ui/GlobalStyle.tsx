@@ -8,8 +8,8 @@ const GlobalStyle = createGlobalStyle`
 
   *{
     padding : 0px;
-	  margin : 0px;
-	  // font-size : 1rem;
+    margin : 0px;
+    // font-size : 1rem;
     color: #fff;
     font-family: Inter;
   }
