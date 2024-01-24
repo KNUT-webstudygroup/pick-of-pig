@@ -21,10 +21,8 @@ jobs:
         - name: Create Pull Request
           uses: peter-evans/create-pull-request@v3
           with:
-                token : ${{secrets.FIXER_TOKEN}}
                 branch: ${{ github.ref_name }}-autofix
                 reviewers: ${{ github.actor }}
                 delete-branch: true
                 title: "Improve codestyle"
                 body: "Automated PR to improve codestyle"
-                committer: GitHub <noreply@github.com>
