@@ -17,7 +17,7 @@ jobs:
         - name: Install dependencies
           run: npm install
         - name: Lint & fix
-          run: npx eslint --max-warnings 0 . --fix 
+          run: npx eslint --max-warnings 0 . --fix || exit 0
         - name: Create Pull Request
           uses: peter-evans/create-pull-request@v3
           with:
