@@ -32,7 +32,8 @@ module.exports = {
     "react/jsx-no-useless-fragment" : "off",
     "consistent-return" : "off", 
     "react/no-unescaped-entities": "off",
-    "@next/next/no-page-custom-font": "off"
+    "@next/next/no-page-custom-font": "off",
+    "@typescript-eslint/no-use-before-define" : "off"
     
   },
   parserOptions: {
