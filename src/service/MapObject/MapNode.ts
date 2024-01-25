@@ -14,6 +14,8 @@ export default class MapNode {
 
   reviewScore: number;
 
+  costScore?:Array<number>; // 가게 자체의 가격 수준.(0~10)
+
   /**
    *
    * @param location
