@@ -1,0 +1,31 @@
+name: fixCode
+
+on:
+    push:
+        branches:
+            - main
+            - dev/lutica
+permissions:
+    pull-requests: write
+    contents: write  
+jobs:
+    fixer :
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2
+        - uses: actions/setup-node@v1
+          with:
+            node-version: '20'
+        - name: Install dependencies
+          run: npm install
+        - name: Lint & fix
+          run: npx eslint --max-warnings 0 . --fix || exit 0
+        - name: Create Pull Request
+          uses: peter-evans/create-pull-request@v3
+          with:
+                branch: ${{ github.ref_name }}-autofix
+                reviewers: ${{ github.actor }}
+                delete-branch: true
+                title: "Improve codestyle"
+                body: "Automated PR to improve codestyle"
+

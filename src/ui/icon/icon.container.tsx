@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import Image from "next/image";
-import { IconContainerProps } from "@/types/icon.interface";
+import styled from 'styled-components';
+import Image from 'next/image';
+import { IconContainerProps } from '@/types/icon.interface';
 
 function IconContainer({
   width = 40,
@@ -8,7 +8,7 @@ function IconContainer({
   text,
   iconPath,
   iconColor,
-  onClick = "NULL",
+  onClick = 'NULL',
 }: IconContainerProps) {
   return (
     <IconContainerStyled onClick={onClick}>

@@ -1,18 +1,17 @@
-import { useEffect, useState } from "react";
-import styled, { css } from "styled-components";
-import DoorHandle from "@/ui/DoorHandle";
-import { keyframes } from "styled-components";
+import { useEffect, useState } from 'react';
+import styled, { css, keyframes } from 'styled-components';
+import DoorHandle from '@/ui/DoorHandle';
 
 function Door({ title, loc }: { title: string; loc: string }) {
   const [animate, setAnimate] = useState(false);
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState('');
 
   const onClickFadeOut = () => {
     setAnimate(true);
   };
 
   const activeEnter = (e: React.MouseEvent) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       onClickFadeOut();
     }
   };
@@ -22,7 +21,7 @@ function Door({ title, loc }: { title: string; loc: string }) {
       <div>
         <DoorMain>
           <span>{title}</span>
-          <img src="/pig.svg"></img>
+          <img src="/pig.svg" />
           <SearchBarContainer>
             <input
               placeholder="메뉴를 입력하세요"
@@ -33,7 +32,7 @@ function Door({ title, loc }: { title: string; loc: string }) {
             />
             <span class="material-symbols-outlined icon">search</span>
           </SearchBarContainer>
-          {loc === "right" ? (
+          {loc === 'right' ? (
             // 나중에 컴포넌트로 뺄수 있으면 빼기
             <RecommendList>
               <span>1. 라면</span>
@@ -47,7 +46,7 @@ function Door({ title, loc }: { title: string; loc: string }) {
             </SearchLocationContainer>
           )}
         </DoorMain>
-        <DoorHandle loc={"right"}></DoorHandle>
+        <DoorHandle loc="right" />
       </div>
     </DoorStyled>
   );
@@ -60,7 +59,7 @@ const slideout = (loc: string) => keyframes`
     transform: translateX(0px);
   }
   to {
-    transform: translateX(${loc === "left" ? "-50vw" : "50vw"});
+    transform: translateX(${loc === 'left' ? '-50vw' : '50vw'});
     opacity: 0;
   }
 `;
@@ -74,25 +73,21 @@ const DoorStyled = styled.div<{ loc: string; animate: boolean }>`
   left: 0;
   z-index: 1; // Door 컴포넌트가 Map 컴포넌트 위에 나타나도록 설정
 
-  ${(props) =>
-    props.loc === "right" ? "padding-left: 10px;" : "padding-right: 10px;"}
+  ${(props) => (props.loc === 'right' ? 'padding-left: 10px;' : 'padding-right: 10px;')}
 
-  animation: ${({ animate, loc }) => {
-    return animate
-      ? css`
+  animation: ${({ animate, loc }) => (animate
+    ? css`
           ${slideout(loc)} 1s ease-in;
           animation-fill-mode: forwards; // 애니메이션 계속 적용
         `
-      : "none";
-  }};
+    : 'none')};
 
   & > div {
     justify-content: center;
     align-items: center;
     width: 100%;
     height: 100%;
-    flex-direction: ${(props) =>
-      props.loc === "right" ? "row-reverse" : "row"};
+    flex-direction: ${(props) => (props.loc === 'right' ? 'row-reverse' : 'row')};
   }
 `;
 

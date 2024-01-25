@@ -1,5 +1,5 @@
-import Image from "next/image";
-import styled from "styled-components";
+import Image from 'next/image';
+import styled from 'styled-components';
 
 interface CardProps {
   title?: string;
@@ -11,14 +11,14 @@ interface CardProps {
 
 export default function Card({
   title,
-  width = "280px",
-  height = "360px",
+  width = '280px',
+  height = '360px',
   img,
   onClick,
 }: CardProps) {
   return (
     <CardStyled $width={width} $height={height} onClick={onClick}>
-      <Image width={40} height={40} src={img}></Image>
+      <Image width={40} height={40} src={img} />
       <CardTitle>{title}</CardTitle>
     </CardStyled>
   );

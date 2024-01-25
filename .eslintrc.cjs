@@ -28,11 +28,12 @@ module.exports = {
   	"react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx",".ts", ".tsx"] }],
     "import/no-absolute-path" : "off",
-    "@typescript-eslint/no-unused-vars" : "off",
+    "@typescript-eslint/no-unused-vars" : "off", // 확장가능성 문제로 생략.
     "react/jsx-no-useless-fragment" : "off",
     "consistent-return" : "off", 
-    "react/no-unescaped-entities": "off",
-    "@next/next/no-page-custom-font": "off"
+    "react/no-unescaped-entities": "off", 
+    "@next/next/no-page-custom-font": "off", //  빌드상 문제.
+    "@typescript-eslint/no-use-before-define" : "off" // 컴포넌트를 먼저 보는게 더 가독성이 좋다는 의견이 있어서 생략.
     
   },
   parserOptions: {

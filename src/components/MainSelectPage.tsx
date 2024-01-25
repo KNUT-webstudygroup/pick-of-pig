@@ -1,14 +1,14 @@
-import PigFace from "@/ui/pig-face";
-import PigNose from "@/ui/pig-nose";
-import styled, { css } from "styled-components";
-import FoodSelect from "./FoodSelec";
+import PigFace from '@/ui/pig-face';
+import PigNose from '@/ui/pig-nose';
+import styled, { css } from 'styled-components';
+import FoodSelect from './FoodSelec';
 
 function MainSelectPage() {
   return (
     <MainSelectStyled>
       <PigFace />
-      <FoodSelect></FoodSelect>
-      <CustomRecContainer></CustomRecContainer>
+      <FoodSelect />
+      <CustomRecContainer />
     </MainSelectStyled>
   );
 }

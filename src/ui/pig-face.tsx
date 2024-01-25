@@ -1,12 +1,12 @@
-import PigNose from "@/ui/pig-nose";
-import styled, { css } from "styled-components";
+import PigNose from '@/ui/pig-nose';
+import styled, { css } from 'styled-components';
 
 function PigFace() {
   return (
     <PigFaceStyled>
       <PigEyesContainer>
-        <PigEyes></PigEyes>
-        <PigEyes left="70%"></PigEyes>
+        <PigEyes />
+        <PigEyes left="70%" />
       </PigEyesContainer>
       <PigNose />
     </PigFaceStyled>
@@ -37,6 +37,6 @@ const PigEyes = styled.div`
   border-radius: 50%;
   position: absolute;
   top: 50%;
-  left: ${(props) => props.left || "30%"};
+  left: ${(props) => props.left || '30%'};
   transform: translate(-50%, -50%);
 `;
