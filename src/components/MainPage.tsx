@@ -1,11 +1,12 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import Door from '@/components/Door';
-import styled, { css } from 'styled-components';
-import PigIcon from '@/ui/icon/pig-icon';
-import PigNose from '@/ui/pig-nose';
-import Map from './Map/page';
+import { useEffect } from "react";
+import Door from "@/components/Door";
+import styled, { css } from "styled-components";
+import PigIcon from "@/ui/icon/pig-icon";
+import PigNose from "@/ui/pig-nose";
+import Map from "./Map/page";
+import PigFace from "@/ui/pig-face";
 
 function MainPage() {
   return (
@@ -13,14 +14,15 @@ function MainPage() {
       <MainPageStyled>
         <MainTitleContainer>
           <MainTitleStyled>Pick Of Pigs</MainTitleStyled>
-          <PigIcon />
-          <MainSubTitle>
+          {/* <PigIcon /> */}
+          {/* <MainSubTitle>
             <p>돼지의 메뉴 선택을 받고 싶나요 ??</p>
             <p>!! 아래의 돼지 코를 누르세요 !!</p>
-          </MainSubTitle>
+          </MainSubTitle> */}
+          {/* <PigNose></PigNose> */}
         </MainTitleContainer>
-        <PigNose />
-        <PigTail>꼬리 랜덤버튼</PigTail>
+        <PigFace></PigFace>
+        {/* <PigTail>꼬리 랜덤버튼</PigTail> */}
       </MainPageStyled>
     </>
   );
@@ -28,8 +30,28 @@ function MainPage() {
 
 export default MainPage;
 
-const MainTitleStyled = styled.p<{ color: string }>`
-  font-size: 5rem;
+const MainPageStyled = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--main-bg-color);
+
+  font-size: 2rem;
+
+  & > span {
+    font-size: 1rem;
+  }
+  & > span {
+    font-size: 2rem;
+  }
+`;
+
+const MainTitleStyled = styled.p`
+  color: #4b3f4e;
+  font-size: 8rem;
   font-weight: 800;
 `;
 
@@ -51,23 +73,4 @@ const MainTitleContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 30px;
-`;
-
-const MainPageStyled = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100%;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--main-bg-color);
-
-  font-size: 2rem;
-
-  & > span {
-    font-size: 1rem;
-  }
-  & > span {
-    font-size: 2rem;
-  }
 `;

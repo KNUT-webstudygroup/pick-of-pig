@@ -1,5 +1,5 @@
-import Image from 'next/image';
-import styled from 'styled-components';
+import Image from "next/image";
+import styled from "styled-components";
 
 interface CardProps {
   title?: string;
@@ -11,8 +11,8 @@ interface CardProps {
 
 export default function Card({
   title,
-  width = '280px',
-  height = '360px',
+  width = "200px",
+  height = "300px",
   img,
   onClick,
 }: CardProps) {
@@ -40,10 +40,11 @@ const CardStyled = styled.div<{
   flex-direction: column;
   width: ${(props) => props.$width};
   height: ${(props) => props.$height};
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-  border-radius: 4.5rem;
-  background: var(--light-gray);
+  border-radius: 17px;
+  background-color: pink;
+  // background: var(--light-gray);
   box-shadow: 0px 0.25rem 0.25rem 0px rgba(0, 0, 0, 0.25);
 `;
 

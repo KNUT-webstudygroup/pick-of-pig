@@ -1,9 +1,11 @@
-import PigNose from '@/ui/pig-nose';
-import styled, { css } from 'styled-components';
+import PigNose from "@/ui/pig-nose";
+import styled, { css } from "styled-components";
+import PigEars from "./pig-ears";
 
 function PigFace() {
   return (
     <PigFaceStyled>
+      <PigEars></PigEars>
       <PigEyesContainer>
         <PigEyes />
         <PigEyes left="70%" />
@@ -33,10 +35,10 @@ const PigEyesContainer = styled.div`
 const PigEyes = styled.div`
   width: 40px;
   height: 40px;
-  background-color: #000; /* 콧구멍 색상 설정 (필요에 따라 수정 가능) */
+  background-color: #4b3f4e; /* 콧구멍 색상 설정 (필요에 따라 수정 가능) */
   border-radius: 50%;
   position: absolute;
   top: 50%;
-  left: ${(props) => props.left || '30%'};
+  left: ${(props) => props.left || "30%"};
   transform: translate(-50%, -50%);
 `;
