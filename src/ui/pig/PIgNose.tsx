@@ -15,42 +15,21 @@ export default function PigNose() {
   };
 
   return (
-    <PigNoseStyled>
-      <PigNoseMain onClick={handleClick}>
-        <Nostril />
-        <Nostril left="70%" />
-      </PigNoseMain>
-      <PigNoseShadow></PigNoseShadow>
+    <PigNoseStyled onClick={handleClick}>
+      <Nostril />
+      <Nostril left="70%" />
     </PigNoseStyled>
   );
 }
 
 const PigNoseStyled = styled.div`
   position: relative;
-  background-color: gray;
-  // 왜 width: 400px; 한 만큼 가운데서 왼쪽으로 이동하지?
-  width: 400px;
-`;
-
-const PigNoseMain = styled.div`
   width: 400px;
   height: 200px;
   background-color: var(--pig-color);
   border-radius: 117px;
   cursor: pointer;
-  position: absolute;
-  z-index: 1;
-`;
-
-const PigNoseShadow = styled.div`
-  z-index: 0;
-  width: 400px;
-  height: 200px;
-  background-color: var(--pig-shadow-color);
-  border-radius: 117px;
-  top: 20px;
-  position: absolute;
-  cursor: pointer;
+  box-shadow: 0 20px 0 0 #e37d82;
 `;
 
 const Nostril = styled.div`

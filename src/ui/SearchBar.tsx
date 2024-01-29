@@ -1,30 +1,39 @@
-import { useEffect, useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled from "styled-components";
+import SearchBarIcon from "./icon/search-bar-icon";
 
-function SearchBar(color: string) {
+function SearchBar() {
   return (
     <SearchBarStyled>
-      <input placeholder="메뉴 검색" color={color} />
-      <span className="material-symbols-outlined icon">search</span>
+      <SearchBarIcon />
+      <input />
     </SearchBarStyled>
   );
 }
 
 const SearchBarStyled = styled.div`
   display: flex;
-
-  width: 100%;
-  justify-content: center;
+  position: relative;
+  height: 70px;
+  width: 400px;
 
   & > input {
-    height: 70px;
-    border-radius: 10px;
-    border-color: #fff;
+    background-color: #e37d82;
+    height: 100%;
+    width: 100%;
+    border-radius: 15px;
+    border-width: 0;
     color: black;
   }
 
-  & > .icon {
-    font-size: 70px;
+  & > input:focus {
+    outline: none;
+  }
+
+  & > div {
+    position: absolute;
+    top: 15px;
+    right: 30px;
+    font-size: 30px;
   }
 `;
 

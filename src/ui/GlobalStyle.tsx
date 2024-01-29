@@ -7,16 +7,17 @@ const GlobalStyle = createGlobalStyle`
     --pig-shadow-color : #E37D82
   }
 
-  svg {
-    width: 600px;
-    height: 00px;
+  img {
+    width: 100%;
+    height: 100%;
+    
   }
 
   *{
     padding : 0px;
     margin : 0px;
     // font-size : 1rem;
-    color: #fff;
+    color: #000;
     font-family: Inter;
   }
 
