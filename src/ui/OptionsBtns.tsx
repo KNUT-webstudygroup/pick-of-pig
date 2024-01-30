@@ -19,6 +19,22 @@ const foods: FoodTypes[] = [
     img: "/food4.svg",
     title: "라이브 공연이 있는 레스토랑",
   },
+  {
+    img: "/food1.svg",
+    title: "범 10시 이후 입점 가능한 가게",
+  },
+  {
+    img: "/food2.svg",
+    title: "아침까지 여유있게 즐길 수 있는 가게",
+  },
+  {
+    img: "/food3.svg",
+    title: "바다가 보이는 레스토랑",
+  },
+  {
+    img: "/food4.svg",
+    title: "노래방을 즐길 수 있는 가게",
+  },
 ];
 
 function OptionsBtns() {
@@ -35,10 +51,9 @@ export default OptionsBtns;
 
 const OptionsBtnStyled = styled.div`
   margin: 10px 10px;
-  height: 400px;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  // background-color: pink;
   border-radius: 15px;
 
   width: 80%;

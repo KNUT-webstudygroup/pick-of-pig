@@ -19,6 +19,7 @@ const GlobalStyle = createGlobalStyle`
     // font-size : 1rem;
     color: #000;
     font-family: Inter;
+    box-sizing: border-box;
   }
 
   li {

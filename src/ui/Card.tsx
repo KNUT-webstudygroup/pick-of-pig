@@ -10,8 +10,8 @@ interface CardProps {
 
 export default function Card({
   title,
-  width = "300px",
-  height = "380px",
+  width = "250px",
+  height = "300px",
   img,
   onClick,
 }: CardProps) {
@@ -25,10 +25,18 @@ export default function Card({
   );
 }
 
-const CardStyled = styled.div``;
+const CardStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  height: 400px;
+`;
 
 const CardTitle = styled.div`
   font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   color: #4b3f4e;
 `;

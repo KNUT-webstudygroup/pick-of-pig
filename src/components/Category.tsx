@@ -5,7 +5,6 @@ function Category() {
   const imageStyle = {
     width: "100%",
     height: "100%",
-    // preserveAspectRatio: "none",zx
   };
   return (
     <CategoryStyled>
@@ -27,6 +26,7 @@ const CloudContainer = styled.div`
 
 const CategoryBtnContainer = styled.div`
   display: flex;
+  justify-content: center;
   margin-bottom: 40px;
   flex-wrap: wrap;
   width: 70%;

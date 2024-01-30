@@ -21,6 +21,7 @@ const OptionsContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: var(--main-bg-color);
 `;
 
 const Title = styled.div`
@@ -32,8 +33,9 @@ const Title = styled.div`
 `;
 
 const SearchMapContainer = styled.div`
-  margin-top: 70px;
+  // margin-top: 70px;
   display: flex;
   justify-content: flex-end;
-  width: 100%;
+  // width: 100%;
+  // height: 100%;
 `;
