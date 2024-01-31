@@ -1,15 +1,12 @@
-import PigFace from "@/ui/pig-face";
-import PigNose from "@/ui/pig-nose";
-import styled, { css } from "styled-components";
-import CustomRecMenu from "./CustomRecMenu";
-// import FoodSelect from "./FoodSelec";
+import styled from "styled-components";
+import Category from "./Category";
+import Options from "./Options";
 
 function MainSelectPage() {
   return (
     <MainSelectStyled>
-      <PigFace />
-      {/* <FoodSelect></FoodSelect> */}
-      <CustomRecMenu />
+      <Category />
+      <Options />
     </MainSelectStyled>
   );
 }
@@ -21,6 +18,6 @@ const MainSelectStyled = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  // height: 100vh;
   background-color: var(--main-bg-color);
 `;
