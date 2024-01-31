@@ -30,31 +30,35 @@ function Maps() {
   }, []);
 
   return (
-    <>
-      <div id="map" style={style} />
-      <div className="search">
-        <input
-          type="text"
-          id="address"
-          value={searchAddress}
-          style={{ color: "black" }}
-          onChange={handleInputChange}
-        />
-        <input
-          id="submit"
-          type="button"
-          value="검색"
-          onClick={handleSearchClick}
-        />
+    <MapStyled>
+      <div style={{ position: "absolute" }}>
+        <div id="map" style={style} />
+        <div className="search">
+          <input
+            type="text"
+            id="address"
+            value={searchAddress}
+            style={{ color: "black" }}
+            onChange={handleInputChange}
+          />
+          <input
+            id="submit"
+            type="button"
+            value="검색"
+            onClick={handleSearchClick}
+          />
+        </div>
       </div>
-    </>
+    </MapStyled>
   );
 }
 
-const MapNavBar = styled.div`
-  height: 150px;
-  width: 100%;
-  background-color: #ffb9b4;
+const MapStyled = styled.div`
+  position: relative;
+  z-index: -1;
+  // height: 150px;
+  // width: 100%;
+  // background-color: #ffb9b4;
 `;
 
 export default Maps;

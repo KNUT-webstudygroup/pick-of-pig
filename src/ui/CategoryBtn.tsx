@@ -3,7 +3,7 @@ import { categoryTypes } from "@/types/definitions";
 import { useState } from "react";
 import styled from "styled-components";
 
-const categoryList: categoryTypes[] = [
+export const categoryList: categoryTypes[] = [
   {
     id: 1,
     title: "한식",
