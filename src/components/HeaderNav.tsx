@@ -32,6 +32,7 @@ function HeaderNav() {
 }
 
 export default HeaderNav;
+
 const MapNavBar = styled.div`
   display: flex;
   position: fixed;
@@ -44,6 +45,7 @@ const MapNavBar = styled.div`
   width: 100%;
   background-color: #ffb9b4;
   top: 0;
+  z-index: 1;
 `;
 
 const NavIconContainer = styled.div`

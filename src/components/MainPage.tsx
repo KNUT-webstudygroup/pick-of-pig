@@ -21,12 +21,22 @@ const MainPageStyled = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  width: 100%;
   height: 100%;
   background-color: var(--main-bg-color);
 `;
 
 const MainTitleStyled = styled.p`
+  @media screen and (max-width: 1200px) {
+    & {
+      font-size: 6rem;
+    }
+  }
+
+  @media screen and (max-width: 800px) {
+    & {
+      font-size: 4rem;
+    }
+  }
   margin-top: 120px;
   color: #4b3f4e;
   font-size: 8rem;

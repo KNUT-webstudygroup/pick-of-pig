@@ -8,6 +8,11 @@ interface CardProps {
   onClick?: () => void;
 }
 
+export const imageStyle = {
+  width: "100%",
+  height: "100%",
+};
+
 export default function Card({
   title,
   width = "250px",
@@ -18,7 +23,7 @@ export default function Card({
   return (
     <CardStyled>
       <ImgStyled style={{ width: width, height: height }} onClick={onClick}>
-        <img src={img} style={{ width: "100%", height: "100%" }} />
+        <img src={img} style={imageStyle} />
       </ImgStyled>
       <CardTitle>{title}</CardTitle>
     </CardStyled>
@@ -28,8 +33,8 @@ export default function Card({
 const CardStyled = styled.div`
   display: flex;
   flex-direction: column;
-  width: 300px;
-  height: 400px;
+  width: 260px;
+  height: 420px;
 `;
 
 const CardTitle = styled.div`

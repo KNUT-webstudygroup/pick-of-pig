@@ -39,7 +39,10 @@ const CategoryStyled = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 64px;
+  @media screen and (max-width: 500px) {
+    font-size: 3rem;
+  }
+  font-size: 4rem;
   font-weight: 700;
 
   margin-top: 68px;

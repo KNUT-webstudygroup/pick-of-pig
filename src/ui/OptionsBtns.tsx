@@ -65,6 +65,16 @@ const OptionsBtnStyled = styled.div`
   }
 `;
 
+// allowsDogs,
+// curbsidePickup,
+// delivery,
+// dineIn,
+//  editorialSummary,
+// evChargeOptions*,
+// fuelOptions*,
+// goodForChildren,
+// goodForGroups,
+
 // 개별 공간이 있는 점포
 // 좌식으로 편하게 쉴 수 있는 가게
 // 아이 동반으로 갈 수 있는 레스토랑

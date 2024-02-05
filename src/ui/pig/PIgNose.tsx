@@ -30,9 +30,31 @@ const PigNoseStyled = styled.div`
   border-radius: 117px;
   cursor: pointer;
   box-shadow: 0 20px 0 0 #e37d82;
+
+  margin-top: 120px;
+
+  @media screen and (max-width: 1200px) {
+    margin-top: 80px;
+    width: 300px;
+    height: 150px;
+  }
+
+  @media screen and (max-width: 800px) {
+    margin-top: 50px;
+    width: 200px;
+    height: 100px;
+  }
 `;
 
 const Nostril = styled.div`
+  @media screen and (max-width: 1200px) {
+    width: 50px;
+    height: 50px;
+  }
+  @media screen and (max-width: 800px) {
+    width: 35px;
+    height: 35px;
+  }
   width: 70px;
   height: 70px;
   background-color: #4b3f4e; /* 콧구멍 색상 설정 (필요에 따라 수정 가능) */

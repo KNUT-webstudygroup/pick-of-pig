@@ -30,7 +30,7 @@ function Maps() {
   }, []);
 
   return (
-    <MapStyled>
+    <>
       <div style={{ position: "absolute" }}>
         <div id="map" style={style} />
         <div className="search">
@@ -49,16 +49,8 @@ function Maps() {
           />
         </div>
       </div>
-    </MapStyled>
+    </>
   );
 }
-
-const MapStyled = styled.div`
-  position: relative;
-  z-index: -1;
-  // height: 150px;
-  // width: 100%;
-  // background-color: #ffb9b4;
-`;
 
 export default Maps;

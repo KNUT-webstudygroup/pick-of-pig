@@ -6,7 +6,12 @@ function SearchMap() {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push("/Map");
+    const path: { pathname: string; query: string } = {
+      pathname: "/Map",
+      query: "test",
+    };
+
+    router.push({ pathname: "/Map", query: "test" });
   };
 
   return (

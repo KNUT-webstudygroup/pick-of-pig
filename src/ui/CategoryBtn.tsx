@@ -39,10 +39,30 @@ export const categoryList: categoryTypes[] = [
 ];
 
 function CategoryBtn() {
-  const [select, setSelect] = useState();
+  // 형 이 주석 친 부분으로는 왜 안되는 걸까???
+  // const [select, setSelect] = useState<number[]>([]);
+  // let selectList: any = [];
+
+  // const onclick = (id: number) => {
+  //   console.log(id);
+  //   if (!selectList.includes(id)) {
+  //     selectList.push(id);
+  //   } else {
+  //     selectList.splice(selectList.indexOf(id), 1);
+  //   }
+  //   setSelect(selectList);
+  //   console.log("selectList", selectList);
+  //   console.log("select", select);
+  // };
+
+  const [selectList, setSelectList] = useState<number[]>([]);
 
   const onclick = (id: number) => {
-    setSelect(id);
+    if (!selectList.includes(id)) {
+      setSelectList([...selectList, id]);
+    } else {
+      setSelectList(selectList.filter((item) => item !== id));
+    }
   };
 
   return (
@@ -51,7 +71,7 @@ function CategoryBtn() {
         <CategoryBtnStyled
           key={it.id}
           onClick={() => onclick(it.id)}
-          className={select == it.id ? "active" : ""}
+          className={selectList.includes(it.id) ? "active" : ""}
         >
           {it.title}
         </CategoryBtnStyled>
@@ -63,6 +83,21 @@ function CategoryBtn() {
 const CategoryBtnStyled = styled.div`
   width: 200px;
   height: 100px;
+
+  @media screen and (max-width: 700px) {
+    width: 150px;
+    height: 75px;
+    font-size: 2.5rem;
+    margin-left: 24px;
+    margin-bottom: 27px;
+  }
+
+  @media screen and (max-width: 500px) {
+    width: 100px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+
   background-color: #fff;
   border-radius: 30px;
   display: flex;

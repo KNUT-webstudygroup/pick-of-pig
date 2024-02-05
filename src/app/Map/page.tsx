@@ -9,12 +9,14 @@ function Map() {
   return (
     <MapStyled>
       <HeaderNav />
-      {/* <LeftNav>
-        <PerferenceContainer></PerferenceContainer>
+      <LeftNav>
+        <PerferenceContainer>
+          <p>선호도</p>
+        </PerferenceContainer>
         <RecommendContainer>
           <p>추천순위</p>
         </RecommendContainer>
-      </LeftNav> */}
+      </LeftNav>
       <MapContainer>
         <Maps />
       </MapContainer>
@@ -29,6 +31,7 @@ const MapStyled = styled.div`
 
 const MapContainer = styled.div`
   position: relative;
+  z-index: -1;
 `;
 
 const PerferenceContainer = styled.div``;
@@ -39,6 +42,8 @@ const LeftNav = styled.div`
   background-color: #ff9a9f;
   width: 280px;
   height: 100%;
+  padding-top: 120px;
+  position: fixed;
 `;
 
 export default Map;
