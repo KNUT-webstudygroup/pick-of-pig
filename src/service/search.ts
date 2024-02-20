@@ -38,7 +38,7 @@ function addressToPlaceIds(address: string) : Promise<Array<string>> {
         });
         resolve(placeIds);
       } else {
-        reject(new Error('Geocoding failed'));
+        reject(new Error('addressToPlaceIds failed'));
       }
     });
   });
@@ -55,7 +55,23 @@ function placeIdToCoord(placeId: string) : Promise<google.maps.LatLng> {
         const coord = results[0].geometry.location;
         resolve(coord);
       } else {
-        reject(new Error('Geocoding failed'));
+        reject(new Error('placeIdToCoord failed'));
+      }
+    });
+  });
+}
+
+/**
+ * 장소 고유 ID로 가게 이름을 얻음
+ */
+function placeIdToName(placeId: string, map: google.maps.Map) : Promise<string> {
+  const service = new google.maps.places.PlacesService(map);
+  return new Promise((resolve, reject) => {
+    service.getDetails({ placeId }, (result, status) => {
+      if (status === 'OK') {
+        resolve(result.name);
+      } else {
+        reject(new Error('placeIdToName failed'));
       }
     });
   });
@@ -80,6 +96,7 @@ function placeIdToTypes(placeId: string, map: google.maps.Map) : Promise<Array<s
     });
   });
 }
+
 /**
  * 장소 고유 ID로 별점을 얻음
  */
@@ -91,6 +108,22 @@ function placeIdToRating(placeId: string, map: google.maps.Map) : Promise<number
         resolve(result.rating);
       } else {
         reject(new Error('placeIdToRating failed'));
+      }
+    });
+  });
+}
+
+/**
+ * 장소 고유 ID로 가격 점수를 얻음
+ */
+function placeIdToPriceLevel(placeId: string, map: google.maps.Map) : Promise<number> {
+  const service = new google.maps.places.PlacesService(map);
+  return new Promise((resolve, reject) => {
+    service.getDetails({ placeId }, (result, status) => {
+      if (status === 'OK' && result.price_level) {
+        resolve(result.price_level);
+      } else {
+        reject(new Error('placeIdToPriceLevel failed'));
       }
     });
   });
@@ -139,16 +172,48 @@ function searchNearbyCoords(coord: google.maps.LatLng, map: google.maps.Map)
         });
         resolve(NearbyCoords);
       } else {
-        reject(new Error('NearbySearch failed'));
+        reject(new Error('searchNearbyCoords failed'));
       }
     });
   });
 }
 
+/**
+ * 입력 좌표의 반경 200m 맛집의 고유 ID를 얻음
+ */
+function searchNearbyPlaceIds(coord: google.maps.LatLng, map: google.maps.Map)
+  : Promise<Array<string>> {
+  const NearbyPlaceIds : Array<string> = [];
+  const service = new google.maps.places.PlacesService(map);
+
+  return new Promise((resolve, reject) => {
+    service.nearbySearch({
+      location: coord,
+      types: ['restaurant', 'bakery', 'bar', 'cafe'],
+      radius: 200.0, // 일단 200m로 설정
+    }, (results, status) => {
+      if (status === 'OK') {
+        results.forEach((result) => {
+          if (result.place_id) {
+            NearbyPlaceIds.push(result.place_id);
+          }
+        });
+        resolve(NearbyPlaceIds);
+      } else {
+        reject(new Error('searchNearbyPlaceIds failed'));
+      }
+    });
+  });
+}
+
+/**
+ * 해당 장소 ID에 대하여 MapNode 객체를 반환
+ */
 async function getMapNode(placeId: string, map: google.maps.Map) : Promise<MapNode> {
   const comment: Array<string> = [];
   const scores: Array<number> = [];
 
+  const name = await placeIdToName(placeId, map);
   const coord = await placeIdToCoord(placeId);
   const reviews = await placeIdToReviews(placeId, map);
 
@@ -167,7 +232,40 @@ async function getMapNode(placeId: string, map: google.maps.Map) : Promise<MapNo
     scores,
   };
 
-  return new MapNode(location, score);
+  return new MapNode(placeId, name, location, score);
+}
+
+/**
+ * 장소 ID 배열에 대하여 MapNode 객체 배열을 반환
+ */
+async function getMapNodes(placeIds: Array<string>, map: google.maps.Map)
+  : Promise<Array<MapNode>> {
+  const mapNodePromises : Array<Promise<MapNode | undefined>> = placeIds.map(async (placeId) => {
+    try {
+      return await getMapNode(placeId, map);
+    } catch (error) {
+      console.log('해당 장소에 대한 리뷰가 존재하지 않아 MapNode를 생성할 수 없습니다.');
+    }
+  });
+
+  const mapNodeResults = await Promise.all(mapNodePromises);
+  const mapNodes = mapNodeResults.filter((result): result is MapNode => result !== undefined);
+  return mapNodes;
+}
+
+/**
+ * MapNode 객체 배열을 점수를 기준으로 내림차순 정렬
+ */
+function sortMapNodesByScore(mapNodes: Array<MapNode>) : Array<MapNode> {
+  const sortedMapNodes = [...mapNodes];
+
+  sortedMapNodes.sort((left, right) => {
+    const leftLocation = left.location;
+    const rightLocation = right.location;
+    return right.GetScore(leftLocation) - left.GetScore(rightLocation);
+  });
+
+  return sortedMapNodes;
 }
 
 /**
@@ -181,6 +279,16 @@ export default async function searchNearbyPlace(address: string) {
   });
   const placeIds = await addressToPlaceIds(address);
   const coord = await placeIdToCoord(placeIds[0]);
-  const nearbyCoords = await searchNearbyCoords(coord, map);
-  addMarkers(nearbyCoords, map);
+  const nearbyPlaceIds = await searchNearbyPlaceIds(coord, map);
+  const mapNodes = await getMapNodes(nearbyPlaceIds, map);
+  const sortedMapNodes = sortMapNodesByScore(mapNodes);
+
+  const latLngs: Array<google.maps.LatLng> = [];
+  sortedMapNodes.forEach((node) => {
+    const latLng = new google.maps.LatLng(node.location.latitude, node.location.longitude);
+    latLngs.push(latLng);
+    console.log(node);
+  });
+
+  addMarkers(latLngs, map);
 }

@@ -5,6 +5,10 @@ export default class MapNode {
   // I. 위치를 가진다.
   // II. 평점을 가진다.
   // III. 거점의 경우,
+  id: string;
+
+  name: string;
+
   location: LocationType; // 가게의 위치를 나타낸다.
 
   scoreInfo: {
@@ -17,11 +21,14 @@ export default class MapNode {
   costScore?:Array<number>; // 가게 자체의 가격 수준.(0~10)
 
   /**
-   *
+   * @param id
+   * @param name
    * @param location
    * @param score
    */
   constructor(
+    id: string,
+    name: string,
     location: LocationType,
     score: {
       comment?: Array<string>;
@@ -33,6 +40,8 @@ export default class MapNode {
       max_score: 5,
     },
   ) {
+    this.id = id;
+    this.name = name;
     this.location = location;
     this.scoreInfo = score;
     const scoreLength = score?.scores?.length;
