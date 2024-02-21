@@ -271,7 +271,7 @@ function sortMapNodesByScore(mapNodes: Array<MapNode>) : Array<MapNode> {
 /**
  * 사용자가 입력한 주소를 기반으로 근처 맛집들의 위치에 마커 추가
  */
-export default async function searchNearbyPlace(address: string) {
+export default async function searchNearbyPlace(address: string) : Promise<Array<MapNode>> {
   const center: google.maps.LatLngLiteral = { lat: 37.3595316, lng: 127.1052133 };
   const map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
     center,
@@ -287,8 +287,8 @@ export default async function searchNearbyPlace(address: string) {
   sortedMapNodes.forEach((node) => {
     const latLng = new google.maps.LatLng(node.location.latitude, node.location.longitude);
     latLngs.push(latLng);
-    console.log(node);
   });
-
   addMarkers(latLngs, map);
+
+  return sortedMapNodes;
 }

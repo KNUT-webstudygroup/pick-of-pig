@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
+import MapNode from '@/service/MapObject/MapNode';
 import MapNodeCard from './MapNodeCard';
 
-function Drawer() {
+function Drawer({ mapNodes }: { mapNodes: Array<MapNode> }) {
   return (
     <DrawerContainer>
       <RecommendText>
         추천 순위
       </RecommendText>
-      <MapNodeCard index={1} star={5} name="파앤피하우스" />
-      <MapNodeCard index={2} star={3} name="파앤피하우스" />
-      <MapNodeCard index={3} star={1} name="파앤피하우스" />
+      {mapNodes.map((node, i) => (
+        // score는 추후 수정 예정
+        <MapNodeCard key={i} index={i + 1} score={i + 1} name={node.name} />
+      ))}
     </DrawerContainer>
   );
 }

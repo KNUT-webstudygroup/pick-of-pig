@@ -1,14 +1,27 @@
+import { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import Image from 'next/image';
 
 interface MapNodeCardProps {
   name: string;
-  star: number;
+  score: number;
   index: number;
 }
 
-function MapNodeCard({ index, star, name }: MapNodeCardProps) {
-  const starsArray = Array.from({ length: star });
+function MapNodeCard({ index, score, name }: MapNodeCardProps) {
+  const [starsArray, setStarsArray] = useState<number[]>([]);
+
+  useEffect(() => {
+    let star;
+
+    if (score >= 0.9) star = 5;
+    else if (score >= 0.8) star = 4;
+    else if (score >= 0.6) star = 3;
+    else if (score >= 0.4) star = 2;
+    else star = 1;
+
+    setStarsArray(Array.from({ length: star }));
+  }, [score]);
 
   return (
     <MapNodeContainer>
@@ -86,6 +99,10 @@ const MapNodeName = styled.div`
     font-weight: bold;
     font-family: 'Nanum Gothic', serif;
     padding: 12px 0px 0px 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 8em;
 `;
 
 const MapNodeImage = styled.div`
