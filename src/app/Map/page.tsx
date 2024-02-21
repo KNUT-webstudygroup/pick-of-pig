@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import MapNodeCard from '@/ui/MapNodeCard';
+import Drawer from '@/ui/drawer';
 import searchNearbyPlace from '../../service/search';
 
 function Map() {
@@ -29,9 +31,11 @@ function Map() {
   return (
     <>
       <div id="map" style={style} />
-      <div className="search">
+      <Drawer />
+      {/* 검색창 잠깐 오른쪽으로 옮겼어요 */}
+      <div className="search" style={{ textAlign: 'right' }}>
         <input type="text" id="address" value={searchAddress} style={{ color: 'black' }} onChange={handleInputChange} />
-        <input id="submit" type="button" value="검색" onClick={handleSearchClick} />
+        <input id="submit" type="button" value="검색" style={{ color: 'black' }} onClick={handleSearchClick} />
       </div>
     </>
   );
