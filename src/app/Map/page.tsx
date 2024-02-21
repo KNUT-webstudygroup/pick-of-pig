@@ -4,8 +4,18 @@ import styled from "styled-components";
 
 import Maps from "@/components/Map";
 import HeaderNav from "@/components/HeaderNav";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 function Map() {
+  const router = useRouter();
+  // const queries = router.query; // 전달받은 쿼리 내용
+
+  // useEffect(() => {
+  //   if (!router.isReady) return;
+  //   console.log(queries);
+  // }, [router.isReady]);
+
   return (
     <MapStyled>
       <HeaderNav />

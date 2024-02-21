@@ -5,8 +5,13 @@ import SearchBar from "@/ui/SearchBar";
 import DeleteIcon from "@/ui/icon/delete-icon";
 import PigFaceIcon from "@/ui/icon/pig-face-icon";
 import ListIcon from "@/ui/icon/list-icon";
+import { useRecoilValue } from "recoil";
+import { categoryList, optionList } from "@/recoil/atoms";
 
 function HeaderNav() {
+  const categoryLists = useRecoilValue(categoryList);
+  const optionLists = useRecoilValue(optionList);
+
   return (
     <MapNavBar>
       <NavIconContainer>
@@ -21,11 +26,16 @@ function HeaderNav() {
         <SearchBar />
 
         <SearchComponents>
-          <SearchComponent>
-            <p>한식</p>
-          </SearchComponent>
-          <DeleteIcon />
+          {categoryLists.map((it, index) => (
+            <SearchComponent key={index}>
+              <div>{it}</div>
+              <DeleteIcon />
+            </SearchComponent>
+          ))}
         </SearchComponents>
+        {/* <SearchComponent>
+            <p>한식</p>
+          </SearchComponent> */}
       </SearchContainer>
     </MapNavBar>
   );
@@ -59,28 +69,31 @@ const SearchContainer = styled.div``;
 
 const SearchComponents = styled.div`
   margin-top: 15px;
-  flex: 1;
+  // flex: 1;
+  width: 100%;
   display: flex;
-  position: relative;
+  justify-content: space-between;
+  // position: relative;
 
-  & > div:nth-child(2) {
-    position: absolute;
-    left: 70px;
-    top: 3px;
-  }
+  // & > div:nth-child(2) {
+  //   position: absolute;
+  //   left: 70px;
+  //   top: 3px;
+  // }
 `;
 
 const SearchComponent = styled.div`
-  width: 110px;
-  height: 40px;
+  width: 90px;
+  height: 35px;
   background-color: #ffe3e1;
   color: #4b3f4e;
-  font-size: 1.5rem;
+  font-size: 1rem;
   border-radius: 20px;
 
+  padding: 0 12px;
   display: flex;
   left: 10px;
-  padding-right: 20px;
-  justify-content: center;
+  margin-right: 20px;
+  justify-content: space-between;
   align-items: center;
 `;

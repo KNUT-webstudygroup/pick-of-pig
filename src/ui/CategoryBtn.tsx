@@ -1,9 +1,11 @@
 "use client";
+import { categoryList } from "@/recoil/atoms";
 import { categoryTypes } from "@/types/definitions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 
-export const categoryList: categoryTypes[] = [
+export const categoryLists: categoryTypes[] = [
   {
     id: 1,
     title: "한식",
@@ -39,46 +41,29 @@ export const categoryList: categoryTypes[] = [
 ];
 
 function CategoryBtn() {
-  // 형 이 주석 친 부분으로는 왜 안되는 걸까???
-  // const [select, setSelect] = useState<number[]>([]);
-  // const selectList: any = [];
+  const [selectList, setSelectList] = useState<string[]>([]);
+  const setCategory = useSetRecoilState(categoryList);
+  // const oldTodoList = useRecoilValue(contentState);
 
-  // const onclick = (id: number) => {
-  //   console.log(selectList)
-
-  //   console.log(id);
-  //   if (!selectList.includes(id)) {
-  //     selectList.push(id);
-  //     console.log(selectList)
-  //   } else {
-  //     console.log(id)
-  //     selectList.splice(selectList.indexOf(id), 1);
-  //   }
-  //   setSelect(selectList); //<<--- 여기에서 문제있는듯
-  // selectList 초기화하고 재설정하는 것 같은데 JS의 Array는 call by reference 라서 same으로 판단한것 같음.
-  // https://ella951230.tistory.com/entry/React-useState-%EB%B0%B0%EC%97%B4-%EB%B3%80%EA%B2%BD%EB%B0%A9%EB%B2%95-spread-%EB%AC%B8%EB%B2%95
-
-  //   console.log("selectList", selectList);
-  //   console.log("select", select);
-  // };
-
-  const [selectList, setSelectList] = useState<number[]>([]);
-
-  const onclick = (id: number) => {
-    if (!selectList.includes(id)) {
-      setSelectList([...selectList, id]);
+  const onclick = (title: string) => {
+    if (!selectList.includes(title)) {
+      setSelectList([...selectList, title]);
     } else {
-      setSelectList(selectList.filter((item) => item !== id));
+      setSelectList(selectList.filter((item) => item !== title));
     }
   };
 
+  useEffect(() => {
+    setCategory([...selectList]);
+  }, [selectList]);
+
   return (
     <>
-      {categoryList.map((it) => (
+      {categoryLists.map((it) => (
         <CategoryBtnStyled
           key={it.id}
-          onClick={() => onclick(it.id)}
-          className={selectList.includes(it.id) ? "active" : ""}
+          onClick={() => onclick(it.title)}
+          className={selectList.includes(it.title) ? "active" : ""}
         >
           {it.title}
         </CategoryBtnStyled>

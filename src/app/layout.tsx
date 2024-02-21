@@ -1,12 +1,13 @@
-'use client';
+"use client";
 
-import type { Metadata } from 'next';
-import styled from 'styled-components';
-import { Inter } from 'next/font/google';
-import GlobalStyle from '@/ui/GlobalStyle';
+import type { Metadata } from "next";
+import styled from "styled-components";
+import { Inter } from "next/font/google";
+import GlobalStyle from "@/ui/GlobalStyle";
+import { RecoilRoot } from "recoil";
 // import "@/ui/css/globals.css";
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -22,10 +23,15 @@ function RootLayout({ children }: { children: React.ReactNode }) {
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
         />
-        <script type="text/javascript" src={`https://maps.googleapis.com/maps/api/js?&key=${process.env.GOOGLE_MAP_ID}&libraries=places`} />
+        <script
+          type="text/javascript"
+          src={`https://maps.googleapis.com/maps/api/js?&key=${process.env.GOOGLE_MAP_ID}&libraries=places`}
+        />
       </head>
       <GlobalStyle />
-      <body>{children}</body>
+      <RecoilRoot>
+        <body>{children}</body>
+      </RecoilRoot>
     </html>
   );
 }

@@ -29,7 +29,7 @@ const PigEye = styled.div`
   background-color: #4b3f4e; /* 콧구멍 색상 설정 (필요에 따라 수정 가능) */
   border-radius: 50%;
 
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 1450px) {
     width: 50px;
     height: 50px;
   }

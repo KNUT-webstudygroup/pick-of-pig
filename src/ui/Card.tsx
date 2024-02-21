@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 
 interface CardProps {
@@ -16,13 +17,19 @@ export const imageStyle = {
 export default function Card({
   title,
   width = "250px",
-  height = "300px",
+  height = "350px",
   img,
   onClick,
 }: CardProps) {
+  const [state, setState] = useState(false);
+
   return (
     <CardStyled>
-      <ImgStyled style={{ width: width, height: height }} onClick={onClick}>
+      <ImgStyled
+        style={{ width: width, height: height }}
+        onClick={onClick}
+        className={state ? "click" : ""}
+      >
         <img src={img} style={imageStyle} />
       </ImgStyled>
       <CardTitle>{title}</CardTitle>
@@ -35,6 +42,8 @@ const CardStyled = styled.div`
   flex-direction: column;
   width: 260px;
   height: 420px;
+  margin-left: 30px;
+  margin-bottom: 30px;
 `;
 
 const CardTitle = styled.div`
@@ -44,15 +53,14 @@ const CardTitle = styled.div`
   align-items: center;
   text-align: center;
   color: #4b3f4e;
+
+  margin-top: 20px;
 `;
 
 const ImgStyled = styled.div`
-  // 나중에 따로 처리하는 방법 생각하기
-  margin-left: 30px;
+  &.click {
+    background-color: gray;
+  }
 
-  display: flex;
-
-  justify-content: space-around;
-  align-items: center;
   // box-shadow: 0px 0.25rem 0.25rem 0px rgba(0, 0, 0, 0.25);
 `;

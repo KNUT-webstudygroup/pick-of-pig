@@ -33,7 +33,7 @@ const PigNoseStyled = styled.div`
 
   margin-top: 120px;
 
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 1450px) {
     margin-top: 80px;
     width: 300px;
     height: 150px;
@@ -47,7 +47,7 @@ const PigNoseStyled = styled.div`
 `;
 
 const Nostril = styled.div`
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 1450px) {
     width: 50px;
     height: 50px;
   }

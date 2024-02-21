@@ -13,7 +13,7 @@ function SearchBar() {
 const SearchBarStyled = styled.div`
   display: flex;
   position: relative;
-  height: 70px;
+  height: 60px;
   width: 400px;
 
   & > input {

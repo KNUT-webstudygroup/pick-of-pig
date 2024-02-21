@@ -6,12 +6,19 @@ function SearchMap() {
   const router = useRouter();
 
   const handleClick = () => {
-    const path: { pathname: string; query: string } = {
-      pathname: "/Map",
-      query: "test",
-    };
-
-    router.push({ pathname: "/Map", query: "test" });
+    // const path: { pathname: string; query: string } = {
+    //   pathname: "/Map",
+    //   query: "test",
+    // };
+    // router.push({ pathname: `/Map`, query: `test` }, "test");
+    // router.push(
+    //   {
+    //     pathname: "/Map",
+    //     query: { 1: "test" },
+    //   },
+    //   "/order"
+    // );
+    router.push("/Map?test");
   };
 
   return (

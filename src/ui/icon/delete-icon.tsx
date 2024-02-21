@@ -6,10 +6,9 @@ export default function DeleteIcon() {
   };
   return (
     <IconContainer
-      width={30}
-      height={30}
+      width={20}
+      height={20}
       iconPath="/delete.svg"
-      // iconColor="var(--light-gray)"
       text="delete"
       onClick={onClickInfo}
     />

@@ -1,8 +1,11 @@
 import OptionsBtns from "@/ui/OptionsBtns";
 import SearchMap from "@/ui/SearchMap";
+import { useState } from "react";
 import styled from "styled-components";
 
 function Options() {
+  const [option, setOption] = useState();
+
   return (
     <OptionsContainer>
       <Title>Options</Title>

@@ -31,7 +31,7 @@ const IconContainer = styled.div`
   display: flex;
 
   width: 250px;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 1450px) {
     width: 150px;
   }
   @media screen and (max-width: 800px) {
