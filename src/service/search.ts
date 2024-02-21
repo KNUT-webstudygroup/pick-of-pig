@@ -1,4 +1,5 @@
-// import { LocationType } from '../types/location';
+import { LocationType } from '../types/location';
+import MapNode from './MapObject/MapNode';
 
 function addMarker(coord: google.maps.LatLng, map: google.maps.Map) {
   const marker = new google.maps.Marker({
@@ -61,19 +62,59 @@ function placeIdToCoord(placeId: string) : Promise<google.maps.LatLng> {
 }
 
 /**
+ * 장소 고유 ID로 장소의 타입 얻음
+ */
+function placeIdToTypes(placeId: string, map: google.maps.Map) : Promise<Array<string>> {
+  const types: Array<string> = [];
+  const service = new google.maps.places.PlacesService(map);
+  return new Promise((resolve, reject) => {
+    service.getDetails({ placeId }, (result, status) => {
+      if (status === 'OK' && result.types) {
+        result.types.forEach((type) => {
+          types.push(type);
+        });
+        resolve(types);
+      } else {
+        reject(new Error('placeIdToTypes failed'));
+      }
+    });
+  });
+}
+/**
+ * 장소 고유 ID로 별점을 얻음
+ */
+function placeIdToRating(placeId: string, map: google.maps.Map) : Promise<number> {
+  const service = new google.maps.places.PlacesService(map);
+  return new Promise((resolve, reject) => {
+    service.getDetails({ placeId }, (result, status) => {
+      if (status === 'OK' && result.rating) {
+        resolve(result.rating);
+      } else {
+        reject(new Error('placeIdToRating failed'));
+      }
+    });
+  });
+}
+
+/**
  * 장소 고유 ID로 리뷰를 얻음
  */
-function searchReviewsByPlaceId(placeId: string, map: google.maps.Map) {
+function placeIdToReviews(placeId: string, map: google.maps.Map)
+  : Promise<Array<google.maps.places.PlaceReview>> {
   const reviews: Array<google.maps.places.PlaceReview> = [];
   const service = new google.maps.places.PlacesService(map);
-  service.getDetails({ placeId }, (result, status) => {
-    if (status === 'OK' && result.reviews) {
-      result.reviews.forEach((review) => {
-        reviews.push(review);
-      });
-    }
+  return new Promise((resolve, reject) => {
+    service.getDetails({ placeId }, (result, status) => {
+      if (status === 'OK' && result.reviews) {
+        result.reviews.forEach((review) => {
+          reviews.push(review);
+        });
+        resolve(reviews);
+      } else {
+        reject(new Error('placeIdToReviews failed'));
+      }
+    });
   });
-  return reviews; // 리뷰가 존재하지 않으면 빈 배열 반환
 }
 
 /**
@@ -102,6 +143,31 @@ function searchNearbyCoords(coord: google.maps.LatLng, map: google.maps.Map)
       }
     });
   });
+}
+
+async function getMapNode(placeId: string, map: google.maps.Map) : Promise<MapNode> {
+  const comment: Array<string> = [];
+  const scores: Array<number> = [];
+
+  const coord = await placeIdToCoord(placeId);
+  const reviews = await placeIdToReviews(placeId, map);
+
+  const location : LocationType = {
+    latitude: coord.lat(),
+    longitude: coord.lng(),
+  };
+
+  reviews.forEach((review) => {
+    comment.push(review.text);
+    scores.push(review.rating);
+  });
+
+  const score = {
+    comment,
+    scores,
+  };
+
+  return new MapNode(location, score);
 }
 
 /**
