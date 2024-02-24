@@ -5,9 +5,9 @@ export default class MapNode {
   // I. 위치를 가진다.
   // II. 평점을 가진다.
   // III. 거점의 경우,
-  id: string;
+  id: string; // 구글맵으로부터 가져온 장소의 고유 ID
 
-  name: string;
+  name: string; // 가게의 이름
 
   location: LocationType; // 가게의 위치를 나타낸다.
 

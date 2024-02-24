@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import MapNodeCard from '@/ui/MapNodeCard';
 import Drawer from '@/ui/drawer';
 import MapNode from '@/service/MapObject/MapNode';
 import searchNearbyPlace from '../../service/search';
