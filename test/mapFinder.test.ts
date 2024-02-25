@@ -5,7 +5,7 @@ test("2 더하기 3은 5야.", () => {
   });
 
 test("장거리 구하기.", () => {
-    expect(new MapNode({
+    expect(new MapNode("a","b",{
       longitude:41.40338,
       latitude:2.17403
     },{
@@ -18,7 +18,7 @@ test("장거리 구하기.", () => {
 });
 
 test("근거리 구하기.", () => {
-  expect(new MapNode({
+  expect(new MapNode("a","b",{
     longitude: 126.89570909913768,
     latitude:37.580997761192805
   },{
@@ -32,7 +32,7 @@ test("근거리 구하기.", () => {
 
 
 test("서울에서 부산까지", () => {
-  expect(new MapNode({
+  expect(new MapNode("a","b",{
     longitude:126.997128,
     latitude: 37.547889
   },{
