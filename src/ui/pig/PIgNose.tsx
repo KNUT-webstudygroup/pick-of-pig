@@ -1,13 +1,7 @@
 import styled from "styled-components";
 
-import IconContainer from "@/ui/icon/icon.container";
-import { useState } from "react";
-
 export default function PigNose() {
-  const [clicked, setClicked] = useState(false);
   const handleClick = () => {
-    setClicked(true);
-
     window.scrollTo({
       top: window.innerHeight, // 현재 화면 높이만큼 스크롤
       behavior: "smooth", // 부드러운 스크롤

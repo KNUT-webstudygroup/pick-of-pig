@@ -21,7 +21,8 @@ const MainPageStyled = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  height: 100%;
+  height: 100vh;
+  // margin-bottom: 30px;
   background-color: var(--main-bg-color);
 `;
 

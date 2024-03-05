@@ -28,8 +28,8 @@ function RootLayout({ children }: { children: React.ReactNode }) {
           src={`https://maps.googleapis.com/maps/api/js?&key=${process.env.GOOGLE_MAP_ID}&libraries=places`}
         />
       </head>
-      <GlobalStyle />
       <RecoilRoot>
+        <GlobalStyle />
         <body>{children}</body>
       </RecoilRoot>
     </html>

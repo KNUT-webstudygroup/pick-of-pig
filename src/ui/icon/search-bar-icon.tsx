@@ -1,9 +1,10 @@
 import IconContainer from "@/ui/icon/icon.container";
 
-export default function SearchBarIcon() {
-  const onClickInfo = (): void => {
-    // TODO: show info modal
-  };
+interface SearchBarIconProps {
+  handleSearchClick: () => void;
+}
+
+const SearchBarIcon: React.FC<SearchBarIconProps> = ({ handleSearchClick }) => {
   return (
     <IconContainer
       width={35}
@@ -11,7 +12,9 @@ export default function SearchBarIcon() {
       iconPath="/search-bar.svg"
       iconColor=""
       text="pig"
-      onClick={onClickInfo}
+      onClick={handleSearchClick}
     />
   );
-}
+};
+
+export default SearchBarIcon;

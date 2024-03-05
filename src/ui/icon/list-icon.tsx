@@ -1,9 +1,11 @@
 import IconContainer from "@/ui/icon/icon.container";
 
-export default function ListIcon() {
-  const onClickInfo = (): void => {
-    // TODO: show info modal
-  };
+interface ListIconProps {
+  openLeftNav: () => void;
+}
+
+const ListIcon: React.FC<ListIconProps> = ({ openLeftNav }) => {
+  // TODO: show info modal
   return (
     <IconContainer
       width={60}
@@ -11,7 +13,9 @@ export default function ListIcon() {
       iconPath="/list.svg"
       // iconColor="var(--light-gray)"
       text="delete"
-      onClick={onClickInfo}
+      onClick={openLeftNav}
     />
   );
-}
+};
+
+export default ListIcon;

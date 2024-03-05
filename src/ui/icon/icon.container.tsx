@@ -8,7 +8,7 @@ function IconContainer({
   text,
   iconPath,
   iconColor,
-  onClick = "",
+  onClick,
 }: IconContainerProps) {
   return (
     <IconContainerStyled
