@@ -27,13 +27,17 @@ function HeaderNav() {
   const [isRandomModal, setIsRandomModal] = useState(false);
 
   const openModal = (name: string) => {
-    {
-      name === 'LeftNav' ? setIsModalOpen(true) : setIsRandomModal(true);
+    if (name === 'LeftNav') {
+      setIsModalOpen(true);
+    } else {
+      setIsRandomModal(true);
     }
   };
   const closeModal = (name: string) => {
-    {
-      name == 'LeftNav' ? setIsModalOpen(false) : setIsRandomModal(false);
+    if (name === 'LeftNav') {
+      setIsModalOpen(false);
+    } else {
+      setIsRandomModal(false);
     }
   };
 

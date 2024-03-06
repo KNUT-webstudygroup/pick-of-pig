@@ -2,24 +2,23 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 interface CardProps {
-  title?: string;
+  img: string;
+  title: string;
+  onClick: () => void;
   width?: string;
   height?: string;
-  img: string;
-  onClick?: () => void;
 }
 
 export const imageStyle = {
   width: '100%',
   height: '100%',
 };
-
 export default function Card({
   title,
-  width = '250px',
-  height = '350px',
   img,
   onClick,
+  width = '250px',
+  height = '350px',
 }: CardProps) {
   const [state, setState] = useState(false);
 

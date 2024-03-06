@@ -57,9 +57,9 @@ function ListModal({ closeModal }: { closeModal: (name: string) => void }) {
         <SearchBar />
 
         <WrapperComponentStyled>
-          {categoryLists.map((it, index) => (
+          {categoryLists.map((it) => (
             <ComponentStyled
-              key={index}
+              key={it.id}
               className={selectCategory.includes(it.title) ? 'check' : ''}
               onClick={() => onCategoryClick(it.title)}
             >
@@ -67,9 +67,9 @@ function ListModal({ closeModal }: { closeModal: (name: string) => void }) {
             </ComponentStyled>
           ))}
 
-          {foods.map((it, index) => (
+          {foods.map((it) => (
             <ComponentStyled
-              key={index}
+              key={it.title}
               className={selectOptionList.includes(it.title) ? 'check' : ''}
               onClick={() => onOptionClick(it.title)}
             >

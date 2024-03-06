@@ -18,7 +18,7 @@ function Drawer({
         <RecommendText>추천 순위</RecommendText>
         {mapNodes.map((node, i) => (
           // score는 추후 수정 예정
-          <MapNodeCard key={i} index={i + 1} node={node} />
+          <MapNodeCard key={node.id} index={i + 1} node={node} />
         ))}
       </DrawerContainer>
     </>

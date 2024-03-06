@@ -10,7 +10,7 @@ function PigEars() {
       {/* <pig */}
       <Test>
         {/* <Image width={540} height={540} src="/assets/pig-left-ear.svg"></Image> */}
-        <Image width={540} height={100} viewbox="0 0 540 100" src="/food1.svg" />
+        <Image alt={' '} width={540} height={100} data-viewbox="0 0 540 100" src="/food1.svg" />
         <div style={styles}>
           <img src="/assets/pig-left-ear.svg" style={imageStyle} />
         </div>

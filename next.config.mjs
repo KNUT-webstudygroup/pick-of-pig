@@ -15,6 +15,13 @@ const nextConfig = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
+  experimental: {
+    turbo: {
+      loaders: {
+        '.svg': ['@svgr/webpack']
+      }
+    }
+  }
 }
  
 export default nextConfig
