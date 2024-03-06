@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import Drawer from "@/ui/drawer";
-import MapNode from "@/service/MapObject/MapNode";
-import searchNearbyPlace from "../../service/search";
-import styled from "styled-components";
-import HeaderNav from "@/components/HeaderNav";
+import { useEffect, useState } from 'react';
+import Drawer from '@/ui/drawer';
+import MapNode from '@/service/MapObject/MapNode';
+import styled from 'styled-components';
+import HeaderNav from '@/components/HeaderNav';
+import searchNearbyPlace from '../../service/search';
 
 function Map() {
-  const [searchAddress, setSearchAddress] = useState("");
+  const [searchAddress, setSearchAddress] = useState('');
   const [searchMapNodes, setSearchMapNodes] = useState<MapNode[]>([]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,12 +21,11 @@ function Map() {
   };
 
   // 아마 차후에 추상팩토리같은 디자인 패턴을 적용해야 하지않을까 싶네요.
-  const addGoogleMap = (center: google.maps.LatLngLiteral): google.maps.Map =>
-    new google.maps.Map(document.getElementById("map") as HTMLElement, {
-      center,
-      zoom: 15,
-    });
-  const style = { width: "100vw", height: "100vh" };
+  const addGoogleMap = (center: google.maps.LatLngLiteral): google.maps.Map => new google.maps.Map(document.getElementById('map') as HTMLElement, {
+    center,
+    zoom: 15,
+  });
+  const style = { width: '100vw', height: '100vh' };
   useEffect(() => {
     const center: google.maps.LatLngLiteral = {
       lat: 37.3595316,

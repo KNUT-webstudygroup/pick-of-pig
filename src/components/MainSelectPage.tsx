@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import Category from "./Category";
-import Options from "./Options";
+import styled from 'styled-components';
+import Category from './Category';
+import Options from './Options';
 
 function MainSelectPage() {
   return (

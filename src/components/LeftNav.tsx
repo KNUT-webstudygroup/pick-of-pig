@@ -1,13 +1,13 @@
-import styled, { createGlobalStyle } from "styled-components";
-import MapNode from "@/service/MapObject/MapNode";
+import styled, { createGlobalStyle } from 'styled-components';
+import MapNode from '@/service/MapObject/MapNode';
 
-import { useRef, useState } from "react";
-import { useEffect } from "react";
-import MapNodeCard from "@/ui/MapNodeCard";
-import DeleteIcon from "@/ui/icon/delete-icon";
-import { useRecoilValue } from "recoil";
-import { categoryList, optionList } from "@/recoil/atoms";
-import ListModal from "./ListModal";
+import { useRef, useState, useEffect } from 'react';
+
+import MapNodeCard from '@/ui/MapNodeCard';
+import DeleteIcon from '@/ui/icon/delete-icon';
+import { useRecoilValue } from 'recoil';
+import { categoryList, optionList } from '@/recoil/atoms';
+import ListModal from './ListModal';
 // import { categoryLists } from "@/ui/CategoryBtn";
 
 // 2번쨰 버전
@@ -32,7 +32,7 @@ function LeftNav({
         <DrawerColumn>
           <RecommendText>category</RecommendText>
           <AddList onClick={openModal}> 더보기</AddList>
-          {isModalOpen ? <ListModal closeModal={closeModal}></ListModal> : null}
+          {isModalOpen ? <ListModal closeModal={closeModal} /> : null}
         </DrawerColumn>
 
         <SearchComponentContainer id="searchComponent">
@@ -77,7 +77,7 @@ const DrawerColumn = styled.div`
 const DrawerContainer = styled.div<{ isOpen: boolean }>`
   position: fixed;
   top: 120px;
-  left: ${({ isOpen }) => (isOpen ? "0px" : "-270px")}; /* 변경된 부분 */
+  left: ${({ isOpen }) => (isOpen ? '0px' : '-270px')}; /* 변경된 부분 */
 
   display: flex;
   flex-direction: column;

@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import styled, { css } from "styled-components";
-import { imageStyle } from "../Card";
+import styled, { css } from 'styled-components';
+import { imageStyle } from '../Card';
 
 function PigEars() {
   return (

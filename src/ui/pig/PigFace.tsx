@@ -1,7 +1,7 @@
-import PigNose from "@/ui/pig/PIgNose";
-import styled, { css } from "styled-components";
-import PigEars from "./PigEars";
-import PigEyes from "./PigEyes";
+import PigNose from '@/ui/pig/PIgNose';
+import styled, { css } from 'styled-components';
+import PigEars from './PigEars';
+import PigEyes from './PigEyes';
 
 function PigFace() {
   return (

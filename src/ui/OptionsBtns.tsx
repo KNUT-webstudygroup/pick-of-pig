@@ -1,42 +1,42 @@
-import { categoryList, optionList } from "@/recoil/atoms";
-import { FoodTypes } from "@/types/definitions";
-import { useEffect, useState } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import styled, { css } from "styled-components";
-import Card from "./Card";
+import { categoryList, optionList } from '@/recoil/atoms';
+import { FoodTypes } from '@/types/definitions';
+import { useEffect, useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import styled, { css } from 'styled-components';
+import Card from './Card';
 
 export const foods: FoodTypes[] = [
   {
-    img: "/options.png",
-    title: "개별 공간이 있는 점포",
+    img: '/options.png',
+    title: '개별 공간이 있는 점포',
   },
   {
-    img: "/options.png",
-    title: "좌식으로 편하게 쉴 수 있는 가게",
+    img: '/options.png',
+    title: '좌식으로 편하게 쉴 수 있는 가게',
   },
   {
-    img: "/options.png",
-    title: "완전 금연 레스토랑",
+    img: '/options.png',
+    title: '완전 금연 레스토랑',
   },
   {
-    img: "/options.png",
-    title: "라이브 공연이 있는 레스토랑",
+    img: '/options.png',
+    title: '라이브 공연이 있는 레스토랑',
   },
   {
-    img: "/options.png",
-    title: "범 10시 이후 입점 가능한 가게",
+    img: '/options.png',
+    title: '범 10시 이후 입점 가능한 가게',
   },
   {
-    img: "/options.png",
-    title: "아침까지 여유있게 즐길 수 있는 가게",
+    img: '/options.png',
+    title: '아침까지 여유있게 즐길 수 있는 가게',
   },
   {
-    img: "/options.png",
-    title: "바다가 보이는 레스토랑",
+    img: '/options.png',
+    title: '바다가 보이는 레스토랑',
   },
   {
-    img: "/options.png",
-    title: "노래방을 즐길 수 있는 가게",
+    img: '/options.png',
+    title: '노래방을 즐길 수 있는 가게',
   },
 ];
 
@@ -66,7 +66,7 @@ function OptionsBtns() {
           <img
             src={it.img}
             onClick={() => onclick(it.title)}
-            className={options.includes(it.title) ? "check" : ""}
+            className={options.includes(it.title) ? 'check' : ''}
           />
           <OptionTitle>{it.title}</OptionTitle>
         </Option>

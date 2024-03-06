@@ -1,15 +1,15 @@
-import CategoryBtn from "@/ui/CategoryBtn";
-import styled from "styled-components";
+import CategoryBtn from '@/ui/CategoryBtn';
+import styled from 'styled-components';
 
 function Category() {
   const imageStyle = {
-    width: "100%",
-    height: "100%",
+    width: '100%',
+    height: '100%',
   };
   return (
     <CategoryStyled>
       <CloudContainer>
-        <img src="/cloud.svg" style={imageStyle}></img>
+        <img src="/cloud.svg" style={imageStyle} />
       </CloudContainer>
       <Title>Category</Title>
 

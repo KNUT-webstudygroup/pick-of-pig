@@ -1,23 +1,23 @@
-"use client";
+'use client';
 
-import styled from "styled-components";
-import SearchBar from "@/ui/SearchBar";
-import DeleteIcon from "@/ui/icon/delete-icon";
-import PigFaceIcon from "@/ui/icon/pig-face-icon";
-import ListIcon from "@/ui/icon/list-icon";
-import { useRecoilValue } from "recoil";
-import { categoryList, optionList } from "@/recoil/atoms";
-import { useState } from "react";
-import MapNode from "@/service/MapObject/MapNode";
-import searchNearbyPlace from "@/service/search";
-import Drawer from "@/ui/drawer";
-import ListModal from "./ListModal";
-import RandomIcon from "@/ui/icon/random-icon";
-import RandomModal from "./RandomModal";
+import styled from 'styled-components';
+import SearchBar from '@/ui/SearchBar';
+import DeleteIcon from '@/ui/icon/delete-icon';
+import PigFaceIcon from '@/ui/icon/pig-face-icon';
+import ListIcon from '@/ui/icon/list-icon';
+import { useRecoilValue } from 'recoil';
+import { categoryList, optionList } from '@/recoil/atoms';
+import { useState } from 'react';
+import MapNode from '@/service/MapObject/MapNode';
+import searchNearbyPlace from '@/service/search';
+import Drawer from '@/ui/drawer';
+import RandomIcon from '@/ui/icon/random-icon';
+import ListModal from './ListModal';
+import RandomModal from './RandomModal';
 
 function HeaderNav() {
   const categoryLists = useRecoilValue(categoryList);
-  const [searchAddress, setSearchAddress] = useState("");
+  const [searchAddress, setSearchAddress] = useState('');
   // 전역변수로 만들고 싶네
   const [searchMapNodes, setSearchMapNodes] = useState<MapNode[]>([]);
   const optionLists = useRecoilValue(optionList);
@@ -28,12 +28,12 @@ function HeaderNav() {
 
   const openModal = (name: string) => {
     {
-      name === "LeftNav" ? setIsModalOpen(true) : setIsRandomModal(true);
+      name === 'LeftNav' ? setIsModalOpen(true) : setIsRandomModal(true);
     }
   };
   const closeModal = (name: string) => {
     {
-      name == "LeftNav" ? setIsModalOpen(false) : setIsRandomModal(false);
+      name == 'LeftNav' ? setIsModalOpen(false) : setIsRandomModal(false);
     }
   };
 
@@ -59,7 +59,7 @@ function HeaderNav() {
     <MapNavBar>
       <NavIconContainer>
         <ListIcon openLeftNav={openLeftNav} />
-        <RandomIcon openRandom={openRandom}></RandomIcon>
+        <RandomIcon openRandom={openRandom} />
       </NavIconContainer>
 
       <MainIconContainer>
@@ -80,7 +80,7 @@ function HeaderNav() {
               <DeleteIcon />
             </SearchComponentStyled>
           ))}
-          <MoreCategory onClick={() => openModal("LeftNav")}>
+          <MoreCategory onClick={() => openModal('LeftNav')}>
             더보기
           </MoreCategory>
         </SearchComponentContainer>
@@ -88,10 +88,10 @@ function HeaderNav() {
 
       <Drawer mapNodes={searchMapNodes} isLeftNavOpen={isLeftNavOpen} />
       {isModalOpen ? (
-        <ListModal closeModal={() => closeModal("LeftNav")}></ListModal>
+        <ListModal closeModal={() => closeModal('LeftNav')} />
       ) : null}
       {isRandomModal ? (
-        <RandomModal closeModal={() => closeModal("Random")}></RandomModal>
+        <RandomModal closeModal={() => closeModal('Random')} />
       ) : null}
     </MapNavBar>
   );

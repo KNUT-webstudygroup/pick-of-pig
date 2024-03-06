@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import styled from "styled-components";
-import PigFace from "@/ui/pig/PigFace";
+import styled from 'styled-components';
+import PigFace from '@/ui/pig/PigFace';
 
 function MainPage() {
   return (
     <>
       <MainPageStyled>
         <MainTitleStyled>Pick Of Pigs</MainTitleStyled>
-        <PigFace></PigFace>
+        <PigFace />
       </MainPageStyled>
     </>
   );

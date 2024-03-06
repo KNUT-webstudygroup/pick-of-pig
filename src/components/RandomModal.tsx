@@ -1,15 +1,15 @@
-import { categoryLists } from "@/ui/CategoryBtn";
-import { foods } from "@/ui/OptionsBtns";
-import PigNose from "@/ui/pig/PIgNose";
-import SearchBar from "@/ui/SearchBar";
-import { useEffect, useRef, useState } from "react";
-import styled, { createGlobalStyle } from "styled-components";
+import { categoryLists } from '@/ui/CategoryBtn';
+import { foods } from '@/ui/OptionsBtns';
+import PigNose from '@/ui/pig/PIgNose';
+import SearchBar from '@/ui/SearchBar';
+import { useEffect, useRef, useState } from 'react';
+import styled, { createGlobalStyle } from 'styled-components';
 
-const RandomModal = ({
+function RandomModal({
   closeModal,
 }: {
   closeModal: (name: string) => void;
-}) => {
+}) {
   const modalRef = useRef<HTMLDivElement>(null);
   // const categoryLists = useRecoilValue(categoryList);
   // const optionLists = useRecoilValue(optionList);
@@ -17,17 +17,17 @@ const RandomModal = ({
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node)
+        modalRef.current
+        && !modalRef.current.contains(event.target as Node)
       ) {
-        closeModal("Random");
+        closeModal('Random');
       }
     };
     // 이벤트 핸들러 등록
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     // 클린업 함수 ,,? 모르겠음
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [closeModal]);
 
@@ -36,12 +36,12 @@ const RandomModal = ({
       <ModalContentStyled ref={modalRef}>
         <Title>오늘의 돼지의 랜덤 선택</Title>
         <SubTitle>아래 돼지가 오늘의 pick을 선택합니다.</SubTitle>
-        <RandomPickContainer></RandomPickContainer>
+        <RandomPickContainer />
         <PigNose />
       </ModalContentStyled>
     </RandomModalStyled>
   );
-};
+}
 
 export default RandomModal;
 

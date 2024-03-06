@@ -1,13 +1,13 @@
-import { categoryList, optionList } from "@/recoil/atoms";
-import { categoryLists } from "@/ui/CategoryBtn";
-import DeleteIcon from "@/ui/icon/delete-icon";
-import { foods } from "@/ui/OptionsBtns";
-import SearchBar from "@/ui/SearchBar";
-import { useEffect, useRef, useState } from "react";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import styled from "styled-components";
+import { categoryList, optionList } from '@/recoil/atoms';
+import { categoryLists } from '@/ui/CategoryBtn';
+import DeleteIcon from '@/ui/icon/delete-icon';
+import { foods } from '@/ui/OptionsBtns';
+import SearchBar from '@/ui/SearchBar';
+import { useEffect, useRef, useState } from 'react';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import styled from 'styled-components';
 
-const ListModal = ({ closeModal }: { closeModal: (name: string) => void }) => {
+function ListModal({ closeModal }: { closeModal: (name: string) => void }) {
   const modalRef = useRef<HTMLDivElement>(null);
   // const selectCategoryList = useRecoilValue(categoryList);
   const [selectCategory, setSelectCategoryList] = useRecoilState(categoryList);
@@ -19,17 +19,17 @@ const ListModal = ({ closeModal }: { closeModal: (name: string) => void }) => {
     const handleClickOutside = (event: MouseEvent) => {
       // 모달이 열려있고, 모달 바깥을 클릭했을 때 모달이 닫히도록 처리
       if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node)
+        modalRef.current
+        && !modalRef.current.contains(event.target as Node)
       ) {
-        closeModal("LeftNav");
+        closeModal('LeftNav');
       }
     };
     // 이벤트 핸들러 등록
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     // 클린업 함수 ,,? 모르겠음
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [closeModal]);
 
@@ -60,7 +60,7 @@ const ListModal = ({ closeModal }: { closeModal: (name: string) => void }) => {
           {categoryLists.map((it, index) => (
             <ComponentStyled
               key={index}
-              className={selectCategory.includes(it.title) ? "check" : ""}
+              className={selectCategory.includes(it.title) ? 'check' : ''}
               onClick={() => onCategoryClick(it.title)}
             >
               <div>{it.title}</div>
@@ -70,7 +70,7 @@ const ListModal = ({ closeModal }: { closeModal: (name: string) => void }) => {
           {foods.map((it, index) => (
             <ComponentStyled
               key={index}
-              className={selectOptionList.includes(it.title) ? "check" : ""}
+              className={selectOptionList.includes(it.title) ? 'check' : ''}
               onClick={() => onOptionClick(it.title)}
             >
               <div>{it.title}</div>
@@ -80,7 +80,7 @@ const ListModal = ({ closeModal }: { closeModal: (name: string) => void }) => {
       </ModalContentStyled>
     </ListModalStyled>
   );
-};
+}
 
 export default ListModal;
 

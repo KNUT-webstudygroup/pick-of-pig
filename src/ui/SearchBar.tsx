@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import MapNode from "@/service/MapObject/MapNode";
-import styled from "styled-components";
-import SearchBarIcon from "./icon/search-bar-icon";
+import MapNode from '@/service/MapObject/MapNode';
+import styled from 'styled-components';
+import SearchBarIcon from './icon/search-bar-icon';
 
-const SearchBar = ({
+function SearchBar({
   handleInputChange,
   handleSearchClick,
   searchAddress,
@@ -12,17 +12,17 @@ const SearchBar = ({
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSearchClick: () => void;
   searchAddress: string;
-}) => {
+}) {
   return (
     <SearchBarStyled>
       <input
         type="text"
         id="address"
         value={searchAddress}
-        style={{ color: "black" }}
+        style={{ color: 'black' }}
         onChange={handleInputChange}
         onKeyDown={(event) => {
-          if (event.key === "Enter") {
+          if (event.key === 'Enter') {
             handleSearchClick();
           }
         }}
@@ -30,7 +30,7 @@ const SearchBar = ({
       <SearchBarIcon handleSearchClick={handleSearchClick} />
     </SearchBarStyled>
   );
-};
+}
 
 export default SearchBar;
 

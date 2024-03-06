@@ -1,5 +1,5 @@
-import { useState } from "react";
-import styled from "styled-components";
+import { useState } from 'react';
+import styled from 'styled-components';
 
 interface CardProps {
   title?: string;
@@ -10,14 +10,14 @@ interface CardProps {
 }
 
 export const imageStyle = {
-  width: "100%",
-  height: "100%",
+  width: '100%',
+  height: '100%',
 };
 
 export default function Card({
   title,
-  width = "250px",
-  height = "350px",
+  width = '250px',
+  height = '350px',
   img,
   onClick,
 }: CardProps) {
@@ -26,9 +26,9 @@ export default function Card({
   return (
     <CardStyled>
       <ImgStyled
-        style={{ width: width, height: height }}
+        style={{ width, height }}
         onClick={onClick}
-        className={state ? "click" : ""}
+        className={state ? 'click' : ''}
       >
         <img src={img} style={imageStyle} />
       </ImgStyled>

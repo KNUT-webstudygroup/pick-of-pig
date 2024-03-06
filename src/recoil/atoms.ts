@@ -1,16 +1,16 @@
-import { atom } from "recoil";
+import { atom } from 'recoil';
 
 // export interface IContentTypes {
 //   id: number;
 // }
 
-//recoil state 생성
+// recoil state 생성
 export const categoryList = atom<string[]>({
-  key: "category",
+  key: 'category',
   default: [],
 });
 
 export const optionList = atom<string[]>({
-  key: "options",
+  key: 'options',
   default: [],
 });

@@ -1,12 +1,12 @@
-import IconContainer from "@/ui/icon/icon.container";
+import IconContainer from '@/ui/icon/icon.container';
 
 interface ListIconProps {
   openLeftNav: () => void;
 }
 
-const ListIcon: React.FC<ListIconProps> = ({ openLeftNav }) => {
+const ListIcon: React.FC<ListIconProps> = ({ openLeftNav }) =>
   // TODO: show info modal
-  return (
+  (
     <IconContainer
       width={60}
       height={60}
@@ -16,6 +16,4 @@ const ListIcon: React.FC<ListIconProps> = ({ openLeftNav }) => {
       onClick={openLeftNav}
     />
   );
-};
-
 export default ListIcon;

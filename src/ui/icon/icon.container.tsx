@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import Image from "next/image";
-import { IconContainerProps } from "@/types/icon.interface";
+import styled from 'styled-components';
+import Image from 'next/image';
+import { IconContainerProps } from '@/types/icon.interface';
 
 function IconContainer({
   width,
@@ -13,12 +13,12 @@ function IconContainer({
   return (
     <IconContainerStyled
       onClick={onClick}
-      style={{ width: width, height: height }}
+      style={{ width, height }}
     >
       <img
         src={iconPath}
         alt={`${text} icon`}
-        style={{ fill: iconColor, width: "100%", height: "100%" }}
+        style={{ fill: iconColor, width: '100%', height: '100%' }}
       />
     </IconContainerStyled>
   );

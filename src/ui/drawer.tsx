@@ -1,8 +1,8 @@
-import styled, { createGlobalStyle } from "styled-components";
-import MapNode from "@/service/MapObject/MapNode";
-import MapNodeCard from "./MapNodeCard";
-import { useRef, useState } from "react";
-import { useEffect } from "react";
+import styled, { createGlobalStyle } from 'styled-components';
+import MapNode from '@/service/MapObject/MapNode';
+import { useRef, useState, useEffect } from 'react';
+
+import MapNodeCard from './MapNodeCard';
 
 function Drawer({
   mapNodes,
@@ -35,8 +35,7 @@ const GlobalStyle = createGlobalStyle`
 const DrawerContainer = styled.div<{ isLeftNavOpen: boolean }>`
   position: fixed;
   top: 120px;
-  left: ${({ isLeftNavOpen }) =>
-    isLeftNavOpen ? "0px" : "-270px"}; /* 변경된 부분 */
+  left: ${({ isLeftNavOpen }) => (isLeftNavOpen ? '0px' : '-270px')}; /* 변경된 부분 */
   // left: 0px;
   display: flex;
   flex-direction: column;
