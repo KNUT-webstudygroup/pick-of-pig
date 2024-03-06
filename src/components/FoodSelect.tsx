@@ -2,7 +2,7 @@
 
 import { FoodTypes } from '@/types/definitions';
 import { useEffect, useReducer } from 'react';
-
+import Card from '@/ui/Card';
 // nextjs 13 이상부터는 next/router이 아닌 next/navigation이다 !!
 import { useRouter } from 'next/navigation';
 import styled, { css } from 'styled-components';

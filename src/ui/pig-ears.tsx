@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import styled, { css } from 'styled-components';
-import PigNose from '@/ui/pig-nose';
 
 function PigEars() {
   const styles = { width: '100px' };

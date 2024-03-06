@@ -74,8 +74,8 @@ function HeaderNav() {
         />
 
         <SearchComponentContainer id="searchComponent">
-          {categoryLists.slice(0, 3).map((it, index) => (
-            <SearchComponentStyled key={index}>
+          {categoryLists.slice(0, 3).map((it) => (
+            <SearchComponentStyled key={it}>
               <div>{it}</div>
               <DeleteIcon />
             </SearchComponentStyled>

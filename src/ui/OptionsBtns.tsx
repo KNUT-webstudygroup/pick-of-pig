@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { categoryList, optionList } from '@/recoil/atoms';
 import { FoodTypes } from '@/types/definitions';
 import { useEffect, useState } from 'react';
@@ -62,10 +63,14 @@ function OptionsBtns() {
   return (
     <OptionsBtnStyled>
       {foods.map((it) => (
-        <Option>
+        <Option
+          key={it.title}
+          onClick={() => onclick(it.title)}
+          onKeyDown={() => onclick(it.title)}
+        >
           <img
             src={it.img}
-            onClick={() => onclick(it.title)}
+            alt={it.title}
             className={options.includes(it.title) ? 'check' : ''}
           />
           <OptionTitle>{it.title}</OptionTitle>

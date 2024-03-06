@@ -33,8 +33,7 @@ module.exports = {
     "consistent-return" : "off", 
     "react/no-unescaped-entities": "off", 
     "@next/next/no-page-custom-font": "off", //  빌드상 문제.
-    "@typescript-eslint/no-use-before-define" : "off" // 컴포넌트를 먼저 보는게 더 가독성이 좋다는 의견이 있어서 생략.
-    
+    "@typescript-eslint/no-use-before-define" : "off", // 컴포넌트를 먼저 보는게 더 가독성이 좋다는 의견이 있어서 생략.
   },
   parserOptions: {
     project: "./tsconfig.json",

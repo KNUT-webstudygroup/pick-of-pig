@@ -36,8 +36,8 @@ function LeftNav({
         </DrawerColumn>
 
         <SearchComponentContainer id="searchComponent">
-          {categoryLists.map((it, index) => (
-            <SearchComponentStyled key={index}>
+          {categoryLists.map((it) => (
+            <SearchComponentStyled key={it}>
               <div>{it}</div>
               <DeleteIcon />
             </SearchComponentStyled>
@@ -49,8 +49,8 @@ function LeftNav({
           <AddList onClick={openModal}> 더보기</AddList>
         </DrawerColumn>
         <SearchComponentContainer id="searchComponent">
-          {optionLists.map((it, index) => (
-            <SearchComponentStyled key={index}>
+          {optionLists.map((it) => (
+            <SearchComponentStyled key={it}>
               <div>{it}</div>
               <DeleteIcon />
             </SearchComponentStyled>
