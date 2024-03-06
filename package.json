@@ -19,12 +19,14 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.1",
+    "recoil": "^0.7.7",
     "style-components": "^0.1.0",
     "styled-components": "^6.1.8"
   },
   "devDependencies": {
     "@stylistic/eslint-plugin": "^1.5.3",
     "@stylistic/eslint-plugin-js": "^1.5.3",
+    "@svgr/webpack": "^8.1.0",
     "@types/graceful-fs": "^4.1.9",
     "@types/jest": "^29.5.11",
     "@types/navermaps": "^3.7.4",

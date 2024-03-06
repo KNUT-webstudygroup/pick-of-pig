@@ -3,3 +3,8 @@ export type FoodTypes = {
   title: string;
   description?: string;
 };
+
+export type categoryTypes = {
+  id: number;
+  title: string;
+};
