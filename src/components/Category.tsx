@@ -29,6 +29,7 @@ const CategoryBtnContainer = styled.div`
   justify-content: center;
   margin-bottom: 40px;
   flex-wrap: wrap;
+  max-width: 1600px;
   width: 70%;
 `;
 

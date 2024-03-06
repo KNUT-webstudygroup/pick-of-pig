@@ -1,11 +1,11 @@
-import { categoryList, contentState, optionList } from "@/recoil/atoms";
+import { categoryList, optionList } from "@/recoil/atoms";
 import { FoodTypes } from "@/types/definitions";
 import { useEffect, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled, { css } from "styled-components";
 import Card from "./Card";
 
-const foods: FoodTypes[] = [
+export const foods: FoodTypes[] = [
   {
     img: "/options.png",
     title: "개별 공간이 있는 점포",
@@ -41,7 +41,7 @@ const foods: FoodTypes[] = [
 ];
 
 function OptionsBtns() {
-  const test = useRecoilValue(categoryList);
+  // const test = useRecoilValue(categoryList);
   const [options, setOptions] = useState<string[]>([]);
   const setOptionList = useSetRecoilState(optionList);
 
@@ -51,12 +51,12 @@ function OptionsBtns() {
     } else {
       setOptions(options.filter((item) => item !== it));
     }
-    console.log(test);
+    // console.log(test);
   };
 
   useEffect(() => {
     setOptionList([...options]);
-    console.log(options);
+    // console.log(options);
   }, [options]);
 
   return (
@@ -66,7 +66,7 @@ function OptionsBtns() {
           <img
             src={it.img}
             onClick={() => onclick(it.title)}
-            className={options.includes(it.title) ? "click" : ""}
+            className={options.includes(it.title) ? "check" : ""}
           />
           <OptionTitle>{it.title}</OptionTitle>
         </Option>
@@ -96,7 +96,7 @@ const Option = styled.div`
     height: 350px;
   }
 
-  & > img.click {
+  & > img.check {
     filter: contrast(50%);
   }
 `;

@@ -11,43 +11,55 @@ import { useState } from "react";
 import MapNode from "@/service/MapObject/MapNode";
 import searchNearbyPlace from "@/service/search";
 import Drawer from "@/ui/drawer";
+import ListModal from "./ListModal";
+import RandomIcon from "@/ui/icon/random-icon";
+import RandomModal from "./RandomModal";
 
 function HeaderNav() {
   const categoryLists = useRecoilValue(categoryList);
   const [searchAddress, setSearchAddress] = useState("");
+  // 전역변수로 만들고 싶네
   const [searchMapNodes, setSearchMapNodes] = useState<MapNode[]>([]);
   const optionLists = useRecoilValue(optionList);
-  const [isOpen, setIsOpen] = useState(true);
+  const [isLeftNavOpen, setIsLeftNavOpen] = useState(true);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRandomModal, setIsRandomModal] = useState(false);
+
+  const openModal = (name: string) => {
+    {
+      name === "LeftNav" ? setIsModalOpen(true) : setIsRandomModal(true);
+    }
+  };
+  const closeModal = (name: string) => {
+    {
+      name == "LeftNav" ? setIsModalOpen(false) : setIsRandomModal(false);
+    }
+  };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchAddress(event.target.value);
   };
 
+  // export 하고
   const handleSearchClick = async () => {
     const sortedMapNodes: MapNode[] = await searchNearbyPlace(searchAddress);
     setSearchMapNodes(sortedMapNodes);
   };
 
   const openLeftNav = () => {
-    setIsOpen(!isOpen);
+    setIsLeftNavOpen(!isLeftNavOpen);
   };
 
-  // const container = document.getElementById("searchComponent");
-
-  // // 요소의 가로 스크롤이 가능한지 여부를 확인합니다.
-  // const isOverflowXHidden = container.scrollWidth > container.clientWidth;
-
-  // // 가로 스크롤이 가능한지 여부를 확인합니다.
-  // if (isOverflowXHidden) {
-  //   console.log("가로 스크롤이 가능합니다.");
-  // } else {
-  //   console.log("가로 스크롤이 숨겨져 있습니다.");
-  // }
+  const openRandom = () => {
+    setIsRandomModal(!isRandomModal);
+  };
 
   return (
     <MapNavBar>
       <NavIconContainer>
         <ListIcon openLeftNav={openLeftNav} />
+        <RandomIcon openRandom={openRandom}></RandomIcon>
       </NavIconContainer>
 
       <MainIconContainer>
@@ -62,21 +74,32 @@ function HeaderNav() {
         />
 
         <SearchComponentContainer id="searchComponent">
-          {categoryLists.map((it, index) => (
+          {categoryLists.slice(0, 3).map((it, index) => (
             <SearchComponentStyled key={index}>
               <div>{it}</div>
               <DeleteIcon />
             </SearchComponentStyled>
           ))}
+          <MoreCategory onClick={() => openModal("LeftNav")}>
+            더보기
+          </MoreCategory>
         </SearchComponentContainer>
       </SearchContainer>
 
-      <Drawer mapNodes={searchMapNodes} isOpen={isOpen} />
+      <Drawer mapNodes={searchMapNodes} isLeftNavOpen={isLeftNavOpen} />
+      {isModalOpen ? (
+        <ListModal closeModal={() => closeModal("LeftNav")}></ListModal>
+      ) : null}
+      {isRandomModal ? (
+        <RandomModal closeModal={() => closeModal("Random")}></RandomModal>
+      ) : null}
     </MapNavBar>
   );
 }
 
 export default HeaderNav;
+
+const MoreCategory = styled.div``;
 
 const MapNavBar = styled.div`
   display: flex;
@@ -94,7 +117,12 @@ const MapNavBar = styled.div`
 `;
 
 const NavIconContainer = styled.div`
+  display: flex;
   flex: 1;
+
+  & > div {
+    margin-right: 13px;
+  }
 `;
 const MainIconContainer = styled.div`
   flex: 1;

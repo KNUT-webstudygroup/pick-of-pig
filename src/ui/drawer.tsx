@@ -6,15 +6,15 @@ import { useEffect } from "react";
 
 function Drawer({
   mapNodes,
-  isOpen,
+  isLeftNavOpen,
 }: {
   mapNodes: Array<MapNode>;
-  isOpen: boolean;
+  isLeftNavOpen: boolean;
 }) {
   return (
     <>
       {/* <GlobalStyle /> */}
-      <DrawerContainer isOpen={isOpen}>
+      <DrawerContainer isLeftNavOpen={isLeftNavOpen}>
         <RecommendText>추천 순위</RecommendText>
         {mapNodes.map((node, i) => (
           // score는 추후 수정 예정
@@ -32,10 +32,11 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const DrawerContainer = styled.div<{ isOpen: boolean }>`
+const DrawerContainer = styled.div<{ isLeftNavOpen: boolean }>`
   position: fixed;
   top: 120px;
-  left: ${({ isOpen }) => (isOpen ? "0px" : "-270px")}; /* 변경된 부분 */
+  left: ${({ isLeftNavOpen }) =>
+    isLeftNavOpen ? "0px" : "-270px"}; /* 변경된 부분 */
   // left: 0px;
   display: flex;
   flex-direction: column;

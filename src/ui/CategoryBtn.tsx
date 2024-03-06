@@ -63,7 +63,7 @@ function CategoryBtn() {
         <CategoryBtnStyled
           key={it.id}
           onClick={() => onclick(it.title)}
-          className={selectList.includes(it.title) ? "active" : ""}
+          className={selectList.includes(it.title) ? "check" : ""}
         >
           {it.title}
         </CategoryBtnStyled>
@@ -106,7 +106,7 @@ const CategoryBtnStyled = styled.div`
     background-color: #f17c82;
   }
 
-  &.active {
+  &.check {
     color: #fff;
     background-color: #f17c82;
   }
