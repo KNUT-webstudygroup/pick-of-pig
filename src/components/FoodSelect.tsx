@@ -1,11 +1,7 @@
 'use client';
 
 import { FoodTypes } from '@/types/definitions';
-import Card from '@/ui/FoodCard';
-import PigFace from '@/ui/pig-face';
-import PigNose from '@/ui/pig-nose';
-import { useEffect, useReducer } from 'react';
-
+import Card from '@/ui/Card';
 // nextjs 13 이상부터는 next/router이 아닌 next/navigation이다 !!
 import { useRouter } from 'next/navigation';
 import styled, { css } from 'styled-components';
@@ -43,14 +39,12 @@ function FoodSelect() {
   return (
     <FoodSelectStyled>
       {foods.map((it) => (
-        // <CardContainer key={it.title}>
         <Card
           key={it.title}
           img={it.img}
           title={it.title}
           onClick={handleClick}
         />
-        // </CardContainer>
       ))}
       {/* <Card></Card> */}
     </FoodSelectStyled>
@@ -60,11 +54,14 @@ function FoodSelect() {
 export default FoodSelect;
 
 const FoodSelectStyled = styled.div`
-  margin: 10px 10px; 
+  margin: 10px 10px;
   height: 400px;
   display: flex;
   justify-content: center;
-  background-color: pink;
+  // background-color: pink;
+  border-radius: 15px;
+
+  width: 80%;
 
   & > div {
     &:hover {

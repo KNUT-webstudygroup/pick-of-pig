@@ -33,8 +33,9 @@ module.exports = {
     "consistent-return" : "off", 
     "react/no-unescaped-entities": "off", 
     "@next/next/no-page-custom-font": "off", //  빌드상 문제.
-    "@typescript-eslint/no-use-before-define" : "off" // 컴포넌트를 먼저 보는게 더 가독성이 좋다는 의견이 있어서 생략.
-    
+    "@typescript-eslint/no-use-before-define" : "off", // 컴포넌트를 먼저 보는게 더 가독성이 좋다는 의견이 있어서 생략.
+    'react/function-component-definition':[2, {namedcomponents:'arrow-function'}], // 이미 너무 많은 침범이 일어남.
+    'react/require-default-props' : "off", // 함수형 정의에서 디폴트값을 가지게 하여도 괜찮음.
   },
   parserOptions: {
     project: "./tsconfig.json",

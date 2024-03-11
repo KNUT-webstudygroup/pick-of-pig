@@ -3,21 +3,22 @@ import Image from 'next/image';
 import { IconContainerProps } from '@/types/icon.interface';
 
 function IconContainer({
-  width = 40,
-  height = 40,
+  width,
+  height,
   text,
   iconPath,
   iconColor,
-  onClick = 'NULL',
+  onClick,
 }: IconContainerProps) {
   return (
-    <IconContainerStyled onClick={onClick}>
-      <Image
+    <IconContainerStyled
+      onClick={onClick}
+      style={{ width, height }}
+    >
+      <img
         src={iconPath}
         alt={`${text} icon`}
-        width={width}
-        height={height}
-        style={{ fill: iconColor }}
+        style={{ fill: iconColor, width: '100%', height: '100%' }}
       />
     </IconContainerStyled>
   );
@@ -29,7 +30,6 @@ const IconContainerStyled = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
-  // cursor: pointer;
 `;
 
 export default IconContainer;

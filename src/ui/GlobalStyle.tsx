@@ -2,16 +2,22 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   :root {
-    --main-bg-color : #cf4c23;
-    --pig-color : #FFA4A4;
+    --main-bg-color : #FFB9B4;
+    --pig-color : #FF9A9F;
+    --pig-shadow-color : #E37D82
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
   }
 
   *{
     padding : 0px;
     margin : 0px;
-    // font-size : 1rem;
-    color: #fff;
+    color: #000;
     font-family: Inter;
+    box-sizing: border-box;
   }
 
   li {
