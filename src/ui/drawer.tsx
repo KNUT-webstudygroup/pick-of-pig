@@ -1,15 +1,20 @@
 import styled, { createGlobalStyle } from 'styled-components';
 import MapNode from '@/service/MapObject/MapNode';
 import MapNodeCard from './MapNodeCard';
+import DraggablePieChart from './DraggablePieChart';
 
 function Drawer({ mapNodes }: { mapNodes: Array<MapNode> }) {
   return (
     <>
       <GlobalStyle />
       <DrawerContainer>
-        <RecommendText>
+        <DrawerText>
+          선호도
+        </DrawerText>
+        <DraggablePieChart />
+        <DrawerText>
           추천 순위
-        </RecommendText>
+        </DrawerText>
         {mapNodes.map((node, i) => (
           // score는 추후 수정 예정
           <MapNodeCard key={i} index={i + 1} node={node} />
@@ -39,7 +44,7 @@ const DrawerContainer = styled.div`
     overflow-y: auto;
 `;
 
-const RecommendText = styled.div`
+const DrawerText = styled.div`
     align-self: start;
     color: #4B3F4E;
     font-size: 20px;
