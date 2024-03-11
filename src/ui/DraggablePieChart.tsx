@@ -40,7 +40,7 @@ function DraggablePieChart() {
       const deltaX = offsetX;
       const deltaY = offsetY;
 
-      const angle = Math.atan2(deltaY , deltaX);
+      const angle = Math.atan2(deltaY, deltaX);
       const newCircleX = centerX + radius * Math.cos(angle);
       const newCircleY = centerY + radius * Math.sin(angle);
 
@@ -62,7 +62,7 @@ function DraggablePieChart() {
       <GlobalStyle />
       <svg width="200" height="200" viewBox="0 0 100 100" ref={middleCircleRef}>
         {/* 거리-가격-평점에 대한 3개의 부채꼴 */}
-        <circle cx={centerX} cy={centerY} r={radius / 2} fill="transparent" stroke="#FF4B4B" strokeWidth={radius} strokeDasharray={dashArray} transform="rotate(0 50 50)"  />
+        <circle cx={centerX} cy={centerY} r={radius / 2} fill="transparent" stroke="#FF4B4B" strokeWidth={radius} strokeDasharray={dashArray} transform="rotate(0 50 50)" />
         <circle cx={centerX} cy={centerY} r={radius / 2} fill="transparent" stroke="#45A15E" strokeWidth={radius} strokeDasharray={dashArray} transform="rotate(120 50 50)" />
         <circle cx={centerX} cy={centerY} r={radius / 2} fill="transparent" stroke="#4C5EFF" strokeWidth={radius} strokeDasharray={dashArray} transform="rotate(240 50 50)" />
         {/* 아래의 원을 드래그하여 부채꼴 너비 조절 */}
