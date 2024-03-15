@@ -1,5 +1,6 @@
 import { LocationType } from '../types/location';
 import MapNode from './MapObject/MapNode';
+import placeIdToPhotos from './searchPhoto';
 
 function addMarker(coord: google.maps.LatLng, map: google.maps.Map) {
   const marker = new google.maps.Marker({
@@ -289,6 +290,7 @@ export default async function searchNearbyPlace(address: string) : Promise<Array
     latLngs.push(latLng);
   });
   addMarkers(latLngs, map);
+  console.log(await placeIdToPhotos(placeIds[0], map)); // 잘 되나 임시 삽입
 
   return sortedMapNodes;
 }
