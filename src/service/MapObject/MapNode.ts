@@ -20,11 +20,14 @@ export default class MapNode {
 
   costScore?:Array<number>; // 가게 자체의 가격 수준.(0~10)
 
+  photo?:string; // 가게 사진
+
   /**
    * @param id
    * @param name
    * @param location
    * @param score
+   * @param photo
    */
   constructor(
     id: string,
@@ -34,6 +37,7 @@ export default class MapNode {
       comment?: Array<string>;
       scores?: Array<number>;
     },
+    photo? :string,
     setting: {
       max_score: number;
     } = {
@@ -43,6 +47,7 @@ export default class MapNode {
     this.id = id;
     this.name = name;
     this.location = location;
+    this.photo = photo;
     this.scoreInfo = score;
     const scoreLength = score?.scores?.length;
     if (scoreLength) {
