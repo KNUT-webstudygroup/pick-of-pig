@@ -217,6 +217,7 @@ async function getMapNode(placeId: string, map: google.maps.Map) : Promise<MapNo
   const name = await placeIdToName(placeId, map);
   const coord = await placeIdToCoord(placeId);
   const reviews = await placeIdToReviews(placeId, map);
+  const photo = await placeIdToPhotos(placeId, map); // 사진이 없을 때도 고려해야 함
 
   const location : LocationType = {
     latitude: coord.lat(),
@@ -233,7 +234,7 @@ async function getMapNode(placeId: string, map: google.maps.Map) : Promise<MapNo
     scores,
   };
 
-  return new MapNode(placeId, name, location, score);
+  return new MapNode(placeId, name, location, score, photo);
 }
 
 /**
@@ -290,7 +291,6 @@ export default async function searchNearbyPlace(address: string) : Promise<Array
     latLngs.push(latLng);
   });
   addMarkers(latLngs, map);
-  console.log(await placeIdToPhotos(placeIds[0], map)); // 잘 되나 임시 삽입
 
   return sortedMapNodes;
 }
