@@ -3,6 +3,7 @@ import MapNode from '@/service/MapObject/MapNode';
 import { useRef, useState, useEffect } from 'react';
 
 import MapNodeCard from './MapNodeCard';
+import DraggablePieChart from './DraggablePieChart';
 
 function Drawer({
   mapNodes,
@@ -13,9 +14,16 @@ function Drawer({
 }) {
   return (
     <>
+      <GlobalStyle />
       {/* <GlobalStyle /> */}
       <DrawerContainer isLeftNavOpen={isLeftNavOpen}>
-        <RecommendText>추천 순위</RecommendText>
+        <DrawerText>
+          선호도
+        </DrawerText>
+        <DraggablePieChart />
+        <DrawerText>
+          추천 순위
+        </DrawerText>
         {mapNodes.map((node, i) => (
           // score는 추후 수정 예정
           <MapNodeCard key={node.id} index={i + 1} node={node} />
@@ -51,12 +59,12 @@ const DrawerContainer = styled.div<{ isLeftNavOpen: boolean }>`
   // box-shadow: 0 0 40px 0 var(--bg-shadow);
 `;
 
-const RecommendText = styled.div`
-  align-self: start;
-  color: #4b3f4e;
-  font-size: 20px;
-  font-weight: 600;
-  padding: 12px 0px 12px 16px;
+const DrawerText = styled.div`
+    align-self: start;
+    color: #4B3F4E;
+    font-size: 20px;
+    font-weight: 600;
+    padding: 12px 0px 12px 16px;
 `;
 
 export default Drawer;
