@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import styled from "styled-components";
-import HeaderNav from "@/components/Header";
-import { useState } from "react";
-import LeftNavContainer from "@/components/LeftNav";
-import RandomModal from "@/components/modal/RandomModal";
+import styled from 'styled-components';
+import HeaderNav from '@/components/Header';
+import { useState } from 'react';
+import LeftNavContainer from '@/components/LeftNav';
+import RandomModal from '@/components/modal/RandomModal';
 
 function MainLayout({ children }: { children: React.ReactNode }) {
   const [isLeftNavOpen, setIsLeftNavOpen] = useState(true);
@@ -35,7 +35,7 @@ function MainLayout({ children }: { children: React.ReactNode }) {
       />
       <LeftNavContainer isLeftNavOpen={isLeftNavOpen} />
       {isRandomModal ? (
-        <RandomModal closeModal={() => closeModal("Random")} />
+        <RandomModal closeModal={() => closeModal('Random')} />
       ) : null}
       <MainContentStyled>{children}</MainContentStyled>
     </>

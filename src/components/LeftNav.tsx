@@ -1,12 +1,12 @@
-import styled, { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from 'styled-components';
 // import MapNode from "@/service/MapObject/MapNode";
-import MapNode from "@/service/MapObject/MapNode";
-import { useRef, useState, useEffect } from "react";
-import DraggablePieChart from "@/ui/DraggablePieChart";
-import MapNodeCard from "@/ui/MapNodeCard";
-import searchNearbyPlace from "@/service/search";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { searchAddressState, searchClickState } from "@/recoil/atoms";
+import MapNode from '@/service/MapObject/MapNode';
+import { useRef, useState, useEffect } from 'react';
+import DraggablePieChart from '@/ui/DraggablePieChart';
+import MapNodeCard from '@/ui/MapNodeCard';
+import searchNearbyPlace from '@/service/search';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { searchAddressState, searchClickState } from '@/recoil/atoms';
 
 function LeftNavContainer({ isLeftNavOpen }: { isLeftNavOpen: boolean }) {
   const [searchMapNodes, setSearchMapNodes] = useState<MapNode[]>([]);
@@ -49,8 +49,7 @@ const TitleStyled = styled.div`
 const LeftNavStyled = styled.div<{ isLeftNavOpen: boolean }>`
   position: fixed;
   top: 100px;
-  left: ${(props) =>
-    props.isLeftNavOpen ? "0px" : "-300px"}; /* 변경된 부분 */
+  left: ${(props) => (props.isLeftNavOpen ? '0px' : '-300px')}; /* 변경된 부분 */
   display: flex;
   flex-direction: column;
   align-items: center;

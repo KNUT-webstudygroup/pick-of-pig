@@ -1,9 +1,9 @@
-import { categoryLists } from "@/ui/CategoryBtn";
-import { foods } from "@/ui/OptionsBtns";
-import PigNose from "@/ui/pig/PIgNose";
-import SearchBar from "@/ui/SearchBar";
-import { useEffect, useRef, useState } from "react";
-import styled, { createGlobalStyle } from "styled-components";
+import { categoryLists } from '@/ui/CategoryBtn';
+import { foods } from '@/ui/OptionsBtns';
+import PigNose from '@/ui/pig/PIgNose';
+import SearchBar from '@/ui/SearchBar';
+import { useEffect, useRef, useState } from 'react';
+import styled, { createGlobalStyle } from 'styled-components';
 
 function RandomModal({ closeModal }: { closeModal: (name: string) => void }) {
   const modalRef = useRef<HTMLDivElement>(null);
@@ -11,15 +11,15 @@ function RandomModal({ closeModal }: { closeModal: (name: string) => void }) {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node)
+        modalRef.current
+        && !modalRef.current.contains(event.target as Node)
       ) {
-        closeModal("Random");
+        closeModal('Random');
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [closeModal]);
 

@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { useRouter } from "next/navigation";
-import MapSearchIcon from "./icon/map-search-icon";
+import styled from 'styled-components';
+import { useRouter } from 'next/navigation';
+import MapSearchIcon from './icon/map-search-icon';
 
 function SearchMap() {
   const router = useRouter();
@@ -19,7 +19,7 @@ function SearchMap() {
     //   "/order"
     // );
     // router.push("/Map?test");
-    router.push("/Map");
+    router.push('/Map');
   };
 
   return (

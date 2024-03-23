@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import styled from "styled-components";
-import SearchBarIcon from "./icon/search-bar-icon";
+import styled from 'styled-components';
+import SearchBarIcon from './icon/search-bar-icon';
 
 function SearchBar({
   handleInputChange,
@@ -18,10 +18,10 @@ function SearchBar({
         type="text"
         id="address"
         value={searchAddress}
-        style={{ color: "black" }}
+        style={{ color: 'black' }}
         onChange={handleInputChange}
         onKeyDown={(event) => {
-          if (event.key === "Enter") {
+          if (event.key === 'Enter') {
             handleSearchClick();
           }
         }}
