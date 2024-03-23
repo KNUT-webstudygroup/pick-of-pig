@@ -1,33 +1,25 @@
-import { categoryLists } from '@/ui/CategoryBtn';
-import { foods } from '@/ui/OptionsBtns';
-import PigNose from '@/ui/pig/PIgNose';
-import SearchBar from '@/ui/SearchBar';
-import { useEffect, useRef, useState } from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
+import { categoryLists } from "@/ui/CategoryBtn";
+import { foods } from "@/ui/OptionsBtns";
+import PigNose from "@/ui/pig/PIgNose";
+import SearchBar from "@/ui/SearchBar";
+import { useEffect, useRef, useState } from "react";
+import styled, { createGlobalStyle } from "styled-components";
 
-function RandomModal({
-  closeModal,
-}: {
-  closeModal: (name: string) => void;
-}) {
+function RandomModal({ closeModal }: { closeModal: (name: string) => void }) {
   const modalRef = useRef<HTMLDivElement>(null);
-  // const categoryLists = useRecoilValue(categoryList);
-  // const optionLists = useRecoilValue(optionList);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
-        modalRef.current
-        && !modalRef.current.contains(event.target as Node)
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
       ) {
-        closeModal('Random');
+        closeModal("Random");
       }
     };
-    // 이벤트 핸들러 등록
-    document.addEventListener('mousedown', handleClickOutside);
-    // 클린업 함수 ,,? 모르겠음
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [closeModal]);
 

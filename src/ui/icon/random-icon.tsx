@@ -1,17 +1,17 @@
-import IconContainer from '@/ui/icon/icon.container';
+import IconContainer from "@/ui/icon/icon.container";
 
 interface RandomIconProps {
-  openRandom: () => void;
+  openModal: () => void;
 }
 
-const RandomIcon: React.FC<RandomIconProps> = ({ openRandom }) => (
+const RandomIcon: React.FC<RandomIconProps> = ({ openModal }) => (
   <IconContainer
     width={60}
     height={60}
     iconPath="/random.svg"
-      // iconColor="var(--light-gray)"
+    // iconColor="var(--light-gray)"
     text="delete"
-    onClick={openRandom}
+    onClick={openModal}
   />
 );
 

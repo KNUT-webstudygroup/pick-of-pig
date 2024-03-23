@@ -1,4 +1,4 @@
-import IconContainer from '@/ui/icon/icon.container';
+import IconContainer from "@/ui/icon/icon.container";
 
 interface SearchBarIconProps {
   handleSearchClick: () => void;
@@ -11,7 +11,7 @@ const SearchBarIcon: React.FC<SearchBarIconProps> = ({ handleSearchClick }) => (
     iconPath="/search-bar.svg"
     iconColor=""
     text="pig"
-    onClick={handleSearchClick}
+    onClick={() => handleSearchClick()}
   />
 );
 
