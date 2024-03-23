@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import styled from "styled-components";
-import SearchBar from "@/ui/SearchBar";
-import PigFaceIcon from "@/ui/icon/pig-face-icon";
-import ListIcon from "@/ui/icon/list-icon";
-import { useRecoilState } from "recoil";
-import { searchAddressState, searchClickState } from "@/recoil/atoms";
-import { useState } from "react";
-import RandomIcon from "@/ui/icon/random-icon";
-import ShopIcon from "@/ui/icon/shop-icon";
-import { ModalType } from "./modal/modal.data";
-import { useRouter } from "next/navigation";
+import styled from 'styled-components';
+import SearchBar from '@/ui/SearchBar';
+import PigFaceIcon from '@/ui/icon/pig-face-icon';
+import ListIcon from '@/ui/icon/list-icon';
+import { useRecoilState } from 'recoil';
+import { searchAddressState, searchClickState } from '@/recoil/atoms';
+import { useState } from 'react';
+import RandomIcon from '@/ui/icon/random-icon';
+import ShopIcon from '@/ui/icon/shop-icon';
+import { useRouter } from 'next/navigation';
+import { ModalType } from './modal/modal.data';
 
 function HeaderNav({
   openLeftNav,
@@ -39,7 +39,7 @@ function HeaderNav({
 
   // 나중에 라우터 경로 모아두기
   const moveBasket = () => {
-    router.push("/Basket");
+    router.push('/Basket');
   };
 
   return (
@@ -74,7 +74,7 @@ function HeaderNav({
           />
         </SearchStyled>
       </HeaderStyled>
-      <HeaderLineStyled></HeaderLineStyled>
+      <HeaderLineStyled />
     </>
   );
 }

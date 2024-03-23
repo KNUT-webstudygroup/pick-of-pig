@@ -1,6 +1,7 @@
-"use client";
-import { useEffect, useState } from "react";
-import styled from "styled-components";
+'use client';
+
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 function Basket() {
   return (
