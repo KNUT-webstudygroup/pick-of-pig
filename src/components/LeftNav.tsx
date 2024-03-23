@@ -6,19 +6,26 @@ import DraggablePieChart from '@/ui/DraggablePieChart';
 import MapNodeCard from '@/ui/MapNodeCard';
 import searchNearbyPlace from '@/service/search';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { searchAddressState, searchClickState } from '@/recoil/atoms';
+import {
+  searchAddressState, searchClickState, useSsrComplectedState, ssrCompletedState,
+} from '@/recoil/atoms';
 
 function LeftNavContainer({ isLeftNavOpen }: { isLeftNavOpen: boolean }) {
   const [searchMapNodes, setSearchMapNodes] = useState<MapNode[]>([]);
-  const searchAddres = useRecoilValue(searchAddressState);
+  const searchAddress = useRecoilValue(searchAddressState);
   const isSearchClick = useRecoilValue(searchClickState);
-
+  const checkSSREnd = useSsrComplectedState();
+  const SSREnded = useRecoilValue(ssrCompletedState);
   useEffect(() => {
-    const handleSearchClick = async () => {
-      const sortedMapNodes: MapNode[] = await searchNearbyPlace(searchAddres);
-      setSearchMapNodes(sortedMapNodes);
-    };
-    handleSearchClick();
+    if (SSREnded === false) {
+      checkSSREnd();
+    } else {
+      const handleSearchClick = async () => {
+        const sortedMapNodes: MapNode[] = await searchNearbyPlace(searchAddress);
+        setSearchMapNodes(sortedMapNodes);
+      };
+      handleSearchClick();
+    }
   }, [isSearchClick]);
 
   return (
