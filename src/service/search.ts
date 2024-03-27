@@ -34,13 +34,33 @@ function addressToPlaceIds(address: string) : Promise<Array<string>> {
   return new Promise((resolve, reject) => {
     geocoder.geocode({ address }, (results, status) => {
       if (status === 'OK') {
-        results.forEach((result) => {
-          placeIds.push(result.place_id);
-        });
+        // TODO :
+        console.log(results);
+        switch (results[0].geometry.location_type) {
+          case google.maps.GeocoderLocationType.APPROXIMATE:
+            // TODO : 구글에서 "지물로" 검색한다.
+            // REF :
+            break;
+          default:
+            results.forEach((result) => {
+              placeIds.push(result.place_id);
+            });
+        }
         resolve(placeIds);
       } else {
         reject(new Error('addressToPlaceIds failed'));
       }
+    });
+  });
+}
+
+function findLocationQuery(query:string) {
+  return new Promise((res, rej) => {
+    const search = new google.maps.places.PlacesService();
+    search.textSearch({
+      query,
+    }, (ret, stat) => {
+
     });
   });
 }
@@ -201,6 +221,7 @@ function searchNearbyPlaceIds(coord: google.maps.LatLng, map: google.maps.Map)
         });
         resolve(NearbyPlaceIds);
       } else {
+        // TODO : 팝업띄워서 알려줄 것...
         reject(new Error('searchNearbyPlaceIds failed'));
       }
     });
