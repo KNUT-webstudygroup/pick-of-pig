@@ -48,22 +48,23 @@ function addressToPlaceIds(address: string) : Promise<Array<string>> {
         }
         resolve(placeIds);
       } else {
+        console.log(status)
         reject(new Error('addressToPlaceIds failed'));
       }
     });
   });
 }
 
-function findLocationQuery(query:string) {
-  return new Promise((res, rej) => {
-    const search = new google.maps.places.PlacesService();
-    search.textSearch({
-      query,
-    }, (ret, stat) => {
+// function findLocationQuery(query:string) {
+//   return new Promise((res, rej) => {
+//     const search = new google.maps.places.PlacesService();
+//     search.textSearch({
+//       query,
+//     }, (ret, stat) => {
 
-    });
-  });
-}
+//     });
+//   });
+// }
 
 /**
  * 장소 고유 ID로 좌표를 얻음
@@ -159,6 +160,8 @@ function placeIdToReviews(placeId: string, map: google.maps.Map)
   const service = new google.maps.places.PlacesService(map);
   return new Promise((resolve, reject) => {
     service.getDetails({ placeId }, (result, status) => {
+      console.log('TE')
+      console.log(result);
       if (status === 'OK' && result.reviews) {
         result.reviews.forEach((review) => {
           reviews.push(review);
@@ -303,6 +306,7 @@ export default async function searchNearbyPlace(address: string) : Promise<Array
   const placeIds = await addressToPlaceIds(address);
   const coord = await placeIdToCoord(placeIds[0]);
   const nearbyPlaceIds = await searchNearbyPlaceIds(coord, map);
+
   const mapNodes = await getMapNodes(nearbyPlaceIds, map);
   const sortedMapNodes = sortMapNodesByScore(mapNodes);
 
