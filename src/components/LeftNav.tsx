@@ -60,7 +60,7 @@ const LeftNavStyled = styled.div<{ isLeftNavOpen: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #ff9a9f;
+  background-color: #ffb9b4;
   width: 300px;
   height: calc(100% - 100px);
   overflow-y: auto;

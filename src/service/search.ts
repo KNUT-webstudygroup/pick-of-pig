@@ -7,6 +7,10 @@ function addMarker(coord: google.maps.LatLng, map: google.maps.Map) {
     map,
     position: coord,
   });
+  marker.addListener('click', () => {
+    map.setCenter(coord);
+    console.log('모달 띄우자!');
+  });
   return marker;
 }
 
@@ -81,7 +85,7 @@ function placeIdToName(placeId: string, map: google.maps.Map) : Promise<string> 
 /**
  * 장소 고유 ID로 가게 주소를 얻음
  */
-function placeIdToAddress(placeId: string, map: google.maps.Map) : Promise<string> {
+export function placeIdToAddress(placeId: string, map: google.maps.Map) : Promise<string> {
   const service = new google.maps.places.PlacesService(map);
   return new Promise((resolve, reject) => {
     service.getDetails({ placeId }, (result, status) => {
@@ -97,7 +101,7 @@ function placeIdToAddress(placeId: string, map: google.maps.Map) : Promise<strin
 /**
  * 장소 고유 ID로 장소의 타입 얻음
  */
-function placeIdToTypes(placeId: string, map: google.maps.Map) : Promise<Array<string>> {
+export function placeIdToTypes(placeId: string, map: google.maps.Map) : Promise<Array<string>> {
   const types: Array<string> = [];
   const service = new google.maps.places.PlacesService(map);
   return new Promise((resolve, reject) => {
@@ -170,7 +174,7 @@ function placeIdToReviews(placeId: string, map: google.maps.Map)
 /**
  * 장소 고유 ID로 가게 번호를 얻음
  */
-function placeIdToPhoneNumber(placeId: string, map: google.maps.Map)
+export function placeIdToPhoneNumber(placeId: string, map: google.maps.Map)
   : Promise<string> {
   const service = new google.maps.places.PlacesService(map);
   return new Promise((resolve, reject) => {
