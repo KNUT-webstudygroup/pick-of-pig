@@ -1,6 +1,6 @@
 import { LocationType } from '../types/location';
 import MapNode from './MapObject/MapNode';
-import placeIdToPhotos from './searchPhoto';
+import { placeIdToPhoto, placeIdToPhotos } from './searchPhoto';
 
 function addMarker(coord: google.maps.LatLng, map: google.maps.Map) {
   const marker = new google.maps.Marker({
@@ -73,6 +73,22 @@ function placeIdToName(placeId: string, map: google.maps.Map) : Promise<string> 
         resolve(result.name);
       } else {
         reject(new Error('placeIdToName failed'));
+      }
+    });
+  });
+}
+
+/**
+ * 장소 고유 ID로 가게 주소를 얻음
+ */
+function placeIdToAddress(placeId: string, map: google.maps.Map) : Promise<string> {
+  const service = new google.maps.places.PlacesService(map);
+  return new Promise((resolve, reject) => {
+    service.getDetails({ placeId }, (result, status) => {
+      if (status === 'OK' && result.formatted_address) {
+        resolve(result.formatted_address);
+      } else {
+        reject(new Error('placeIdToAddress failed'));
       }
     });
   });
@@ -152,28 +168,33 @@ function placeIdToReviews(placeId: string, map: google.maps.Map)
 }
 
 /**
- * 입력 좌표의 반경 200m 맛집 좌표를 얻음
+ * 장소 고유 ID로 가게 번호를 얻음
  */
-function searchNearbyCoords(coord: google.maps.LatLng, map: google.maps.Map)
-  : Promise<Array<google.maps.LatLng>> {
-  const NearbyCoords : Array<google.maps.LatLng> = [];
+function placeIdToPhoneNumber(placeId: string, map: google.maps.Map)
+  : Promise<string> {
   const service = new google.maps.places.PlacesService(map);
-
   return new Promise((resolve, reject) => {
-    service.nearbySearch({
-      location: coord,
-      types: ['restaurant', 'bakery', 'bar', 'cafe'],
-      radius: 200.0, // 일단 200m로 설정
-    }, (results, status) => {
-      if (status === 'OK') {
-        results.forEach((result) => {
-          if (result.geometry) {
-            NearbyCoords.push(result.geometry.location);
-          }
-        });
-        resolve(NearbyCoords);
+    service.getDetails({ placeId }, (result, status) => {
+      if (status === 'OK' && result.formatted_phone_number) {
+        resolve(result.formatted_phone_number);
       } else {
-        reject(new Error('searchNearbyCoords failed'));
+        reject(new Error('placeIdToPhoneNumber failed'));
+      }
+    });
+  });
+}
+
+/**
+ * 장소 고유 ID로 가게가 현재 열었는지 여부를 반환
+ */
+function placeIdToIsOpen(placeId: string, map: google.maps.Map) {
+  const service = new google.maps.places.PlacesService(map);
+  return new Promise((resolve, reject) => {
+    service.getDetails({ placeId }, (result, status) => {
+      if (status === 'OK' && result.opening_hours) {
+        resolve(result.opening_hours.isOpen());
+      } else {
+        reject(new Error('placeIdToIsOpen failed'));
       }
     });
   });
@@ -190,6 +211,8 @@ function searchNearbyPlaceIds(coord: google.maps.LatLng, map: google.maps.Map)
   return new Promise((resolve, reject) => {
     service.nearbySearch({
       location: coord,
+      // 🚨 현재 이슈: 배열[0]인 restaurant만 검색되고 나머지는 검색 안됨
+      // 🚨 ['cafe']로 하면 카페 검색 잘됨, 나머지는 검색 안됨
       types: ['restaurant', 'bakery', 'bar', 'cafe'],
       radius: 200.0, // 일단 200m로 설정
     }, (results, status) => {
@@ -217,7 +240,9 @@ async function getMapNode(placeId: string, map: google.maps.Map) : Promise<MapNo
   const name = await placeIdToName(placeId, map);
   const coord = await placeIdToCoord(placeId);
   const reviews = await placeIdToReviews(placeId, map);
-  const photo = await placeIdToPhotos(placeId, map); // 사진이 없을 때도 고려해야 함
+  const photo = await placeIdToPhoto(placeId, map); // 사진이 없을 때도 고려해야 함
+  // console.log(await placeIdToPhotos(placeId, map));
+  // console.log(await placeIdToAddress(placeId, map));
 
   const location : LocationType = {
     latitude: coord.lat(),
@@ -246,7 +271,7 @@ async function getMapNodes(placeIds: Array<string>, map: google.maps.Map)
     try {
       return await getMapNode(placeId, map);
     } catch (error) {
-      console.log('해당 장소에 대한 리뷰가 존재하지 않아 MapNode를 생성할 수 없습니다.');
+      console.log(`${error} 해당 정보가 존재하지 않아 MapNode를 생성할 수 없습니다.`);
     }
   });
 
