@@ -1,4 +1,7 @@
-import { atom, AtomEffect, useSetRecoilState } from 'recoil';
+import { createMap } from '@/service/map';
+import {
+  atom, AtomEffect, selector, useSetRecoilState,
+} from 'recoil';
 import { recoilPersist } from 'recoil-persist';
 // export interface IContentTypes {
 //   id: number;
@@ -21,6 +24,14 @@ export const persistAtomEffect = <T>(param: Parameters<AtomEffect<T>>[0]) => {
 };
 
 // recoil state 생성
+export const mapState = atom<google.maps.Map<HTMLElement>>({
+  key: 'mapState',
+  default: selector({
+    key: 'mapStateDefault',
+    get: () => createMap(), // createMap 함수를 호출하여 초기값 설정
+  }),
+});
+
 export const categoryList = atom<string[]>({
   key: 'category',
   default: [],

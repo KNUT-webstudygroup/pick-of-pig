@@ -1,33 +1,7 @@
 import { LocationType } from '../types/location';
 import MapNode from './MapObject/MapNode';
-import { placeIdToPhoto, placeIdToPhotos } from './searchPhoto';
-
-function addMarker(coord: google.maps.LatLng, map: google.maps.Map) {
-  const marker = new google.maps.Marker({
-    map,
-    position: coord,
-  });
-  marker.addListener('click', () => {
-    map.setCenter(coord);
-    console.log('모달 띄우자!');
-  });
-  return marker;
-}
-
-function addMarkers(coords : Array<google.maps.LatLng>, map: google.maps.Map) {
-  const bounds = new google.maps.LatLngBounds();
-
-  coords.forEach((coord) => {
-    addMarker(coord, map);
-    map.setCenter(coord);
-    bounds.extend(coord);
-  });
-
-  // 다중 마커일 때 모두 보이도록 지도의 경계 변경
-  if (coords.length > 1) {
-    map.fitBounds(bounds);
-  }
-}
+import { addMarkers } from './map';
+import { placeIdToPhoto } from './searchPhoto';
 
 /**
  * 입력한 주소로 장소 고유 ID 얻음
@@ -302,12 +276,8 @@ function sortMapNodesByScore(mapNodes: Array<MapNode>) : Array<MapNode> {
 /**
  * 사용자가 입력한 주소를 기반으로 근처 맛집들의 위치에 마커 추가
  */
-export default async function searchNearbyPlace(address: string) : Promise<Array<MapNode>> {
-  const center: google.maps.LatLngLiteral = { lat: 37.3595316, lng: 127.1052133 };
-  const map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
-    center,
-    zoom: 15,
-  });
+export default async function searchNearbyPlace(address: string, map: google.maps.Map)
+  : Promise<Array<MapNode>> {
   const placeIds = await addressToPlaceIds(address);
   const coord = await placeIdToCoord(placeIds[0]);
   const nearbyPlaceIds = await searchNearbyPlaceIds(coord, map);
