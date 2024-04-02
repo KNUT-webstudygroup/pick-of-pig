@@ -24,13 +24,16 @@ export const persistAtomEffect = <T>(param: Parameters<AtomEffect<T>>[0]) => {
 };
 
 // recoil state 생성
-export const mapState = atom<google.maps.Map<HTMLElement>>({
-  key: 'mapState',
-  default: selector({
-    key: 'mapStateDefault',
-    get: () => createMap(), // createMap 함수를 호출하여 초기값 설정
-  }),
-});
+// export const mapState = atom<google.maps.Map<HTMLElement>>({
+//   key: 'mapState',
+//   default: selector({
+//     key: 'mapStateDefault',
+//     get: () => createMap(), // createMap 함수를 호출하여 초기값 설정
+//   }),
+// });
+// google map은 서버에서, 혹은 자체적으로 불러오는 class가 아님.
+// HTML문서를 통해 Link해야 가능한 사항.
+// 따라서, createMap으로 google.map을 호출할 시 에러가 발생함.
 
 export const categoryList = atom<string[]>({
   key: 'category',

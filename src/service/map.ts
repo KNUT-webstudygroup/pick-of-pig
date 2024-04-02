@@ -1,11 +1,17 @@
+'use client';
+
 export function createMap() {
   const center: google.maps.LatLngLiteral = { lat: 37.3595316, lng: 127.1052133 };
-  const map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
-    center,
-    zoom: 15,
-  });
-  return map;
+  if (caching === undefined) {
+    caching = new google.maps.Map(document.getElementById('map') as HTMLElement, {
+      center,
+      zoom: 15,
+    });
+  }
+  return caching; // 위의 if문에 의해서 caching됨.
 }
+
+let caching:google.maps.Map<Element> | undefined;
 
 function addMarker(coord: google.maps.LatLng, map: google.maps.Map) {
   const marker = new google.maps.Marker({

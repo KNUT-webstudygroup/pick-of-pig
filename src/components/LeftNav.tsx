@@ -6,17 +6,18 @@ import MapNodeCard from '@/ui/MapNodeCard';
 import searchNearbyPlace from '@/service/search';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {
-  searchAddressState, searchClickState, useSsrComplectedState, ssrCompletedState, mapState,
+  searchAddressState, searchClickState, useSsrComplectedState, ssrCompletedState,
 } from '@/recoil/atoms';
+import { createMap } from '@/service/map';
 
 function LeftNavContainer({ isLeftNavOpen }: { isLeftNavOpen: boolean }) {
   const [searchMapNodes, setSearchMapNodes] = useState<MapNode[]>([]);
-  const map = useRecoilValue(mapState);
   const searchAddress = useRecoilValue(searchAddressState);
   const isSearchClick = useRecoilValue(searchClickState);
   const checkSSREnd = useSsrComplectedState();
   const SSREnded = useRecoilValue(ssrCompletedState);
   useEffect(() => {
+    const map = createMap();
     if (SSREnded === false) {
       checkSSREnd();
     } else {
