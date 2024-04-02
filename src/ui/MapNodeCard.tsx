@@ -105,7 +105,7 @@ const MapNodeContent = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: #ff9a9f;
+    background-color: #ffb3b6;
     border-radius: 18px;
     border: 1px solid #E37D82;
     padding: 10px;

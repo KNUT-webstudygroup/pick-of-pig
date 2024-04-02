@@ -165,7 +165,8 @@ export function placeIdToPhoneNumber(placeId: string, map: google.maps.Map)
 /**
  * 장소 고유 ID로 가게가 현재 열었는지 여부를 반환
  */
-function placeIdToIsOpen(placeId: string, map: google.maps.Map) {
+export function placeIdToIsOpen(placeId: string, map: google.maps.Map)
+  : Promise<boolean> {
   const service = new google.maps.places.PlacesService(map);
   return new Promise((resolve, reject) => {
     service.getDetails({ placeId }, (result, status) => {
