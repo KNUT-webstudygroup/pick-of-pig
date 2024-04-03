@@ -5,6 +5,7 @@ import getStarScore from '@/utils/getStarScore';
 import { placeIdToAddress, placeIdToPhoneNumber, placeIdToIsOpen } from '@/service/search';
 import { createMap } from '@/service/map';
 import { placeIdToPhotos } from '@/service/searchPhoto';
+import PhotoSlider from './PhotoSlider';
 
 interface MapNodeCardProps {
   index: number;
@@ -14,8 +15,8 @@ interface MapNodeCardProps {
 function MapNodeModal({ index, node }: MapNodeCardProps) {
   const [star, setStar] = useState<number>(0);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [phoneNumber, setPhoneNumber] = useState<string>('');
-  const [address, setAddress] = useState<string>('');
+  const [phoneNumber, setPhoneNumber] = useState<string>('없음');
+  const [address, setAddress] = useState<string>('없음');
   const [photos, setPhotos] = useState<Array<string>>([]);
 
   function getOpenString(isOpen: boolean) {
@@ -101,16 +102,22 @@ function MapNodeModal({ index, node }: MapNodeCardProps) {
             </MapNodeIconBtnContainer>
           </MapNodeModalThirdTitle>
           <MapNodeText>
+            <MapNodeIcon>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.97804 4C7.61297 3.99998 7.25213 4.07825 6.91989 4.22954C6.58764 4.38083 6.2917 4.60161 6.05204 4.877C4.23304 6.7 3.69904 8.751 4.15304 10.814C4.59304 12.809 5.93104 14.707 7.60904 16.386C9.28904 18.065 11.186 19.404 13.179 19.845C15.241 20.301 17.294 19.772 19.119 17.96C19.3956 17.7201 19.6174 17.4237 19.7695 17.0906C19.9215 16.7576 20.0002 16.3958 20.0003 16.0297C20.0004 15.6636 19.9219 15.3018 19.77 14.9687C19.6181 14.6356 19.3965 14.339 19.12 14.099L17.91 12.889C17.4058 12.385 16.722 12.1018 16.009 12.1018C15.2961 12.1018 14.6123 12.385 14.108 12.889L13.491 13.507C13.4162 13.5819 13.3273 13.6413 13.2295 13.6818C13.1317 13.7223 13.0269 13.7431 12.921 13.7431C12.8152 13.7431 12.7103 13.7223 12.6125 13.6818C12.5147 13.6413 12.4259 13.5819 12.351 13.507L10.497 11.652C10.3461 11.5007 10.2613 11.2957 10.2613 11.082C10.2613 10.8683 10.3461 10.6633 10.497 10.512L11.115 9.892C11.6186 9.38732 11.9015 8.70347 11.9015 7.9905C11.9015 7.27753 11.6186 6.59368 11.115 6.089L9.90504 4.878C9.66527 4.6024 9.3692 4.38142 9.03678 4.22996C8.70436 4.07851 8.34333 4.00009 7.97804 4Z" fill="#4B3F4E" />
+              </svg>
+            </MapNodeIcon>
             {phoneNumber}
           </MapNodeText>
           <MapNodeText>
+            <MapNodeIcon>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 11.5C11.337 11.5 10.7011 11.2366 10.2322 10.7678C9.76339 10.2989 9.5 9.66304 9.5 9C9.5 8.33696 9.76339 7.70107 10.2322 7.23223C10.7011 6.76339 11.337 6.5 12 6.5C12.663 6.5 13.2989 6.76339 13.7678 7.23223C14.2366 7.70107 14.5 8.33696 14.5 9C14.5 9.3283 14.4353 9.65339 14.3097 9.95671C14.1841 10.26 13.9999 10.5356 13.7678 10.7678C13.5356 10.9999 13.26 11.1841 12.9567 11.3097C12.6534 11.4353 12.3283 11.5 12 11.5ZM12 2C10.1435 2 8.36301 2.7375 7.05025 4.05025C5.7375 5.36301 5 7.14348 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 7.14348 18.2625 5.36301 16.9497 4.05025C15.637 2.7375 13.8565 2 12 2Z" fill="#4B3F4E" />
+              </svg>
+            </MapNodeIcon>
             {address}
           </MapNodeText>
-          <MapNodePhotoContainer>
-            {photos.map((photo, i) => (
-              <MapNodePhoto key={i} image={photo} />
-            ))}
-          </MapNodePhotoContainer>
+          <PhotoSlider photos={photos} />
           <MapNodeRank>
             블로그 리뷰 보기
           </MapNodeRank>
@@ -139,7 +146,7 @@ const MapNodeModalContainer = styled.div`
     background-color: #ffb3b6;
     border: 1px solid #E37D82;
     border-radius: 20px;
-    padding: 60px 40px 20px 40px;
+    padding: 60px 30px 20px 30px;
 `;
 
 const MapNodeHeader = styled.div<{ image?: string }>`
@@ -187,6 +194,7 @@ const MapNodeModalThirdTitle = styled.div`
   width: 100%;
   flex-direction: row;
   justify-content: space-between;
+  padding: 0px 10px 0px 10px;
 `;
 
 const MapNodeRank = styled.div`
@@ -209,7 +217,7 @@ const MapNodeCategory = styled.div`
 
 const MapNodeIsOpen = styled.div<{ isOpen: boolean }>`
     align-self: center;
-    background-color: ${(isOpen) => (isOpen ? '#4C5EFF' : '#929292')};
+    background-color: ${(props) => (props.isOpen ? '#4C5EFF' : '#929292')};
     color: white;
     padding: 4px 10px 4px 10px;
     margin: 0px 2px 0px 2px;
@@ -228,25 +236,19 @@ const MapNodeStarText = styled.div`
     margin: 0px 4px 0px 4px;
 `;
 
+const MapNodeIcon = styled.div`
+  padding: 0px 4px 0px 4px;
+`;
+
 const MapNodeText = styled.div`
     display: flex;
     flex-direction: row;
+    align-items: center;
     align-self: start;
+    color: #4B3F4E;
     font-size: 18px;
     font-weight: 500;
     margin: 0px 4px 0px 4px;
-`;
-
-const MapNodePhotoContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-`;
-
-const MapNodePhoto = styled.div<{ image?: string }>`
-    width: 100px;
-    height: 100px;
-    background-image: ${({ image }) => `url(${image})`};
-    background-size: cover;
 `;
 
 const MapNodeReviewBtn = styled.div`

@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import MapNode from '@/service/MapObject/MapNode';
 import getStarScore from '@/utils/getStarScore';
+import { createMap } from '@/service/map';
+import { placeIdToIsOpen } from '@/service/search';
 import MapNodeModal from './MapNodeModal';
 
 interface MapNodeCardProps {
@@ -11,12 +13,31 @@ interface MapNodeCardProps {
 
 function MapNodeCard({ index, node }: MapNodeCardProps) {
   const [star, setStar] = useState<number>(0);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [openMapNodeModal, setOpenMapNodeModal] = useState(false);
+
+  function getOpenString(isOpen: boolean) {
+    if (isOpen) return '영업중';
+    return '영업전';
+  }
 
   useEffect(() => {
     const score = node.GetScore(node.location);
     const starScore = getStarScore(score);
     setStar(starScore);
+
+    const fetchData = async () => {
+      const map = createMap();
+
+      setStar(starScore);
+      try {
+        setIsOpen(await placeIdToIsOpen(node.id, map));
+      } catch (e) {
+        console.log('오픈 여부를 불러올 수 없습니다.');
+      }
+    };
+
+    fetchData();
   }, [node]);
 
   const handleMapNodeCardClick = () => {
@@ -41,8 +62,8 @@ function MapNodeCard({ index, node }: MapNodeCardProps) {
             <MapNodeCategory>
               양식
             </MapNodeCategory>
-            <MapNodeIsOpen>
-              영업중
+            <MapNodeIsOpen isOpen={isOpen}>
+              {getOpenString(isOpen)}
             </MapNodeIsOpen>
           </MapNodeSubTitle>
           <MapNodeStar>
@@ -95,8 +116,8 @@ const MapNodeContainer = styled.div<{ image?: string }>`
 
 const MapNodeCover = styled.div`
     display: flex;
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
+    border-top-left-radius: 18px;
+    border-bottom-left-radius: 18px;
     width: 60px;
     height: 130px;
 `;
@@ -148,9 +169,9 @@ const MapNodeCategory = styled.div`
     border-radius: 20px;
 `;
 
-const MapNodeIsOpen = styled.div`
+const MapNodeIsOpen = styled.div<{ isOpen: boolean }>`
     align-self: center;
-    background-color: #4C5EFF;
+    background-color: ${(props) => (props.isOpen ? '#4C5EFF' : '#929292')};
     color: white;
     padding: 4px 10px 4px 10px;
     margin: 0px 2px 0px 2px;
