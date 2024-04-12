@@ -5,6 +5,7 @@ import getStarScore from '@/utils/getStarScore';
 import { placeIdToAddress, placeIdToPhoneNumber, placeIdToIsOpen } from '@/service/search';
 import { createMap } from '@/service/map';
 import { placeIdToPhotos } from '@/service/searchPhoto';
+import searchBlogReview from '@/service/searchBlogReview';
 import PhotoSlider from './PhotoSlider';
 
 interface MapNodeCardProps {
@@ -55,6 +56,10 @@ function MapNodeModal({ index, node }: MapNodeCardProps) {
 
     fetchData();
   }, [node]);
+
+  const handleBlogReviewClick = () => {
+    searchBlogReview('salady', '서울역');
+  };
 
   return (
     <>
@@ -118,7 +123,7 @@ function MapNodeModal({ index, node }: MapNodeCardProps) {
             {address}
           </MapNodeText>
           <PhotoSlider photos={photos} />
-          <MapNodeRank>
+          <MapNodeRank onClick={handleBlogReviewClick}>
             블로그 리뷰 보기
           </MapNodeRank>
         </MapNodeModalInner>
