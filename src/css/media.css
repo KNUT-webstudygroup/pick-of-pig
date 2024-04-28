@@ -1,0 +1,18 @@
+/* #modals {
+}
+
+#randomModal {
+} */
+
+#leftNav.on {
+  transform: translateX(-100%);
+}
+
+/* 나중에 rightNav도 사라지게 만들고 싶을때 사용 */
+/* #rightNav.on {
+  transform: translateX(+100%);
+} */
+
+/* #storeInfo.on {
+  transform: translateX(0%);
+} */

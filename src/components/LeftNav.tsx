@@ -1,16 +1,18 @@
-import styled, { createGlobalStyle } from 'styled-components';
-// import MapNode from "@/service/MapObject/MapNode";
-import MapNode from '@/service/MapObject/MapNode';
-import { useRef, useState, useEffect } from 'react';
-import MapNodeCard from '@/ui/MapNodeCard';
-import searchNearbyPlace from '@/service/search';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import styled, { createGlobalStyle } from "styled-components";
+import MapNode from "@/service/MapObject/MapNode";
+import { useRef, useState, useEffect } from "react";
+import MapNodeCard from "@/ui/MapNodeCard";
+import searchNearbyPlace from "@/service/search";
+import { useRecoilState, useRecoilValue } from "recoil";
 import {
-  searchAddressState, searchClickState, useSsrComplectedState, ssrCompletedState,
-} from '@/recoil/atoms';
-import { createMap } from '@/service/map';
+  searchAddressState,
+  searchClickState,
+  useSsrComplectedState,
+  ssrCompletedState,
+} from "@/recoil/atoms";
+import { createMap } from "@/service/map";
 
-function LeftNavContainer({ isLeftNavOpen }: { isLeftNavOpen: boolean }) {
+function LeftNav() {
   const [searchMapNodes, setSearchMapNodes] = useState<MapNode[]>([]);
   const searchAddress = useRecoilValue(searchAddressState);
   const isSearchClick = useRecoilValue(searchClickState);
@@ -22,7 +24,10 @@ function LeftNavContainer({ isLeftNavOpen }: { isLeftNavOpen: boolean }) {
       checkSSREnd();
     } else {
       const handleSearchClick = async () => {
-        const sortedMapNodes: MapNode[] = await searchNearbyPlace(searchAddress, map);
+        const sortedMapNodes: MapNode[] = await searchNearbyPlace(
+          searchAddress,
+          map
+        );
         setSearchMapNodes(sortedMapNodes);
       };
       handleSearchClick();
@@ -32,7 +37,7 @@ function LeftNavContainer({ isLeftNavOpen }: { isLeftNavOpen: boolean }) {
   return (
     <>
       <GlobalStyle />
-      <LeftNavStyled isLeftNavOpen={isLeftNavOpen}>
+      <LeftNavStyled id="leftNav">
         {searchMapNodes.map((node, i) => (
           <MapNodeCard key={node.id} index={i + 1} node={node} />
         ))}
@@ -41,28 +46,21 @@ function LeftNavContainer({ isLeftNavOpen }: { isLeftNavOpen: boolean }) {
   );
 }
 
-export default LeftNavContainer;
+export default LeftNav;
 
-const TitleStyled = styled.div`
-  align-self: start;
-  color: #4b3f4e;
-  font-size: 20px;
-  font-weight: 600;
-  padding: 12px 0px 12px 16px;
-`;
-
-const LeftNavStyled = styled.div<{ isLeftNavOpen: boolean }>`
+const LeftNavStyled = styled.div`
   position: fixed;
   top: 120px;
-  left: ${(props) => (props.isLeftNavOpen ? '-20px' : '-300px')}; /* 변경된 부분 */
+  left: 0px;
   display: flex;
   flex-direction: column;
+  transform: translateX(0%);
+  transition: transform 0.3s ease-in-out;
   align-items: center;
-  //background-color: #ffb9b4;
+  // background-color: #ff9a9f;
   width: 300px;
   height: calc(100% - 100px);
   overflow-y: auto;
-  transition: left 0.3s ease-in-out;
   z-index: 1;
 `;
 

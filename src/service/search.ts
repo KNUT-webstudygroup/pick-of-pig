@@ -1,23 +1,23 @@
-import { LocationType } from '../types/location';
-import MapNode from './MapObject/MapNode';
-import { addMarkers } from './map';
-import { placeIdToPhoto } from './searchPhoto';
+import { LocationType } from "../types/location";
+import MapNode from "./MapObject/MapNode";
+import { addMarkers } from "./map";
+import { placeIdToPhoto } from "./searchPhoto";
 
 /**
  * 입력한 주소로 장소 고유 ID 얻음
  */
-function addressToPlaceIds(address: string) : Promise<Array<string>> {
+function addressToPlaceIds(address: string): Promise<Array<string>> {
   const placeIds: Array<string> = [];
   const geocoder = new google.maps.Geocoder();
   return new Promise((resolve, reject) => {
     geocoder.geocode({ address }, (results, status) => {
-      if (status === 'OK') {
+      if (status === "OK") {
         results.forEach((result) => {
           placeIds.push(result.place_id);
         });
         resolve(placeIds);
       } else {
-        reject(new Error('addressToPlaceIds failed'));
+        reject(new Error("addressToPlaceIds failed"));
       }
     });
   });
@@ -26,15 +26,15 @@ function addressToPlaceIds(address: string) : Promise<Array<string>> {
 /**
  * 장소 고유 ID로 좌표를 얻음
  */
-function placeIdToCoord(placeId: string) : Promise<google.maps.LatLng> {
+function placeIdToCoord(placeId: string): Promise<google.maps.LatLng> {
   const geocoder = new google.maps.Geocoder();
   return new Promise((resolve, reject) => {
     geocoder.geocode({ placeId }, (results, status) => {
-      if (status === 'OK') {
+      if (status === "OK") {
         const coord = results[0].geometry.location;
         resolve(coord);
       } else {
-        reject(new Error('placeIdToCoord failed'));
+        reject(new Error("placeIdToCoord failed"));
       }
     });
   });
@@ -43,14 +43,14 @@ function placeIdToCoord(placeId: string) : Promise<google.maps.LatLng> {
 /**
  * 장소 고유 ID로 가게 이름을 얻음
  */
-function placeIdToName(placeId: string, map: google.maps.Map) : Promise<string> {
+function placeIdToName(placeId: string, map: google.maps.Map): Promise<string> {
   const service = new google.maps.places.PlacesService(map);
   return new Promise((resolve, reject) => {
     service.getDetails({ placeId }, (result, status) => {
-      if (status === 'OK') {
+      if (status === "OK") {
         resolve(result.name);
       } else {
-        reject(new Error('placeIdToName failed'));
+        reject(new Error("placeIdToName failed"));
       }
     });
   });
@@ -59,14 +59,17 @@ function placeIdToName(placeId: string, map: google.maps.Map) : Promise<string> 
 /**
  * 장소 고유 ID로 가게 주소를 얻음
  */
-export function placeIdToAddress(placeId: string, map: google.maps.Map) : Promise<string> {
+export function placeIdToAddress(
+  placeId: string,
+  map: google.maps.Map
+): Promise<string> {
   const service = new google.maps.places.PlacesService(map);
   return new Promise((resolve, reject) => {
     service.getDetails({ placeId }, (result, status) => {
-      if (status === 'OK' && result.formatted_address) {
+      if (status === "OK" && result.formatted_address) {
         resolve(result.formatted_address);
       } else {
-        reject(new Error('placeIdToAddress failed'));
+        reject(new Error("placeIdToAddress failed"));
       }
     });
   });
@@ -75,18 +78,21 @@ export function placeIdToAddress(placeId: string, map: google.maps.Map) : Promis
 /**
  * 장소 고유 ID로 장소의 타입 얻음
  */
-export function placeIdToTypes(placeId: string, map: google.maps.Map) : Promise<Array<string>> {
+export function placeIdToTypes(
+  placeId: string,
+  map: google.maps.Map
+): Promise<Array<string>> {
   const types: Array<string> = [];
   const service = new google.maps.places.PlacesService(map);
   return new Promise((resolve, reject) => {
     service.getDetails({ placeId }, (result, status) => {
-      if (status === 'OK' && result.types) {
+      if (status === "OK" && result.types) {
         result.types.forEach((type) => {
           types.push(type);
         });
         resolve(types);
       } else {
-        reject(new Error('placeIdToTypes failed'));
+        reject(new Error("placeIdToTypes failed"));
       }
     });
   });
@@ -95,14 +101,17 @@ export function placeIdToTypes(placeId: string, map: google.maps.Map) : Promise<
 /**
  * 장소 고유 ID로 별점을 얻음
  */
-function placeIdToRating(placeId: string, map: google.maps.Map) : Promise<number> {
+function placeIdToRating(
+  placeId: string,
+  map: google.maps.Map
+): Promise<number> {
   const service = new google.maps.places.PlacesService(map);
   return new Promise((resolve, reject) => {
     service.getDetails({ placeId }, (result, status) => {
-      if (status === 'OK' && result.rating) {
+      if (status === "OK" && result.rating) {
         resolve(result.rating);
       } else {
-        reject(new Error('placeIdToRating failed'));
+        reject(new Error("placeIdToRating failed"));
       }
     });
   });
@@ -111,14 +120,17 @@ function placeIdToRating(placeId: string, map: google.maps.Map) : Promise<number
 /**
  * 장소 고유 ID로 가격 점수를 얻음
  */
-function placeIdToPriceLevel(placeId: string, map: google.maps.Map) : Promise<number> {
+function placeIdToPriceLevel(
+  placeId: string,
+  map: google.maps.Map
+): Promise<number> {
   const service = new google.maps.places.PlacesService(map);
   return new Promise((resolve, reject) => {
     service.getDetails({ placeId }, (result, status) => {
-      if (status === 'OK' && result.price_level) {
+      if (status === "OK" && result.price_level) {
         resolve(result.price_level);
       } else {
-        reject(new Error('placeIdToPriceLevel failed'));
+        reject(new Error("placeIdToPriceLevel failed"));
       }
     });
   });
@@ -127,19 +139,21 @@ function placeIdToPriceLevel(placeId: string, map: google.maps.Map) : Promise<nu
 /**
  * 장소 고유 ID로 리뷰를 얻음
  */
-function placeIdToReviews(placeId: string, map: google.maps.Map)
-  : Promise<Array<google.maps.places.PlaceReview>> {
+function placeIdToReviews(
+  placeId: string,
+  map: google.maps.Map
+): Promise<Array<google.maps.places.PlaceReview>> {
   const reviews: Array<google.maps.places.PlaceReview> = [];
   const service = new google.maps.places.PlacesService(map);
   return new Promise((resolve, reject) => {
     service.getDetails({ placeId }, (result, status) => {
-      if (status === 'OK' && result.reviews) {
+      if (status === "OK" && result.reviews) {
         result.reviews.forEach((review) => {
           reviews.push(review);
         });
         resolve(reviews);
       } else {
-        reject(new Error('placeIdToReviews failed'));
+        reject(new Error("placeIdToReviews failed"));
       }
     });
   });
@@ -148,15 +162,17 @@ function placeIdToReviews(placeId: string, map: google.maps.Map)
 /**
  * 장소 고유 ID로 가게 번호를 얻음
  */
-export function placeIdToPhoneNumber(placeId: string, map: google.maps.Map)
-  : Promise<string> {
+export function placeIdToPhoneNumber(
+  placeId: string,
+  map: google.maps.Map
+): Promise<string> {
   const service = new google.maps.places.PlacesService(map);
   return new Promise((resolve, reject) => {
     service.getDetails({ placeId }, (result, status) => {
-      if (status === 'OK' && result.formatted_phone_number) {
+      if (status === "OK" && result.formatted_phone_number) {
         resolve(result.formatted_phone_number);
       } else {
-        reject(new Error('placeIdToPhoneNumber failed'));
+        reject(new Error("placeIdToPhoneNumber failed"));
       }
     });
   });
@@ -165,15 +181,17 @@ export function placeIdToPhoneNumber(placeId: string, map: google.maps.Map)
 /**
  * 장소 고유 ID로 가게가 현재 열었는지 여부를 반환
  */
-export function placeIdToIsOpen(placeId: string, map: google.maps.Map)
-  : Promise<boolean> {
+export function placeIdToIsOpen(
+  placeId: string,
+  map: google.maps.Map
+): Promise<boolean> {
   const service = new google.maps.places.PlacesService(map);
   return new Promise((resolve, reject) => {
     service.getDetails({ placeId }, (result, status) => {
-      if (status === 'OK' && result.opening_hours) {
+      if (status === "OK" && result.opening_hours) {
         resolve(result.opening_hours.isOpen());
       } else {
-        reject(new Error('placeIdToIsOpen failed'));
+        reject(new Error("placeIdToIsOpen failed"));
       }
     });
   });
@@ -182,37 +200,45 @@ export function placeIdToIsOpen(placeId: string, map: google.maps.Map)
 /**
  * 입력 좌표의 반경 200m 맛집의 고유 ID를 얻음
  */
-function searchNearbyPlaceIds(coord: google.maps.LatLng, map: google.maps.Map)
-  : Promise<Array<string>> {
-  const NearbyPlaceIds : Array<string> = [];
+function searchNearbyPlaceIds(
+  coord: google.maps.LatLng,
+  map: google.maps.Map
+): Promise<Array<string>> {
+  const NearbyPlaceIds: Array<string> = [];
   const service = new google.maps.places.PlacesService(map);
 
   return new Promise((resolve, reject) => {
-    service.nearbySearch({
-      location: coord,
-      // 🚨 현재 이슈: 배열[0]인 restaurant만 검색되고 나머지는 검색 안됨
-      // 🚨 ['cafe']로 하면 카페 검색 잘됨, 나머지는 검색 안됨
-      types: ['restaurant', 'bakery', 'bar', 'cafe'],
-      radius: 200.0, // 일단 200m로 설정
-    }, (results, status) => {
-      if (status === 'OK') {
-        results.forEach((result) => {
-          if (result.place_id) {
-            NearbyPlaceIds.push(result.place_id);
-          }
-        });
-        resolve(NearbyPlaceIds);
-      } else {
-        reject(new Error('searchNearbyPlaceIds failed'));
+    service.nearbySearch(
+      {
+        location: coord,
+        // 🚨 현재 이슈: 배열[0]인 restaurant만 검색되고 나머지는 검색 안됨
+        // 🚨 ['cafe']로 하면 카페 검색 잘됨, 나머지는 검색 안됨
+        types: ["restaurant", "bakery", "bar", "cafe"],
+        radius: 200.0, // 일단 200m로 설정
+      },
+      (results, status) => {
+        if (status === "OK") {
+          results.forEach((result) => {
+            if (result.place_id) {
+              NearbyPlaceIds.push(result.place_id);
+            }
+          });
+          resolve(NearbyPlaceIds);
+        } else {
+          reject(new Error("searchNearbyPlaceIds failed"));
+        }
       }
-    });
+    );
   });
 }
 
 /**
  * 해당 장소 ID에 대하여 MapNode 객체를 반환
  */
-async function getMapNode(placeId: string, map: google.maps.Map) : Promise<MapNode> {
+async function getMapNode(
+  placeId: string,
+  map: google.maps.Map
+): Promise<MapNode> {
   const comment: Array<string> = [];
   const scores: Array<number> = [];
 
@@ -223,7 +249,7 @@ async function getMapNode(placeId: string, map: google.maps.Map) : Promise<MapNo
   // console.log(await placeIdToPhotos(placeId, map));
   // console.log(await placeIdToAddress(placeId, map));
 
-  const location : LocationType = {
+  const location: LocationType = {
     latitude: coord.lat(),
     longitude: coord.lng(),
   };
@@ -244,25 +270,33 @@ async function getMapNode(placeId: string, map: google.maps.Map) : Promise<MapNo
 /**
  * 장소 ID 배열에 대하여 MapNode 객체 배열을 반환
  */
-async function getMapNodes(placeIds: Array<string>, map: google.maps.Map)
-  : Promise<Array<MapNode>> {
-  const mapNodePromises : Array<Promise<MapNode | undefined>> = placeIds.map(async (placeId) => {
-    try {
-      return await getMapNode(placeId, map);
-    } catch (error) {
-      console.log(`${error} 해당 정보가 존재하지 않아 MapNode를 생성할 수 없습니다.`);
+async function getMapNodes(
+  placeIds: Array<string>,
+  map: google.maps.Map
+): Promise<Array<MapNode>> {
+  const mapNodePromises: Array<Promise<MapNode | undefined>> = placeIds.map(
+    async (placeId) => {
+      try {
+        return await getMapNode(placeId, map);
+      } catch (error) {
+        console.log(
+          `${error} 해당 정보가 존재하지 않아 MapNode를 생성할 수 없습니다.`
+        );
+      }
     }
-  });
+  );
 
   const mapNodeResults = await Promise.all(mapNodePromises);
-  const mapNodes = mapNodeResults.filter((result): result is MapNode => result !== undefined);
+  const mapNodes = mapNodeResults.filter(
+    (result): result is MapNode => result !== undefined
+  );
   return mapNodes;
 }
 
 /**
  * MapNode 객체 배열을 점수를 기준으로 내림차순 정렬
  */
-function sortMapNodesByScore(mapNodes: Array<MapNode>) : Array<MapNode> {
+function sortMapNodesByScore(mapNodes: Array<MapNode>): Array<MapNode> {
   const sortedMapNodes = [...mapNodes];
 
   sortedMapNodes.sort((left, right) => {
@@ -277,8 +311,10 @@ function sortMapNodesByScore(mapNodes: Array<MapNode>) : Array<MapNode> {
 /**
  * 사용자가 입력한 주소를 기반으로 근처 맛집들의 위치에 마커 추가
  */
-export default async function searchNearbyPlace(address: string, map: google.maps.Map)
-  : Promise<Array<MapNode>> {
+export default async function searchNearbyPlace(
+  address: string,
+  map: google.maps.Map
+): Promise<Array<MapNode>> {
   const placeIds = await addressToPlaceIds(address);
   const coord = await placeIdToCoord(placeIds[0]);
   const nearbyPlaceIds = await searchNearbyPlaceIds(coord, map);
@@ -287,7 +323,10 @@ export default async function searchNearbyPlace(address: string, map: google.map
 
   const latLngs: Array<google.maps.LatLng> = [];
   sortedMapNodes.forEach((node) => {
-    const latLng = new google.maps.LatLng(node.location.latitude, node.location.longitude);
+    const latLng = new google.maps.LatLng(
+      node.location.latitude,
+      node.location.longitude
+    );
     latLngs.push(latLng);
   });
   addMarkers(latLngs, map);

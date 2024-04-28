@@ -1,42 +1,19 @@
-'use client';
+"use client";
 
-import styled from 'styled-components';
-import HeaderNav from '@/components/Header';
-import { useState } from 'react';
-import LeftNavContainer from '@/components/LeftNav';
-import RandomModal from '@/components/modal/RandomModal';
+import styled from "styled-components";
+import HeaderNav from "@/components/Header";
+import LeftNav from "@/components/LeftNav";
+import RightNav from "../../components/RightNav";
 
+// layout, modal, header, leftnav 기능 구현
 function MainLayout({ children }: { children: React.ReactNode }) {
-  const [isLeftNavOpen, setIsLeftNavOpen] = useState(true);
-  const [isRandomModal, setIsRandomModal] = useState(false);
-  const [isOpenModal, setIsOpenModal] = useState(false);
-
-  const openLeftNav = () => {
-    setIsLeftNavOpen(!isLeftNavOpen);
-  };
-  const openModal = () => {
-    setIsOpenModal(!isOpenModal);
-  };
-  const openRandom = () => {
-    setIsRandomModal(!isRandomModal);
-  };
-  const closeModal = (name: string) => {
-    setIsRandomModal(false);
-  };
   return (
     // Header, Left nav정하고 들어가기
     //  장바구니도 들어가야함
     <>
-      <HeaderNav
-        openLeftNav={openLeftNav}
-        openRandom={openRandom}
-        isOpenModal={isOpenModal}
-        openModal={openModal}
-      />
-      <LeftNavContainer isLeftNavOpen={isLeftNavOpen} />
-      {isRandomModal ? (
-        <RandomModal closeModal={() => closeModal('Random')} />
-      ) : null}
+      <HeaderNav />
+      <LeftNav />
+      <RightNav />
       <MainContentStyled>{children}</MainContentStyled>
     </>
   );

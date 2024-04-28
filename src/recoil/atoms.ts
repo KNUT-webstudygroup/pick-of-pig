@@ -1,15 +1,10 @@
-import { createMap } from '@/service/map';
-import {
-  atom, AtomEffect, selector, useSetRecoilState,
-} from 'recoil';
-import { recoilPersist } from 'recoil-persist';
-// export interface IContentTypes {
-//   id: number;
-// }
+import { createMap } from "@/service/map";
+import { atom, AtomEffect, selector, useSetRecoilState } from "recoil";
+import { recoilPersist } from "recoil-persist";
 
 // Next.js에서 persistAtom을 쓰기 위한 구성
 export const ssrCompletedState = atom({
-  key: 'SsrCompleted',
+  key: "SsrCompleted",
   default: false,
 });
 export const useSsrComplectedState = () => {
@@ -36,21 +31,26 @@ export const persistAtomEffect = <T>(param: Parameters<AtomEffect<T>>[0]) => {
 // 따라서, createMap으로 google.map을 호출할 시 에러가 발생함.
 
 export const categoryList = atom<string[]>({
-  key: 'category',
+  key: "category",
   default: [],
 });
 
 export const optionList = atom<string[]>({
-  key: 'options',
+  key: "options",
   default: [],
 });
 
 export const searchAddressState = atom<string>({
-  key: 'searchAddress',
-  default: '',
+  key: "searchAddress",
+  default: "",
 });
 
 export const searchClickState = atom<boolean>({
-  key: 'searchClick',
+  key: "searchClick",
   default: false,
+});
+
+export const currentAddressState = atom({
+  key: "currentAddressState",
+  default: "",
 });
