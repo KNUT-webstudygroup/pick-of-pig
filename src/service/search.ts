@@ -25,30 +25,46 @@ function addMarkers(coords : Array<google.maps.LatLng>, map: google.maps.Map) {
   }
 }
 
+type AddressToPlaceIdsReturnType = {
+  ret : boolean // 만약 추가로 검색할 필요가 없으면 true, 추가로 검색해야 한다면 false
+  ids : Array<string> | null, // 추가로 검색할 필요가 없다면 장소 ID 배열
+  location : google.maps.LatLng | null// 추가로 검색해야 한다면 좌표
+};
+
 /**
- * 입력한 주소로 장소 고유 ID 얻음
+ * 주소를 통하여 맛집으로 추정가능한 장소의 고유 ID를 얻음
+ * @param address 대상 주소임
+ * @returns 주소가 유효하여 탐색가능하였다면 장소 ID 배열을 반환, 그렇지 않다면 유효한 것으로 보이는 장소의 좌표 혹은 아예 없음을 리턴
  */
-function addressToPlaceIds(address: string) : Promise<Array<string>> {
+function addressToPlaceIds(address: string) : Promise<AddressToPlaceIdsReturnType> {
+  const returns:AddressToPlaceIdsReturnType = {
+    ret: false,
+    ids: null,
+    location: null,
+  };
   const placeIds: Array<string> = [];
   const geocoder = new google.maps.Geocoder();
   return new Promise((resolve, reject) => {
     geocoder.geocode({ address }, (results, status) => {
       if (status === 'OK') {
-        // TODO :
-        console.log(results);
         switch (results[0].geometry.location_type) {
           case google.maps.GeocoderLocationType.APPROXIMATE:
-            // TODO : 구글에서 "지물로" 검색한다.
-            // REF :
+            returns.ret = false;
+            returns.location = results[0].geometry.location;
             break;
           default:
+            returns.ret = true;
             results.forEach((result) => {
               placeIds.push(result.place_id);
             });
+            returns.ids = placeIds;
         }
-        resolve(placeIds);
+        resolve(returns);
+      } else if (status === google.maps.GeocoderStatus.ZERO_RESULTS) {
+        returns.ret = false;
+        returns.location = null;
+        resolve(returns);
       } else {
-        console.log(status)
         reject(new Error('addressToPlaceIds failed'));
       }
     });
@@ -160,7 +176,7 @@ function placeIdToReviews(placeId: string, map: google.maps.Map)
   const service = new google.maps.places.PlacesService(map);
   return new Promise((resolve, reject) => {
     service.getDetails({ placeId }, (result, status) => {
-      console.log('TE')
+      console.log('TE');
       console.log(result);
       if (status === 'OK' && result.reviews) {
         result.reviews.forEach((review) => {
@@ -197,6 +213,42 @@ function searchNearbyCoords(coord: google.maps.LatLng, map: google.maps.Map)
         resolve(NearbyCoords);
       } else {
         reject(new Error('searchNearbyCoords failed'));
+      }
+    });
+  });
+}
+/**
+ * 입력한 좌표애 대하여 지정된 반경안의 맛집의 고유 ID를 얻음
+ * @param coord 중앙 좌표
+ * @param map 구글 지도
+ * @param types 검색 종류
+ * @param radius 반경
+ * @returns 검색된 맛집의 IDS
+ */
+function searchNearbyCoordsToId(
+  coord: google.maps.LatLng,
+  map: google.maps.Map,
+  types:Array<string> = [],
+  radius:number = 200.0,
+): Promise<Array<string>> {
+  const placeIds : Array<string> = [];
+  const service = new google.maps.places.PlacesService(map);
+
+  return new Promise((resolve, reject) => {
+    service.nearbySearch({
+      location: coord,
+      types,
+      radius: 200.0, // 일단 200m로 설정
+    }, (results, status) => {
+      if (status === 'OK') {
+        results.forEach((result) => {
+          if (result.id) {
+            placeIds.push(result.id);
+          }
+        });
+        resolve(placeIds);
+      } else {
+        reject(new Error('searchNearbyCoordsToId failed'));
       }
     });
   });
@@ -303,7 +355,16 @@ export default async function searchNearbyPlace(address: string) : Promise<Array
     center,
     zoom: 15,
   });
-  const placeIds = await addressToPlaceIds(address);
+  const placeSearchResult = await addressToPlaceIds(address);
+  let placeSearching = null;
+  if (placeSearchResult.ret === false) { // 검색에 실패한 경우
+    if (placeSearchResult.location === null) {
+      return [];
+    }
+    const searchingZone = placeSearchResult.location;
+    placeSearching = await searchNearbyCoordsToId(searchingZone, map);
+  }
+  const placeIds = placeSearchResult.ids ?? placeSearching ?? [];
   const coord = await placeIdToCoord(placeIds[0]);
   const nearbyPlaceIds = await searchNearbyPlaceIds(coord, map);
 
