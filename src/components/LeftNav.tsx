@@ -50,8 +50,8 @@ function LeftNav({
         </DrawerColumn>
         <SearchComponentContainer id="searchComponent">
           {optionLists.map((it) => (
-            <SearchComponentStyled key={it}>
-              <div>{it}</div>
+            <SearchComponentStyled key={it.value}>
+              <div>{it.display}</div>
               <DeleteIcon />
             </SearchComponentStyled>
           ))}
