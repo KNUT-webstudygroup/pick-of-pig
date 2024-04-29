@@ -226,35 +226,6 @@ function searchNearbyCoordsToId(
     });
   });
 }
-
-/**
- * 입력 좌표의 반경 200m 맛집의 고유 ID를 얻음
- */
-function searchNearbyPlaceIds(coord: google.maps.LatLng, map: google.maps.Map)
-  : Promise<Array<string>> {
-  const NearbyPlaceIds : Array<string> = [];
-  const service = new google.maps.places.PlacesService(map);
-
-  return new Promise((resolve, reject) => {
-    service.nearbySearch({
-      location: coord,
-      types: ['restaurant', 'bakery', 'bar', 'cafe'],
-      radius: 200.0, // 일단 200m로 설정
-    }, (results, status) => {
-      if (status === 'OK') {
-        results.forEach((result) => {
-          if (result.place_id) {
-            NearbyPlaceIds.push(result.place_id);
-          }
-        });
-        resolve(NearbyPlaceIds);
-      } else {
-        // TODO : 팝업띄워서 알려줄 것...
-        reject(new Error('searchNearbyPlaceIds failed'));
-      }
-    });
-  });
-}
 // PK인 placeId를 통해 가게 Object를 얻음
 const placeIdMap = new Map<string, MapNode>();
 
