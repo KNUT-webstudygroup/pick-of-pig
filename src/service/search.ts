@@ -99,15 +99,49 @@ function placeIdToCoord(placeId: string) : Promise<google.maps.LatLng> {
   });
 }
 
+type PlaceReturnType = {
+  name:string,
+  rating:number,
+  price_level? : number,
+  coord? : google.maps.LatLng | null,
+  types? : Array<string>,
+  reviews? : Array<google.maps.places.PlaceReview>,
+  photo? : google.maps.places.PlacePhoto[] | undefined,
+};
+
+// PK인 placeId를 통해 가게 Object를 얻음
+const placeIdMap = new Map<string, PlaceReturnType>();
+
 /**
- * 장소 고유 ID로 가게 이름을 얻음
+ * placeId를 통해 가게에 대한 검색결과를 얻음.
+ * 기존의 분리된 이름 검색 및 좌표 불러오기 등을 이 함수에 모두 줄임.
+ * * 필요시 template를 사용하여 필터를 사용하여도 됨.
+ * 이때, 자바스크립트 내부에 캐싱을 통하여 검색량 줄임.
+ * 저장된 데이터를 지우기 위해 브라우저에서 별도로 캐시지우기등은 할 필요 없음.
+ * @param placeId 대상 placeId임
+ * @param map 지도임.
+ * @returns PlaceReturnType
  */
-function placeIdToName(placeId: string, map: google.maps.Map) : Promise<string> {
+function placeIdToObject(placeId: string, map: google.maps.Map) : Promise<PlaceReturnType> {
   const service = new google.maps.places.PlacesService(map);
   return new Promise((resolve, reject) => {
+    if (placeIdMap.has(placeId)) {
+      resolve(placeIdMap.get(placeId) as PlaceReturnType);
+      return;
+    }
     service.getDetails({ placeId }, (result, status) => {
       if (status === 'OK') {
-        resolve(result.name);
+        const ret:PlaceReturnType = {
+          name: result.name,
+          rating: result.rating ?? 0,
+          price_level: result.price_level ?? 0,
+          coord: result.geometry?.location ?? null,
+          types: result.types ?? [],
+          reviews: result.reviews ?? [],
+          photo: result.photos,
+        };
+        placeIdMap.set(placeId, ret);
+        resolve(ret);
       } else {
         reject(new Error('placeIdToName failed'));
       }
@@ -115,108 +149,6 @@ function placeIdToName(placeId: string, map: google.maps.Map) : Promise<string> 
   });
 }
 
-/**
- * 장소 고유 ID로 장소의 타입 얻음
- */
-function placeIdToTypes(placeId: string, map: google.maps.Map) : Promise<Array<string>> {
-  const types: Array<string> = [];
-  const service = new google.maps.places.PlacesService(map);
-  return new Promise((resolve, reject) => {
-    service.getDetails({ placeId }, (result, status) => {
-      if (status === 'OK' && result.types) {
-        result.types.forEach((type) => {
-          types.push(type);
-        });
-        resolve(types);
-      } else {
-        reject(new Error('placeIdToTypes failed'));
-      }
-    });
-  });
-}
-
-/**
- * 장소 고유 ID로 별점을 얻음
- */
-function placeIdToRating(placeId: string, map: google.maps.Map) : Promise<number> {
-  const service = new google.maps.places.PlacesService(map);
-  return new Promise((resolve, reject) => {
-    service.getDetails({ placeId }, (result, status) => {
-      if (status === 'OK' && result.rating) {
-        resolve(result.rating);
-      } else {
-        reject(new Error('placeIdToRating failed'));
-      }
-    });
-  });
-}
-
-/**
- * 장소 고유 ID로 가격 점수를 얻음
- */
-function placeIdToPriceLevel(placeId: string, map: google.maps.Map) : Promise<number> {
-  const service = new google.maps.places.PlacesService(map);
-  return new Promise((resolve, reject) => {
-    service.getDetails({ placeId }, (result, status) => {
-      if (status === 'OK' && result.price_level) {
-        resolve(result.price_level);
-      } else {
-        reject(new Error('placeIdToPriceLevel failed'));
-      }
-    });
-  });
-}
-
-/**
- * 장소 고유 ID로 리뷰를 얻음
- */
-function placeIdToReviews(placeId: string, map: google.maps.Map)
-  : Promise<Array<google.maps.places.PlaceReview>> {
-  const reviews: Array<google.maps.places.PlaceReview> = [];
-  const service = new google.maps.places.PlacesService(map);
-  return new Promise((resolve, reject) => {
-    service.getDetails({ placeId }, (result, status) => {
-      console.log('TE');
-      console.log(result);
-      if (status === 'OK' && result.reviews) {
-        result.reviews.forEach((review) => {
-          reviews.push(review);
-        });
-        resolve(reviews);
-      } else {
-        reject(new Error('placeIdToReviews failed'));
-      }
-    });
-  });
-}
-
-/**
- * 입력 좌표의 반경 200m 맛집 좌표를 얻음
- */
-function searchNearbyCoords(coord: google.maps.LatLng, map: google.maps.Map)
-  : Promise<Array<google.maps.LatLng>> {
-  const NearbyCoords : Array<google.maps.LatLng> = [];
-  const service = new google.maps.places.PlacesService(map);
-
-  return new Promise((resolve, reject) => {
-    service.nearbySearch({
-      location: coord,
-      types: ['restaurant', 'bakery', 'bar', 'cafe'],
-      radius: 200.0, // 일단 200m로 설정
-    }, (results, status) => {
-      if (status === 'OK') {
-        results.forEach((result) => {
-          if (result.geometry) {
-            NearbyCoords.push(result.geometry.location);
-          }
-        });
-        resolve(NearbyCoords);
-      } else {
-        reject(new Error('searchNearbyCoords failed'));
-      }
-    });
-  });
-}
 /**
  * 입력한 좌표애 대하여 지정된 반경안의 맛집의 고유 ID를 얻음
  * @param coord 중앙 좌표
@@ -228,7 +160,7 @@ function searchNearbyCoords(coord: google.maps.LatLng, map: google.maps.Map)
 function searchNearbyCoordsToId(
   coord: google.maps.LatLng,
   map: google.maps.Map,
-  types:Array<string> = [],
+  types:Array<string> = ['restaurant', 'bakery', 'bar', 'cafe'],
   radius:number = 200.0,
 ): Promise<Array<string>> {
   const placeIds : Array<string> = [];
@@ -238,12 +170,12 @@ function searchNearbyCoordsToId(
     service.nearbySearch({
       location: coord,
       types,
-      radius: 200.0, // 일단 200m로 설정
+      radius,
     }, (results, status) => {
       if (status === 'OK') {
         results.forEach((result) => {
-          if (result.id) {
-            placeIds.push(result.id);
+          if (result.place_id) {
+            placeIds.push(result.place_id);
           }
         });
         resolve(placeIds);
@@ -290,17 +222,14 @@ async function getMapNode(placeId: string, map: google.maps.Map) : Promise<MapNo
   const comment: Array<string> = [];
   const scores: Array<number> = [];
 
-  const name = await placeIdToName(placeId, map);
-  const coord = await placeIdToCoord(placeId);
-  const reviews = await placeIdToReviews(placeId, map);
-  const photo = await placeIdToPhotos(placeId, map); // 사진이 없을 때도 고려해야 함
+  const mapObject = await placeIdToObject(placeId, map);
 
   const location : LocationType = {
-    latitude: coord.lat(),
-    longitude: coord.lng(),
+    latitude: mapObject.coord?.lat() ?? 0,
+    longitude: mapObject.coord?.lng() ?? 0,
   };
 
-  reviews.forEach((review) => {
+  mapObject.reviews?.forEach((review) => {
     comment.push(review.text);
     scores.push(review.rating);
   });
@@ -309,8 +238,9 @@ async function getMapNode(placeId: string, map: google.maps.Map) : Promise<MapNo
     comment,
     scores,
   };
+  const photoUrl = mapObject.photo !== undefined ? mapObject.photo[0].getUrl({ maxWidth: 500, maxHeight: 500 }) : '';
 
-  return new MapNode(placeId, name, location, score, photo);
+  return new MapNode(placeId, mapObject.name, location, score, photoUrl ?? []);
 }
 
 /**
@@ -364,8 +294,8 @@ export default async function searchNearbyPlace(address: string) : Promise<Array
     const searchingZone = placeSearchResult.location;
     placeSearching = await searchNearbyCoordsToId(searchingZone, map);
   }
-  const placeIds = placeSearchResult.ids ?? placeSearching ?? [];
-  const coord = await placeIdToCoord(placeIds[0]);
+  const placeIds = placeSearchResult.ids ?? placeSearching ?? [''];
+  const coord = await placeIdToCoord(placeIds[0]); // TODO : array 내부에 있는 좌표의 중간만 계산해서 사용하면 될듯
   const nearbyPlaceIds = await searchNearbyPlaceIds(coord, map);
 
   const mapNodes = await getMapNodes(nearbyPlaceIds, map);
