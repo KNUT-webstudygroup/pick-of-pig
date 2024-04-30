@@ -3,6 +3,7 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import searchNearbyPlace from '@/service/search';
+import { createMap } from '@/service/map';
 
 function Maps() {
   const [searchAddress, setSearchAddress] = useState('');
@@ -10,10 +11,13 @@ function Maps() {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchAddress(event.target.value);
   };
+  useEffect(() => {
+    const map = createMap();
+    const handleSearchClick = () => {
+      searchNearbyPlace(searchAddress, map);
+    };
+  });
 
-  const handleSearchClick = () => {
-    searchNearbyPlace(searchAddress);
-  };
   // 아마 차후에 추상팩토리같은 디자인 패턴을 적용해야 하지않을까 싶네요.
   const addGoogleMap = (center: google.maps.LatLngLiteral): google.maps.Map => new google.maps.Map(document.getElementById('map') as HTMLElement, {
     center,

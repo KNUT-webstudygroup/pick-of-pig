@@ -1,6 +1,5 @@
 import { LocationType } from '../types/location';
 import MapNode from './MapObject/MapNode';
-import placeIdToPhotos from './searchPhoto';
 
 /**
  * 이 ts파일에는 구글지도 API를 사용하여 주소를 통해 맛집을 검색하는 함수가 포함되어 있습니다.
@@ -203,7 +202,6 @@ function searchNearbyCoordsToId(
     position: google.maps.LatLng;
   }> = [];
   const service = new google.maps.places.PlacesService(map);
-
   return new Promise((resolve, reject) => {
     service.nearbySearch({
       location: coord,
@@ -271,7 +269,7 @@ async function getMapNodes(placeIds: Array<string>, map: google.maps.Map)
     try {
       return await getMapNode(placeId, map);
     } catch (error) {
-      console.log('해당 장소에 대한 리뷰가 존재하지 않아 MapNode를 생성할 수 없습니다.');
+      console.log(`${error} 해당 정보가 존재하지 않아 MapNode를 생성할 수 없습니다.`);
     }
   });
 

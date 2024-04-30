@@ -1,6 +1,5 @@
 'use client';
 
-import MapNode from '@/service/MapObject/MapNode';
 import styled from 'styled-components';
 import SearchBarIcon from './icon/search-bar-icon';
 

@@ -18,7 +18,8 @@ function SearchMap() {
     //   },
     //   "/order"
     // );
-    router.push('/Map?test');
+    // router.push("/Map?test");
+    router.push('/Map');
   };
 
   return (

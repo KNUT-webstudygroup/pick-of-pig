@@ -6,9 +6,9 @@ export default function PigFaceIcon() {
   };
   return (
     <IconContainer
-      width={310}
-      height={110}
-      iconPath="/pig-face.svg"
+      width={150}
+      height={70}
+      iconPath="/header-pig.svg"
       // iconColor="var(--light-gray)"
       text="delete"
       onClick={onClickInfo}
