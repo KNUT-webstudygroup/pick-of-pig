@@ -315,7 +315,7 @@ export default async function searchNearbyPlace(
   // 은총탄은 없지만 유저가 쓸수는 있어야한다...
   const center: google.maps.LatLng | google.maps.LatLngLiteral = options?.map?.getCenter()
   ?? { lat: 37.3595316, lng: 127.1052133 };
-  const map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
+  const map = options?.map ?? new google.maps.Map(document.getElementById('map') as HTMLElement, {
     center,
     zoom: 15,
   });
