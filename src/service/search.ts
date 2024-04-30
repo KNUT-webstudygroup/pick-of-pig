@@ -199,25 +199,53 @@ function searchNearbyCoordsToId(
   }> = [];
   const service = new google.maps.places.PlacesService(map);
   return new Promise((resolve, reject) => {
-    service.nearbySearch({
-      location: coord,
-      types,
-      radius,
-    }, (results, status) => {
-      if (status === 'OK') {
-        results.forEach((result) => {
-          if (result.place_id) {
-            placeIds.push({
-              placeId: result.place_id,
-              position: result.geometry?.location ?? new google.maps.LatLng(0, 0),
-            });
-          }
-        });
-        resolve(placeIds);
-      } else {
-        reject(new Error('searchNearbyCoordsToId failed'));
-      }
-    });
+    fetch(
+      'https://places.googleapis.com/v1/places:searchNearby',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Goog-FieldMask': 'places.id',
+          'X-Goog-Api-Key': process.env.GOOGLE_API_KEY ?? '',
+        },
+        body: JSON.stringify({
+          includedTypes: types,
+          maxResultCount: 10,
+          locationRestriction: {
+            circle: {
+              center: {
+                latitude: coord.lat(),
+                longitude: coord.lng(),
+              },
+              radius,
+            },
+          },
+        }),
+      },
+    ).then((response) => resolve(response.json()))
+      .catch((error) => {
+        reject(error);
+      });
+
+  //   service.nearbySearch({
+  //     location: coord,
+  //     types,
+  //     radius,
+  //   }, (results, status) => {
+  //     if (status === 'OK') {
+  //       results.forEach((result) => {
+  //         if (result.place_id) {
+  //           placeIds.push({
+  //             placeId: result.place_id,
+  //             position: result.geometry?.location ?? new google.maps.LatLng(0, 0),
+  //           });
+  //         }
+  //       });
+  //       resolve(placeIds);
+  //     } else {
+  //       reject(new Error('searchNearbyCoordsToId failed'));
+  //     }
+  //   });
   });
 }
 // PK인 placeId를 통해 가게 Object를 얻음
@@ -351,16 +379,15 @@ export default async function searchNearbyPlace(
   if (coord === null) {
     coord = new google.maps.LatLng(0, 0);
   }
-  const searchTypes = ['restaurant', 'bakery', 'bar', 'cafe'];
+  const searchTypes = [''];
   if (options?.negativeFilter !== undefined) {
     searchTypes.filter((type) => !options?.negativeFilter?.includes(type as 'restaurant' | 'bakery' | 'bar' | 'cafe'));
   }
   if (options?.types !== undefined) {
     searchTypes.push(...options.types); // 추가로 검색할 타입이 있다면 추가
   }
-
+  searchTypes.push('chinese_restaurant');
   const nearbyPlaceIds = await searchNearbyCoordsToId(searchingZone, map, searchTypes, radius);
-
   const filteringFunction = options?.filteringFunction ?? ((a: MapNode) => true);
   const mapNodes = (await getMapNodes(nearbyPlaceIds.map((a) => a.placeId), map))
     .filter(filteringFunction);
@@ -373,6 +400,7 @@ export default async function searchNearbyPlace(
     const latLng = new google.maps.LatLng(node.location.latitude, node.location.longitude);
     latLngs.push(latLng);
   });
+  console.log(sortedMapNodes);
   addMarkers(latLngs, map);
 
   return sortedMapNodes;
