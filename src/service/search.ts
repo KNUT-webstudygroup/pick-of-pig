@@ -1,6 +1,6 @@
+import type { PlaceReturnType } from '@/types/definitions';
 import { LocationType } from '../types/location';
 import MapNode from './MapObject/MapNode';
-
 /**
  * 이 ts파일에는 구글지도 API를 사용하여 주소를 통해 맛집을 검색하는 함수가 포함되어 있습니다.
  * 검색은, 제일 먼저 "위치" Keyword를 통하여 좌표를 확보합니다.
@@ -58,10 +58,13 @@ function addressToPlaceIds(address: string) : Promise<AddressToPlaceIdsReturnTyp
     ids: null,
     location: null,
   };
+
   const placeIds: Array<string> = [];
   const geocoder = new google.maps.Geocoder();
   return new Promise((resolve, reject) => {
-    geocoder.geocode({ address }, (results, status) => {
+    geocoder.geocode({
+      address,
+    }, (results, status) => {
       if (status === 'OK') {
         switch (results[0].geometry.location_type) {
           case google.maps.GeocoderLocationType.APPROXIMATE:
@@ -80,7 +83,6 @@ function addressToPlaceIds(address: string) : Promise<AddressToPlaceIdsReturnTyp
               default:
                 returns.option.regin_tier = RegionTier.DISTRICT;
             }
-            returns.location = results[0].geometry.location;
             break;
           case google.maps.GeocoderLocationType.ROOFTOP:
             if (results[0].types.includes('point_of_interest') === true) {
@@ -88,7 +90,6 @@ function addressToPlaceIds(address: string) : Promise<AddressToPlaceIdsReturnTyp
               returns.option = {
                 regin_tier: RegionTier.POINT_OF_INTEREST,
               };
-              returns.location = results[0].geometry.location;
             }
             break;
           default:
@@ -98,6 +99,8 @@ function addressToPlaceIds(address: string) : Promise<AddressToPlaceIdsReturnTyp
             });
             returns.ids = placeIds;
         }
+        returns.location = results[0].geometry.location;
+
         resolve(returns);
       } else if (status === google.maps.GeocoderStatus.ZERO_RESULTS) {
         returns.ret = false;
@@ -138,16 +141,6 @@ function addressToPlaceIds(address: string) : Promise<AddressToPlaceIdsReturnTyp
 //   });
 // }
 
-type PlaceReturnType = {
-  name:string,
-  rating:number,
-  price_level? : number,
-  coord? : google.maps.LatLng | null,
-  types? : Array<string>,
-  reviews? : Array<google.maps.places.PlaceReview>,
-  photo? : google.maps.places.PlacePhoto[] | undefined,
-};
-
 /**
  * placeId를 통해 가게에 대한 검색결과를 얻음.
  * 기존의 분리된 이름 검색 및 좌표 불러오기 등을 이 함수에 모두 줄임.
@@ -158,7 +151,7 @@ type PlaceReturnType = {
  * @param map 지도임.
  * @returns PlaceReturnType
  */
-function placeIdToObject(placeId: string, map: google.maps.Map) : Promise<PlaceReturnType> {
+export function placeIdToObject(placeId: string, map: google.maps.Map) : Promise<PlaceReturnType> {
   const service = new google.maps.places.PlacesService(map);
   return new Promise((resolve, reject) => {
     service.getDetails({ placeId }, (result, status) => {
@@ -171,6 +164,9 @@ function placeIdToObject(placeId: string, map: google.maps.Map) : Promise<PlaceR
           types: result.types ?? [],
           reviews: result.reviews ?? [],
           photo: result.photos,
+          isopen: result.opening_hours?.isOpen(),
+          phone: result.formatted_phone_number,
+          address: result.formatted_address,
         };
         resolve(ret);
       } else {
@@ -230,7 +226,7 @@ const placeIdMap = new Map<string, MapNode>();
 /**
  * 해당 장소 ID에 대하여 MapNode 객체를 반환
  */
-async function getMapNode(placeId: string, map: google.maps.Map) : Promise<MapNode> {
+export async function getMapNode(placeId: string, map: google.maps.Map) : Promise<MapNode> {
   if (placeIdMap.has(placeId)) {
     return placeIdMap.get(placeId) as MapNode;
   }
@@ -255,7 +251,7 @@ async function getMapNode(placeId: string, map: google.maps.Map) : Promise<MapNo
   };
   const photoUrl = mapObject.photo !== undefined ? mapObject.photo[0].getUrl({ maxWidth: 500, maxHeight: 500 }) : '';
 
-  const placeNode = new MapNode(placeId, mapObject.name, location, score, photoUrl);
+  const placeNode = new MapNode(placeId, mapObject.name, location, score, mapObject, photoUrl);
   placeIdMap.set(placeId, placeNode);
   return placeNode;
 }
@@ -283,7 +279,7 @@ async function getMapNodes(placeIds: Array<string>, map: google.maps.Map)
  */
 function sortMapNodesByScore(mapNodes: Array<MapNode>) : Array<MapNode> {
   const sortedMapNodes = [...mapNodes];
-
+  // TODO : 정렬기준 다중화
   sortedMapNodes.sort((left, right) => {
     const leftLocation = left.location;
     const rightLocation = right.location;
@@ -292,14 +288,33 @@ function sortMapNodesByScore(mapNodes: Array<MapNode>) : Array<MapNode> {
 
   return sortedMapNodes;
 }
+/**
+ * 검색 옵션
+ */
+type SearchOption = {
+  map?: google.maps.Map; // 지도
+  types?: Array<string>; // 추가로 검색할 타입
+  // https://developers.google.com/maps/documentation/javascript/supported_types?hl=ko&_gl=1*1yh6ynu*_up*MQ..*_ga*NTM5NjU1MTA5LjE3MTQ0ODc2MTM.*_ga_NRWSTWS78N*MTcxNDQ4NzYxMy4xLjAuMTcxNDQ4NzYxMy4wLjAuMA..
+  radius?: number; // 검색할 반경
+  negativeFilter?: Array<'restaurant' | 'bakery' | 'bar' | 'cafe'>; // 제외할 타입
+  // 정렬함수 (이 함수가 0보다 작으면 left가 right보다 앞에 위치한다.)
+  sortFunction?: (left: MapNode, right: MapNode) => number;
+  filteringFunction?: (node: MapNode) => boolean; // 필터링 함수 (이 함수가 true인 node만 반환한다.)
+};
 
 /**
  * 사용자가 입력한 주소를 기반으로 근처 맛집들의 위치에 마커 추가
  * - 이 함수는 주소가 있다는 가정하에 발동하는 함수이다!
  * @param address 사용자가 입력한 주소, 정확하지 않은 주소로 가정한다.
  */
-export default async function searchNearbyPlace(address: string) : Promise<Array<MapNode>> {
-  const center: google.maps.LatLngLiteral = { lat: 37.3595316, lng: 127.1052133 };
+
+export default async function searchNearbyPlace(
+  address: string,
+  options?: SearchOption,
+) : Promise<Array<MapNode>> {
+  // 은총탄은 없지만 유저가 쓸수는 있어야한다...
+  const center: google.maps.LatLng | google.maps.LatLngLiteral = options?.map?.getCenter()
+  ?? { lat: 37.3595316, lng: 127.1052133 };
   const map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
     center,
     zoom: 15,
@@ -309,35 +324,49 @@ export default async function searchNearbyPlace(address: string) : Promise<Array
     return [];
   }
 
-  let radius = 200.0;
-  switch (placeSearchResult.option?.regin_tier) {
-    case RegionTier.COUNTRY:
-      radius = 1_000_000;
-      break;
-    case RegionTier.PROVINCE:
-      radius = 100_000;
-      break;
-    case RegionTier.CITY:
-      radius = 10_000;
-      break;
-    case RegionTier.DISTRICT:
-      radius = 1_000;
-      break;
-    case RegionTier.POINT_OF_INTEREST:
-      radius = 2_000;
-      break;
-    default:
-      radius = 200.0;
+  let radius = options?.radius;
+  if (radius === undefined) {
+    switch (placeSearchResult.option?.regin_tier) {
+      case RegionTier.COUNTRY:
+        radius = 1_000_000;
+        break;
+      case RegionTier.PROVINCE:
+        radius = 100_000;
+        break;
+      case RegionTier.CITY:
+        radius = 10_000;
+        break;
+      case RegionTier.DISTRICT:
+        radius = 1_000;
+        break;
+      case RegionTier.POINT_OF_INTEREST:
+        radius = 2_000;
+        break;
+      default:
+        radius = 200.0;
+    }
   }
   const searchingZone = placeSearchResult.location;
   let coord = placeSearchResult.location;
   if (coord === null) {
     coord = new google.maps.LatLng(0, 0);
   }
-  const nearbyPlaceIds = await searchNearbyCoordsToId(searchingZone, map, ['restaurant', 'bakery', 'bar', 'cafe'], radius);
+  const searchTypes = ['restaurant', 'bakery', 'bar', 'cafe'];
+  if (options?.negativeFilter !== undefined) {
+    searchTypes.filter((type) => !options?.negativeFilter?.includes(type as 'restaurant' | 'bakery' | 'bar' | 'cafe'));
+  }
+  if (options?.types !== undefined) {
+    searchTypes.push(...options.types); // 추가로 검색할 타입이 있다면 추가
+  }
 
-  const mapNodes = await getMapNodes(nearbyPlaceIds.map((a) => a.placeId), map);
-  const sortedMapNodes = sortMapNodesByScore(mapNodes);
+  const nearbyPlaceIds = await searchNearbyCoordsToId(searchingZone, map, searchTypes, radius);
+
+  const filteringFunction = options?.filteringFunction ?? ((a: MapNode) => true);
+  const mapNodes = (await getMapNodes(nearbyPlaceIds.map((a) => a.placeId), map))
+    .filter(filteringFunction);
+  const sortedMapNodes = options?.sortFunction
+    ? mapNodes.sort(options.sortFunction)
+    : sortMapNodesByScore(mapNodes);
 
   const latLngs: Array<google.maps.LatLng> = [];
   sortedMapNodes.forEach((node) => {

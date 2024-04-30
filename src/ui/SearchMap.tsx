@@ -38,6 +38,7 @@ const Title = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor:pointer;
 `;
 
 const SearchMapStyled = styled.div`

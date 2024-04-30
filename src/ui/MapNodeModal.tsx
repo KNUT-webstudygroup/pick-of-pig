@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import MapNode from '@/service/MapObject/MapNode';
 import getStarScore from '@/utils/getStarScore';
-import { placeIdToAddress, placeIdToPhoneNumber, placeIdToIsOpen } from '@/service/search';
+import { placeIdToObject } from '@/service/search';
 import { createMap } from '@/service/map';
 import { placeIdToPhotos } from '@/service/searchPhoto';
 import searchBlogReview from '@/service/searchBlogReview';
@@ -20,8 +20,8 @@ function MapNodeModal({ index, node }: MapNodeCardProps) {
   const [address, setAddress] = useState<string>('없음');
   const [photos, setPhotos] = useState<Array<string>>([]);
 
-  function getOpenString(isOpen: boolean) {
-    if (isOpen) return '영업중';
+  function getOpenString(isOpenNow: boolean) {
+    if (isOpenNow) return '영업중';
     return '영업전';
   }
 
@@ -32,18 +32,19 @@ function MapNodeModal({ index, node }: MapNodeCardProps) {
       const starScore = getStarScore(score);
 
       setStar(starScore);
+      const locationnode = await placeIdToObject(node.id, map);
       try {
-        setIsOpen(await placeIdToIsOpen(node.id, map));
+        setIsOpen(locationnode.isopen ?? false);
       } catch (e) {
         console.log('오픈 여부를 불러올 수 없습니다.');
       }
       try {
-        setPhoneNumber(await placeIdToPhoneNumber(node.id, map));
+        setPhoneNumber(locationnode.phone ?? '');
       } catch (e) {
         console.log('번호를 불러올 수 없습니다.');
       }
       try {
-        setAddress(await placeIdToAddress(node.id, map));
+        setAddress(locationnode.address ?? '');
       } catch (e) {
         console.log('주소를 불러올 수 없습니다.');
       }
@@ -86,11 +87,13 @@ function MapNodeModal({ index, node }: MapNodeCardProps) {
           </MapNodeModalSecondTitle>
           <MapNodeModalThirdTitle>
             <MapNodeStar>
-              {Array.from({ length: star }).map((value, i) => (
-                <svg key={i} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              {
+              Array.from({ length: star }).map((value, i) => (
+                <svg key={i /* Do not use Array index in keys */} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M18.3203 8.93597L14.7969 12.011L15.8524 16.5891C15.9082 16.8284 15.8923 17.0789 15.8065 17.3092C15.7208 17.5396 15.5691 17.7395 15.3703 17.8841C15.1716 18.0286 14.9346 18.1114 14.6891 18.122C14.4436 18.1326 14.2004 18.0706 13.9899 17.9438L9.99689 15.5219L6.01252 17.9438C5.80202 18.0706 5.55881 18.1326 5.31328 18.122C5.06775 18.1114 4.83079 18.0286 4.63204 17.8841C4.4333 17.7395 4.28157 17.5396 4.19584 17.3092C4.1101 17.0789 4.09416 16.8284 4.15002 16.5891L5.20392 12.0157L1.6797 8.93597C1.49331 8.7752 1.35852 8.56298 1.29225 8.32592C1.22598 8.08886 1.23117 7.83751 1.30718 7.60339C1.38319 7.36927 1.52663 7.16281 1.71952 7.00988C1.9124 6.85696 2.14614 6.76439 2.39142 6.74378L7.03674 6.34143L8.85002 2.01643C8.94471 1.78949 9.10443 1.59564 9.30907 1.45929C9.51371 1.32294 9.75411 1.25018 10 1.25018C10.2459 1.25018 10.4863 1.32294 10.691 1.45929C10.8956 1.59564 11.0553 1.78949 11.15 2.01643L12.9688 6.34143L17.6125 6.74378C17.8578 6.76439 18.0915 6.85696 18.2844 7.00988C18.4773 7.16281 18.6207 7.36927 18.6968 7.60339C18.7728 7.83751 18.778 8.08886 18.7117 8.32592C18.6454 8.56298 18.5106 8.7752 18.3242 8.93597H18.3203Z" fill="#ffd452" />
                 </svg>
-              ))}
+              ))
+}
             </MapNodeStar>
             <MapNodeIconBtnContainer>
               <MapNodeIconBtn>

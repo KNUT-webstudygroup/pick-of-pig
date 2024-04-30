@@ -3,7 +3,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 import MapNode from '@/service/MapObject/MapNode';
 import getStarScore from '@/utils/getStarScore';
 import { createMap } from '@/service/map';
-import { placeIdToIsOpen } from '@/service/search';
+import { getMapNode } from '@/service/search';
 import MapNodeModal from './MapNodeModal';
 
 interface MapNodeCardProps {
@@ -16,8 +16,8 @@ function MapNodeCard({ index, node }: MapNodeCardProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [openMapNodeModal, setOpenMapNodeModal] = useState(false);
 
-  function getOpenString(isOpen: boolean) {
-    if (isOpen) return '영업중';
+  function getOpenString(isNowOpen: boolean) {
+    if (isNowOpen) return '영업중';
     return '영업전';
   }
 
@@ -31,7 +31,7 @@ function MapNodeCard({ index, node }: MapNodeCardProps) {
 
       setStar(starScore);
       try {
-        setIsOpen(await placeIdToIsOpen(node.id, map));
+        setIsOpen((await getMapNode(node.id, map)).resultObject.isopen ?? false);
       } catch (e) {
         console.log('오픈 여부를 불러올 수 없습니다.');
       }
