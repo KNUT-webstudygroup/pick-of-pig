@@ -248,6 +248,7 @@ function searchNearbyCoordsToId(
   //   });
   });
 }
+
 // PK인 placeId를 통해 가게 Object를 얻음
 const placeIdMap = new Map<string, MapNode>();
 
@@ -388,7 +389,6 @@ export default async function searchNearbyPlace(
   }
   searchTypes.push('chinese_restaurant');
   const nearbyPlaceIds = await searchNearbyCoordsToId(searchingZone, map, searchTypes, radius);
-  console.log(nearbyPlaceIds);
   const filteringFunction = options?.filteringFunction ?? ((a: MapNode) => true);
   const mapNodes = (await getMapNodes(nearbyPlaceIds.map((a) => a.placeId), map))
     .filter(filteringFunction);
@@ -401,7 +401,6 @@ export default async function searchNearbyPlace(
     const latLng = new google.maps.LatLng(node.location.latitude, node.location.longitude);
     latLngs.push(latLng);
   });
-  console.log(sortedMapNodes);
   addMarkers(latLngs, map);
 
   return sortedMapNodes;

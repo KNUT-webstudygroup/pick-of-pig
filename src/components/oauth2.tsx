@@ -1,11 +1,18 @@
-import { oauth2Key } from '@/recoil/atoms';
-import { useGoogleOneTapLogin } from '@react-oauth/google';
+'use client';
 
-useGoogleOneTapLogin({
-  onSuccess: (credentialResponse) => {
-    console.log(credentialResponse);
-  },
-  onError: () => {
-    console.log('Login Failed');
-  },
-});
+import { GoogleLogin } from '@react-oauth/google';
+
+function OAuth2() {
+  return (
+    <GoogleLogin
+      onSuccess={(credentialResponse) => {
+        console.log(credentialResponse);
+      }}
+      onError={() => {
+        console.log('Login Failed');
+      }}
+      useOneTap
+    />
+  );
+}
+export default OAuth2;

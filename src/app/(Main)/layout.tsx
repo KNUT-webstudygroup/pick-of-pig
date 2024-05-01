@@ -5,6 +5,7 @@ import HeaderNav from '@/components/Header';
 import { useState } from 'react';
 import LeftNavContainer from '@/components/LeftNav';
 import RandomModal from '@/components/modal/RandomModal';
+import OAuth2 from '@/components/oauth2';
 
 function MainLayout({ children }: { children: React.ReactNode }) {
   const [isLeftNavOpen, setIsLeftNavOpen] = useState(true);
