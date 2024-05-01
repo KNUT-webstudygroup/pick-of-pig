@@ -388,6 +388,7 @@ export default async function searchNearbyPlace(
   }
   searchTypes.push('chinese_restaurant');
   const nearbyPlaceIds = await searchNearbyCoordsToId(searchingZone, map, searchTypes, radius);
+  console.log(nearbyPlaceIds);
   const filteringFunction = options?.filteringFunction ?? ((a: MapNode) => true);
   const mapNodes = (await getMapNodes(nearbyPlaceIds.map((a) => a.placeId), map))
     .filter(filteringFunction);
