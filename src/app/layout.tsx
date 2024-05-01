@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Inter } from 'next/font/google';
 import GlobalStyle from '@/ui/GlobalStyle';
 import { RecoilRoot } from 'recoil';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 // import "@/ui/css/globals.css";
 
 const inter = Inter({ subsets: ['latin'] });
@@ -29,8 +30,10 @@ function RootLayout({ children }: { children: React.ReactNode }) {
         />
       </head>
       <RecoilRoot>
-        <GlobalStyle />
-        <body>{children}</body>
+        <GoogleOAuthProvider clientId={process.env.GOOGLE_OAUTH_ID ?? ''}>
+          <GlobalStyle />
+          <body>{children}</body>
+        </GoogleOAuthProvider>
       </RecoilRoot>
     </html>
   );
