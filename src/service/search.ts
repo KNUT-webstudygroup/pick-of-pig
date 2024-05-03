@@ -368,7 +368,6 @@ export default async function searchNearbyPlace(
   if (options?.types !== undefined) {
     searchTypes.push(...options.types); // 추가로 검색할 타입이 있다면 추가
   }
-  searchTypes.push('chinese_restaurant');
   try {
     const nearbyPlaceIds = await searchNearbyCoordsToId(searchingZone, map, searchTypes, radius);
     const filteringFunction = options?.filteringFunction ?? ((a: MapNode) => true);
