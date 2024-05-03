@@ -5,15 +5,11 @@ import styled from 'styled-components';
 import { Inter } from 'next/font/google';
 import GlobalStyle from '@/ui/GlobalStyle';
 import { RecoilRoot } from 'recoil';
-import { GoogleOAuthProvider } from '@react-oauth/google';
-import OAuth2 from '@/components/oauth2';
-import oauthKey from '@/service/oauth2key';
 // import "@/ui/css/globals.css";
 
 const inter = Inter({ subsets: ['latin'] });
 
 function RootLayout({ children }: { children: React.ReactNode }) {
-  const clientKey = oauthKey;
   return (
     <html lang="en">
       <head>
@@ -29,15 +25,13 @@ function RootLayout({ children }: { children: React.ReactNode }) {
         />
         <script
           type="text/javascript"
-          src={`https://maps.googleapis.com/maps/api/js?&key=${process.env.GOOGLE_MAP_ID}&libraries=places`}
+          src={`https://maps.googleapis.com/maps/api/js?&key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_ID}&libraries=places`}
         />
       </head>
-      <GoogleOAuthProvider clientId={clientKey}>
-        <RecoilRoot>
-          <GlobalStyle />
-          <body>{children}</body>
-        </RecoilRoot>
-      </GoogleOAuthProvider>
+      <RecoilRoot>
+        <GlobalStyle />
+        <body>{children}</body>
+      </RecoilRoot>
     </html>
   );
 }

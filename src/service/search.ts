@@ -1,3 +1,5 @@
+'use client';
+
 import type { PlaceReturnType } from '@/types/definitions';
 import { LocationType } from '../types/location';
 import MapNode from './MapObject/MapNode';
@@ -113,34 +115,6 @@ function addressToPlaceIds(address: string) : Promise<AddressToPlaceIdsReturnTyp
   });
 }
 
-// function findLocationQuery(query:string) {
-//   return new Promise((res, rej) => {
-//     const search = new google.maps.places.PlacesService();
-//     search.textSearch({
-//       query,
-//     }, (ret, stat) => {
-
-//     });
-//   });
-// }
-
-// /**
-//  * 장소 고유 ID로 좌표를 얻음
-//  */
-// function placeIdToCoord(placeId: string) : Promise<google.maps.LatLng> {
-//   const geocoder = new google.maps.Geocoder();
-//   return new Promise((resolve, reject) => {
-//     geocoder.geocode({ placeId }, (results, status) => {
-//       if (status === 'OK') {
-//         const coord = results[0].geometry.location;
-//         resolve(coord);
-//       } else {
-//         reject(new Error('placeIdToCoord failed'));
-//       }
-//     });
-//   });
-// }
-
 /**
  * placeId를 통해 가게에 대한 검색결과를 얻음.
  * 기존의 분리된 이름 검색 및 좌표 불러오기 등을 이 함수에 모두 줄임.
@@ -190,26 +164,28 @@ function searchNearbyCoordsToId(
   types:Array<string> = ['restaurant', 'bakery', 'bar', 'cafe'],
   radius:number = 200.0,
 ): Promise<Array<{
-    placeId: string;
-    position: google.maps.LatLng;
+    id: string;
+    location: {
+      latitude: number;
+      longitude: number;
+    };
   }>> {
-  const placeIds : Array<{
-    placeId: string;
-    position: google.maps.LatLng;
-  }> = [];
-  const service = new google.maps.places.PlacesService(map);
   return new Promise((resolve, reject) => {
-    fetch(
+    // if (token === null) {
+    //   reject(new Error('searchNearbyCoordsToId failed, credential is not set'));
+    //   return;
+    // }
+    fetch( // 필요시 HTTP 에서 gGRPC로 변경 (사실 내 연구사항이라 우선순위 낮음)
       'https://places.googleapis.com/v1/places:searchNearby',
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Goog-FieldMask': 'places.id',
-          'X-Goog-Api-Key': process.env.GOOGLE_API_KEY ?? '',
+          'X-Goog-FieldMask': 'places.id,places.location',
+          'X-Goog-Api-Key': process.env.NEXT_PUBLIC_GOOGLE_MAP_ID ?? '',
         },
         body: JSON.stringify({
-          includedTypes: types,
+          includedTypes: types, // ! unsupported type에 관한 처리 필요 !
           maxResultCount: 10,
           locationRestriction: {
             circle: {
@@ -222,7 +198,9 @@ function searchNearbyCoordsToId(
           },
         }),
       },
-    ).then((response) => resolve(response.json()))
+    ).then((response) => response.json().then(
+      (ret) => resolve(ret.places),
+    ))
       .catch((error) => {
         reject(error);
       });
@@ -380,7 +358,7 @@ export default async function searchNearbyPlace(
   if (coord === null) {
     coord = new google.maps.LatLng(0, 0);
   }
-  const searchTypes = [''];
+  const searchTypes:string[] = [];
   if (options?.negativeFilter !== undefined) {
     searchTypes.filter((type) => !options?.negativeFilter?.includes(type as 'restaurant' | 'bakery' | 'bar' | 'cafe'));
   }
@@ -389,8 +367,9 @@ export default async function searchNearbyPlace(
   }
   searchTypes.push('chinese_restaurant');
   const nearbyPlaceIds = await searchNearbyCoordsToId(searchingZone, map, searchTypes, radius);
+  console.log(nearbyPlaceIds);
   const filteringFunction = options?.filteringFunction ?? ((a: MapNode) => true);
-  const mapNodes = (await getMapNodes(nearbyPlaceIds.map((a) => a.placeId), map))
+  const mapNodes = (await getMapNodes(nearbyPlaceIds.map((a) => a.id), map))
     .filter(filteringFunction);
   const sortedMapNodes = options?.sortFunction
     ? mapNodes.sort(options.sortFunction)

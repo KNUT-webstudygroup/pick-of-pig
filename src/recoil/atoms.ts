@@ -58,9 +58,3 @@ export const searchClickState = atom<boolean>({
   key: 'searchClick',
   default: false,
 });
-
-// oauth2.0 key 보관.
-export const oauth2Key = atom<string>({
-  key: 'oauth',
-  default: undefined,
-});

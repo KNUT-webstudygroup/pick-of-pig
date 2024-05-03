@@ -14,11 +14,10 @@ function Maps() {
   useEffect(() => {
     const map = createMap();
     const handleSearchClick = () => {
-      searchNearbyPlace(searchAddress, map);
+      searchNearbyPlace(searchAddress, { map });
     };
   });
 
-  // 아마 차후에 추상팩토리같은 디자인 패턴을 적용해야 하지않을까 싶네요.
   const addGoogleMap = (center: google.maps.LatLngLiteral): google.maps.Map => new google.maps.Map(document.getElementById('map') as HTMLElement, {
     center,
     zoom: 15,
