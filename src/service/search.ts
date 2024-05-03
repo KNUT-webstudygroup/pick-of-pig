@@ -199,7 +199,10 @@ function searchNearbyCoordsToId(
         }),
       },
     ).then((response) => response.json().then(
-      (ret) => resolve(ret.places),
+      (ret) => {
+        if (ret.error !== undefined) reject(new Error(ret.error));
+        else resolve(ret.places);
+      },
     ))
       .catch((error) => {
         reject(error);
@@ -366,21 +369,27 @@ export default async function searchNearbyPlace(
     searchTypes.push(...options.types); // 추가로 검색할 타입이 있다면 추가
   }
   searchTypes.push('chinese_restaurant');
-  const nearbyPlaceIds = await searchNearbyCoordsToId(searchingZone, map, searchTypes, radius);
-  console.log(nearbyPlaceIds);
-  const filteringFunction = options?.filteringFunction ?? ((a: MapNode) => true);
-  const mapNodes = (await getMapNodes(nearbyPlaceIds.map((a) => a.id), map))
-    .filter(filteringFunction);
-  const sortedMapNodes = options?.sortFunction
-    ? mapNodes.sort(options.sortFunction)
-    : sortMapNodesByScore(mapNodes);
+  try {
+    const nearbyPlaceIds = await searchNearbyCoordsToId(searchingZone, map, searchTypes, radius);
+    const filteringFunction = options?.filteringFunction ?? ((a: MapNode) => true);
+    const mapNodes = (await getMapNodes(nearbyPlaceIds.map((a) => a.id), map))
+      .filter(filteringFunction);
+    const sortedMapNodes = options?.sortFunction
+      ? mapNodes.sort(options.sortFunction)
+      : sortMapNodesByScore(mapNodes);
 
-  const latLngs: Array<google.maps.LatLng> = [];
-  sortedMapNodes.forEach((node) => {
-    const latLng = new google.maps.LatLng(node.location.latitude, node.location.longitude);
-    latLngs.push(latLng);
-  });
-  addMarkers(latLngs, map);
+    const latLngs: Array<google.maps.LatLng> = [];
+    sortedMapNodes.forEach((node) => {
+      const latLng = new google.maps.LatLng(node.location.latitude, node.location.longitude);
+      latLngs.push(latLng);
+    });
+    addMarkers(latLngs, map);
 
-  return sortedMapNodes;
+    return sortedMapNodes;
+  } catch (error) {
+    // !! 명백한 에러 !!
+    // eslint-disable-next-line no-console
+    console.error(error);
+    return [];
+  }
 }
