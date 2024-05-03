@@ -161,8 +161,9 @@ export function placeIdToObject(placeId: string, map: google.maps.Map) : Promise
 function searchNearbyCoordsToId(
   coord: google.maps.LatLng,
   map: google.maps.Map,
-  types:Array<string> = ['restaurant', 'bakery', 'bar', 'cafe'],
+  types:Array<string> = ['restaurant', 'bakery', 'bar', 'cafe'], // default 변수 존재 사유 : "최소한 음식점을 걸러내기 위하여"
   radius:number = 200.0,
+  maxCount:number = 100,
 ): Promise<Array<{
     id: string;
     location: {
@@ -186,7 +187,7 @@ function searchNearbyCoordsToId(
         },
         body: JSON.stringify({
           includedTypes: types, // ! unsupported type에 관한 처리 필요 !
-          maxResultCount: 10,
+          maxResultCount: maxCount,
           locationRestriction: {
             circle: {
               center: {
@@ -310,6 +311,7 @@ type SearchOption = {
   // 정렬함수 (이 함수가 0보다 작으면 left가 right보다 앞에 위치한다.)
   sortFunction?: (left: MapNode, right: MapNode) => number;
   filteringFunction?: (node: MapNode) => boolean; // 필터링 함수 (이 함수가 true인 node만 반환한다.)
+  maxResultCount?:number // 최대 결과 수
 };
 
 /**
@@ -369,7 +371,13 @@ export default async function searchNearbyPlace(
     searchTypes.push(...options.types); // 추가로 검색할 타입이 있다면 추가
   }
   try {
-    const nearbyPlaceIds = await searchNearbyCoordsToId(searchingZone, map, searchTypes, radius);
+    const nearbyPlaceIds = await searchNearbyCoordsToId(
+      searchingZone,
+      map,
+      searchTypes,
+      radius,
+      options?.maxResultCount ?? 100, // 지정 안되있다면 100개.
+    );
     const filteringFunction = options?.filteringFunction ?? ((a: MapNode) => true);
     const mapNodes = (await getMapNodes(nearbyPlaceIds.map((a) => a.id), map))
       .filter(filteringFunction);
