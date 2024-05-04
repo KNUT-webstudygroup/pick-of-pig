@@ -163,7 +163,7 @@ function searchNearbyCoordsToId(
   map: google.maps.Map,
   types:Array<string> = ['restaurant', 'bakery', 'bar', 'cafe'], // default 변수 존재 사유 : "최소한 음식점을 걸러내기 위하여"
   radius:number = 200.0,
-  maxCount:number = 100,
+  maxCount:number = 20,
 ): Promise<Array<{
     id: string;
     location: {
@@ -201,8 +201,9 @@ function searchNearbyCoordsToId(
       },
     ).then((response) => response.json().then(
       (ret) => {
-        if (ret.error !== undefined) reject(new Error(ret.error));
-        else resolve(ret.places);
+        if (ret.error !== undefined) {
+          reject(new Error(ret.error.message));
+        } else resolve(ret.places);
       },
     ))
       .catch((error) => {
@@ -299,6 +300,12 @@ function sortMapNodesByScore(mapNodes: Array<MapNode>) : Array<MapNode> {
 
   return sortedMapNodes;
 }
+
+const getValidCount = (count?:number) => {
+  if (count === undefined) return 20;
+  if (count <= 20 && count > 0) return count;
+  return 20;
+};
 /**
  * 검색 옵션
  */
@@ -376,7 +383,7 @@ export default async function searchNearbyPlace(
       map,
       searchTypes,
       radius,
-      options?.maxResultCount ?? 100, // 지정 안되있다면 100개.
+      getValidCount(options?.maxResultCount), // 지정 안되있다면 20개.
     );
     const filteringFunction = options?.filteringFunction ?? ((a: MapNode) => true);
     const mapNodes = (await getMapNodes(nearbyPlaceIds.map((a) => a.id), map))
