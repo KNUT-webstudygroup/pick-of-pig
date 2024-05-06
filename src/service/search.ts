@@ -172,10 +172,6 @@ function searchNearbyCoordsToId(
     };
   }>> {
   return new Promise((resolve, reject) => {
-    // if (token === null) {
-    //   reject(new Error('searchNearbyCoordsToId failed, credential is not set'));
-    //   return;
-    // }
     fetch( // 필요시 HTTP 에서 gGRPC로 변경 (사실 내 연구사항이라 우선순위 낮음)
       'https://places.googleapis.com/v1/places:searchNearby',
       {
@@ -209,7 +205,7 @@ function searchNearbyCoordsToId(
       .catch((error) => {
         reject(error);
       });
-
+    // TODO : 필터 없을떄는 이 구형 검색으로 처리(검색 수 제한이 있음.)
   //   service.nearbySearch({
   //     location: coord,
   //     types,
@@ -370,9 +366,9 @@ export default async function searchNearbyPlace(
   if (coord === null) {
     coord = new google.maps.LatLng(0, 0);
   }
-  const searchTypes:string[] = [];
+  const searchTypes:string[] = ['restaurant', 'bakery', 'bar', 'cafe'];
   if (options?.negativeFilter !== undefined) {
-    searchTypes.filter((type) => !options?.negativeFilter?.includes(type as 'restaurant' | 'bakery' | 'bar' | 'cafe'));
+    searchTypes.filter((t) => !options?.negativeFilter?.includes(t as 'restaurant' | 'bakery' | 'bar' | 'cafe'));
   }
   if (options?.types !== undefined) {
     searchTypes.push(...options.types); // 추가로 검색할 타입이 있다면 추가
