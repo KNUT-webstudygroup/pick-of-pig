@@ -1,20 +1,16 @@
 'use client';
 
 import { useEffect } from 'react';
+import { useSetRecoilState, useRecoilValue } from 'recoil';
+import { ssrCompletedState } from '@/recoil/atoms';
+import { createMap } from '@/service/map';
 
 function Map() {
   // 아마 차후에 추상팩토리같은 디자인 패턴을 적용해야 하지않을까 싶네요.
-  const addGoogleMap = (center: google.maps.LatLngLiteral): google.maps.Map => new google.maps.Map(document.getElementById('map') as HTMLElement, {
-    center,
-    zoom: 15,
-  });
   const style = { width: '100vw', height: '100vh' };
+  const SSREnded = useRecoilValue(ssrCompletedState);
   useEffect(() => {
-    const center: google.maps.LatLngLiteral = {
-      lat: 37.3595316,
-      lng: 127.1052133,
-    };
-    addGoogleMap(center);
+    if (SSREnded)createMap();
   }, []);
   return (
     <>

@@ -2,13 +2,13 @@ import styled, { createGlobalStyle } from 'styled-components';
 // import MapNode from "@/service/MapObject/MapNode";
 import MapNode from '@/service/MapObject/MapNode';
 import { useRef, useState, useEffect } from 'react';
-import DraggablePieChart from '@/ui/DraggablePieChart';
 import MapNodeCard from '@/ui/MapNodeCard';
 import searchNearbyPlace from '@/service/search';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   searchAddressState, searchClickState, useSsrComplectedState, ssrCompletedState,
 } from '@/recoil/atoms';
+import { createMap } from '@/service/map';
 
 function LeftNavContainer({ isLeftNavOpen }: { isLeftNavOpen: boolean }) {
   const [searchMapNodes, setSearchMapNodes] = useState<MapNode[]>([]);
@@ -17,6 +17,7 @@ function LeftNavContainer({ isLeftNavOpen }: { isLeftNavOpen: boolean }) {
   const checkSSREnd = useSsrComplectedState();
   const SSREnded = useRecoilValue(ssrCompletedState);
   useEffect(() => {
+    const map = createMap();
     if (SSREnded === false) {
       checkSSREnd();
     } else {
@@ -32,9 +33,6 @@ function LeftNavContainer({ isLeftNavOpen }: { isLeftNavOpen: boolean }) {
     <>
       <GlobalStyle />
       <LeftNavStyled isLeftNavOpen={isLeftNavOpen}>
-        {/* <DraggablePieChart /> */}
-        <TitleStyled>test</TitleStyled>
-
         {searchMapNodes.map((node, i) => (
           <MapNodeCard key={node.id} index={i + 1} node={node} />
         ))}
@@ -55,12 +53,12 @@ const TitleStyled = styled.div`
 
 const LeftNavStyled = styled.div<{ isLeftNavOpen: boolean }>`
   position: fixed;
-  top: 100px;
-  left: ${(props) => (props.isLeftNavOpen ? '0px' : '-300px')}; /* 변경된 부분 */
+  top: 120px;
+  left: ${(props) => (props.isLeftNavOpen ? '-20px' : '-300px')}; /* 변경된 부분 */
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #ff9a9f;
+  //background-color: #ffb9b4;
   width: 300px;
   height: calc(100% - 100px);
   overflow-y: auto;
@@ -73,4 +71,7 @@ const GlobalStyle = createGlobalStyle`
     src: url(//fonts.gstatic.com/ea/nanumgothic/v5/NanumGothic-Regular.eot);
     font-family: 'Nanum Gothic', serif;
   }
+  ::-webkit-scrollbar {
+  display: none;
+}
 `;

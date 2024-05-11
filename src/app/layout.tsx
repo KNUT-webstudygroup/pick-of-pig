@@ -18,14 +18,14 @@ function RootLayout({ children }: { children: React.ReactNode }) {
         <link rel="icon" type="image/svg+xml" href="/vite.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>pigs of pick</title>
-        <meta name="description" content="My App is a..." />
+        <meta name="description" content="Pick of pigs" />
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
         />
         <script
           type="text/javascript"
-          src={`https://maps.googleapis.com/maps/api/js?&key=${process.env.GOOGLE_MAP_ID}&libraries=places`}
+          src={`https://maps.googleapis.com/maps/api/js?&key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_ID}&libraries=places`}
         />
       </head>
       <RecoilRoot>

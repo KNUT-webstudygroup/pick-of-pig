@@ -1,12 +1,12 @@
 'use client';
 
 import { categoryList } from '@/recoil/atoms';
-import { categoryTypes } from '@/types/definitions';
+import { CategoryTypes } from '@/types/definitions';
 import { useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
-export const categoryLists: categoryTypes[] = [
+export const categoryLists: CategoryTypes[] = [
   {
     id: 1,
     title: '한식',

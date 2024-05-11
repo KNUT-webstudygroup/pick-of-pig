@@ -1,4 +1,4 @@
-import { categoryList, optionList } from '@/recoil/atoms';
+import { categoryList, optionList, type CategoryType } from '@/recoil/atoms';
 import { categoryLists } from '@/ui/CategoryBtn';
 import DeleteIcon from '@/ui/icon/delete-icon';
 import { foods } from '@/ui/OptionsBtns';
@@ -41,8 +41,8 @@ function ListModal({ closeModal }: { closeModal: (name: string) => void }) {
     }
   };
 
-  const onOptionClick = (title: string) => {
-    if (!selectOption.includes(title)) {
+  const onOptionClick = (title: CategoryType) => {
+    if (!selectOption.map((u) => u.value).includes(title.value)) {
       setSelectOption([...selectOption, title]);
     } else setSelectOption(selectOption.filter((item) => item !== title));
   };
@@ -70,7 +70,8 @@ function ListModal({ closeModal }: { closeModal: (name: string) => void }) {
           {foods.map((it) => (
             <ComponentStyled
               key={it.title}
-              className={selectOptionList.includes(it.title) ? 'check' : ''}
+              // TODO : 검색을 위한 value값으로 변경
+              className={selectOptionList.map((u) => u.display).includes(it.title) ? 'check' : ''}
               onClick={() => onOptionClick(it.title)}
             >
               <div>{it.title}</div>

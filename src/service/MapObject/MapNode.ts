@@ -1,3 +1,4 @@
+import type { PlaceReturnType } from '@/types/definitions';
 import { LocationType } from '../../types/location';
 
 export default class MapNode {
@@ -22,6 +23,8 @@ export default class MapNode {
 
   photo?:string; // 가게 사진
 
+  resultObject : PlaceReturnType; // 가게의 검색결과이다.
+
   /**
    * @param id
    * @param name
@@ -37,6 +40,7 @@ export default class MapNode {
       comment?: Array<string>;
       scores?: Array<number>;
     },
+    origin: PlaceReturnType,
     photo? :string,
     setting: {
       max_score: number;
@@ -49,6 +53,7 @@ export default class MapNode {
     this.location = location;
     this.photo = photo;
     this.scoreInfo = score;
+    this.resultObject = origin;
     const scoreLength = score?.scores?.length;
     if (scoreLength) {
       let scoreSum = score.scores?.reduce((acc, v) => acc + v, 0) ?? 1;
