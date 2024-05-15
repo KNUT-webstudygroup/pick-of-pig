@@ -55,6 +55,7 @@ const ModalSelectContainerStyled = styled.div`
   align-items: center;
 
   width: 200px;
+  border-radius: 10px;
   // height: 300px;
   z-index: 7;
   left: 260px;

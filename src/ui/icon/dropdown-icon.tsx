@@ -7,8 +7,8 @@ interface DropdownIconProps {
 const DropdownIcon: React.FC<DropdownIconProps> = ({ onClick }) => (
   // TODO: show info modal
   <IconContainer
-    width={60}
-    height={60}
+    width={30}
+    height={30}
     iconPath="/dropdown.svg"
     // iconColor="var(--light-gray)"
     text="delete"

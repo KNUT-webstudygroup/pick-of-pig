@@ -1,12 +1,32 @@
 import LocationDisplay from "@/ui/LocationDisplay";
-import styled, { createGlobalStyle } from "styled-components";
-import MapToogle from "./MapToogle";
+import { useState } from "react";
+import styled from "styled-components";
+import MapToggle from "./MapToggle";
 
 const RightNav = () => {
+  const [activeDropdown, setActiveDropdown] = useState("none");
+  // const [dropdownHeight, setDropdownHeight] = useState(0);
+
+  const handleToggleDropdown = (toggleType: string) => {
+    if (activeDropdown === toggleType) {
+      setActiveDropdown("none");
+    } else {
+      setActiveDropdown(toggleType);
+    }
+  };
   return (
     <LeftNavStyled id="rightNav">
       <LocationDisplay />
-      <MapToogle kindToggle="category" />
+      <MapToggle
+        toggleType="category"
+        isActive={activeDropdown === "category"}
+        onToggle={() => handleToggleDropdown("category")}
+      />
+      <MapToggle
+        toggleType="option"
+        isActive={activeDropdown === "option"}
+        onToggle={() => handleToggleDropdown("option")}
+      />
     </LeftNavStyled>
   );
 };
